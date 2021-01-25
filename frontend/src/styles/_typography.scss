@@ -1,0 +1,189 @@
+@import './variable';
+
+@mixin default_text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    @media screen and (max-width: 1199px) {
+        font-size: 14px;
+        line-height: 22px;
+    };
+    @media screen and (max-width: 767px) {
+        line-height: 24px;
+    };
+};
+
+@mixin medium_text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    @media screen and (max-width: 1199px) {
+        font-size: 16px; 
+        line-height: 28px;
+    };
+    @media screen and (max-width: 767px) {
+        line-height: 24px;
+    };
+};
+
+@mixin big_text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    @media screen and (max-width: 1199px) {
+        font-size: 18px;
+        line-height: 30px;
+    };
+    @media screen and (max-width: 767px) {
+        font-size: 16px;
+        line-height: 24px;
+    };
+};
+
+@mixin list_item {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: $color-white087;
+    @media screen and (max-width: 1199px) {
+        font-size: 14px;
+        line-height: 20px;
+    };
+};
+
+@mixin price_card_title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 46px;
+    text-transform: uppercase;
+    text-align: left;
+    color: $color-white;
+    @media screen and ( max-width: 1199px ) {
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 46px;
+    };
+    @media screen and (max-width: 767px) {
+        font-size: 24px;
+        line-height: 32px;
+    };
+};
+
+
+@mixin price_card_subtitle {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    color: $color-white087;
+    text-align: left;
+    @media screen and ( max-width: 1199px ) {
+        font-size: 14px;
+        line-height: 24px;
+    };
+    @media screen and (max-width: 767px) {
+        font-size: 16px;
+    };
+};
+
+@mixin price_card_list {
+    color: $color-white087;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    @media screen and ( max-width: 1199px ) {
+        line-height: 150%;
+    };
+};
+
+@mixin mat_h1 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 54px;
+    line-height: 63px;
+    color: $color-white087; 
+    text-align: center;
+    @media screen and (max-width: 1199px) {
+        font-size: 46px;
+        line-height: 54px;
+    };
+    @media screen and (max-width: 767px) {
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 48px;
+    };
+};
+
+@mixin mat_h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 46px;
+    line-height: 54px;
+    color: $color-white;
+    text-align: center;
+    @media screen and (max-width: 1199px) {
+        font-size: 42px;
+        line-height: 49px;
+    }
+    @media screen and (max-width: 767px) {
+        font-weight: 500;
+        font-size: 34px;
+        line-height: 46px;
+    };
+};
+
+@mixin mat_h3 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 46px;
+    color: $color-white;
+    text-align: center;
+    @media screen and (max-width: 767px) {
+        font-size: 24px;
+        line-height: 32px;
+    };
+};
+
+@mixin mat_h4 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 36px;
+    color: $color-white;
+    text-align: center; 
+    @media screen and (max-width: 767px) {
+        font-size: 20px;
+    };
+};
+
+@mixin mat_h5 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+    @media screen and (max-width: 767px) {
+        font-size: 16px;
+        line-height: 24px;
+    };
+};
+
+@mixin subheader_url {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 28px; 
+    color: $color-white087;
+    text-transform: uppercase;
+    text-align: center;
+    @media screen and (max-width: 1199px) {
+        font-style: normal;
+        font-weight: 500;
+    };
+};

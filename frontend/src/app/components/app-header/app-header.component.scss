@@ -1,0 +1,22 @@
+@import '../../../styles/_typography.scss';
+
+app-header {
+    width: 100%;
+
+    .header {
+        position: fixed;
+        z-index: 998;
+        height: auto;
+        padding: 7px 0px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background: $color-black02;
+        transition: all 0.5s;
+        left: 0;
+
+        .container {
+            height: 50px;
+        }
+    }
+}

@@ -1,0 +1,160 @@
+/**
+ * @author [Aleksandr Kinash]
+ * @email [aleksandrkinash90@gmail.com]
+ * @create date 2018-07-15 01:18:57
+ * @modify date 2018-07-15 01:18:57
+ * @desc [description]
+*/
+
+/* Googlebot
+ *  src/styles/_preloader.scss                                              FIXED   common preloader
+ *  src/styles/_mixins.scss                                                 FIXED   page min-height
+ *  src/styles/_castomize.material.scss                                     FIXED
+ *  src/styles.scss                                                         FIXED   fullscreen
+ *  src/assets/styles/style.css                                             FIXED   <body> height
+ *  src/app/modules/dialogs/jobs-blank-dialog/jobs-blank-dialog.style.scss  FIXED
+ *  src/app/components/header/city-menu/city-menu.style.scss                FIXED
+ *  src/app/app.style.scss                                                  FIXED   <main> height
+ */
+ * { box-sizing: border-box; }
+/* http://qaru.site/questions/352175/prevent-address-bar-hiding-in-mobile-browsers */
+html {
+    height: 100%;
+    width: 100%;
+    min-width: 320px;
+    /* -ms-overflow-style: -ms-autohiding-scrollbar; */
+
+    :focus {
+        outline:none;
+    }
+
+    ::-moz-focus-inner {
+        border:0;
+    }
+}
+
+
+body {
+    /* position: relative; */
+    /* position:fixed; prevent overscroll bounce */
+    /* -webkit-overflow-scrolling: touch; iOS velocity scrolling */
+    width: 100%;
+    height: 100%;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    font-weight: 400;
+    color: #404040;
+    background-color: #fff;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+
+    h1, h2, h3, h4, h5, h6, p, strong, b, li {
+        cursor: default;
+    }
+    h1, h2, h3, h4, h5, h6,
+    span, p, a, strong, b, i {
+        margin: 0;
+        padding: 0;
+    }
+    &.block-load-img {
+        .lazy-img {
+            background-image: none !important;
+        }
+    }
+
+    a {
+        color: rgba(0, 0, 0, 0);
+        text-decoration:none;
+    }
+
+//for header submenu fix START
+    .menu_block-list, .toolbar-social,.studio-submenu_list {
+        display: none;
+    }
+
+    .logo__block {
+        display: none;
+        animation: rendersocial 1.5s linear;
+        -webkit-animation: rendersocial 1.5s;
+    }
+
+    @media screen and (min-width:1315px) {
+        #headerMenu {
+            .container { 
+                animation: rendersocial 2.5s linear;
+                -webkit-animation: rendersocial 2.5s;   
+            }
+        } 
+    }
+}
+
+@keyframes rendersocial {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    60% {
+        opacity: 0.4;
+        visibility: visible
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+//for header submenu fix END
+
+/* Scrollbar sample from:: https://codepen.io/akinjide/pen/BpggrZ */
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f8f8ff;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+@-moz-document url-prefix() {
+    html { 
+        // overflow: hidden;
+        scroll-behavior: auto!important; //this fix subs scroll in FF
+
+        :focus {outline:none;}
+        ::-moz-focus-inner {border:0;}
+    }
+}
+
+.global-preloader {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: rgba(32, 39, 65, 0.9);
+    display: flex;
+    justify-content: center;
+    z-index: 999;
+    .global-preloader_conteiner {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 50vh;
+        align-self: flex-start;
+        .global-preloader_conteiner-img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,76 @@
+<!-- <app-welcome> -->
+
+    <div class="welcome">
+
+        <div class="welcome-search">
+            <div class="destination">
+                <mat-form-field  appearance="fill" [formGroup]="searchForm">
+                    <mat-label>Destination</mat-label>
+                    <input 
+                        matInput type="text"
+                        autocomplete="off"
+                        formControlName="destinationValue"
+                        placeholder="Choice plase for trevel">
+                    <button mat-button 
+                        [ngClass]="{'dirty': searchForm.value.destinationValue.length > 0}"
+                        matSuffix mat-icon-button aria-label="Clear"
+                        (click)="clearDestinationValue()">
+                      <mat-icon class="material-icons">close</mat-icon>
+                    </button>
+                  </mat-form-field>
+            </div>
+            <div class="date">
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
+                      <input matStartDate formControlName="start" autocomplete="off" placeholder="MM/DD/YYYY">
+                      <input matEndDate formControlName="end" autocomplete="off" placeholder="MM/DD/YYYY">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                  
+                    <mat-error *ngIf="searchForm.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                    <mat-error *ngIf="searchForm.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                  </mat-form-field>
+            </div>
+
+            <div class="people">
+                <mat-form-field [formGroup]="searchForm" appearance="fill">
+                    <button 
+                      mat-button 
+                      mat-icon-button 
+                      matPrefix 
+                      aria-label="Remove" 
+                      [color]="getColor()" 
+                      (click)="incrementValue(- searchForm.value.formField)" 
+                      [disabled]="shouldDisableDecrement(searchForm.value.formField)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                    <input matInput
+                        formControlName="formField"
+                        type="number"
+                        (focus)="setColor('primary')"
+                        (blur)="setColor('default')" />
+                    <button 
+                      mat-button 
+                      mat-icon-button 
+                      matSuffix
+                      aria-label="Add"
+                      [color]="getColor()" 
+                      (click)="incrementValue(searchForm.value.formField)" 
+                      [disabled]="shouldDisableIncrement(searchForm.value.formField)">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </mat-form-field>
+            </div>
+
+            <button mat-fab color="warn" aria-label="Example icon button with a home icon" (click)="searchOffers()">
+                <mat-icon>search</mat-icon>
+            </button>
+
+        </div>
+        
+
+    </div>
+  
+<!-- </app-welcome> -->
