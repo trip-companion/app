@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl,  Validators } from '@angular/forms';
 
 @Component({
@@ -8,14 +9,11 @@ import { FormGroup, FormControl,  Validators } from '@angular/forms';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
-  public destinationValue = '';
-  public _value: number = 0;
-  public _step: number = 1;
-  public _min: number = 0;
-  public _max: number = Infinity;
-  public _wrap: boolean = false;
+  constructor(@Inject(DOCUMENT) private document: Document,) { }
+  public _min: number = 1;
+  public _max: number = 10;
   public color: string = 'default';
+  public screenWidthDesc = this.document.documentElement.clientWidth > 767;
 
 
   public searchForm = new FormGroup({
@@ -33,13 +31,13 @@ export class WelcomeComponent implements OnInit {
 
   public searchOffers(): void {
     console.log("in searchOffers, form: ", this.searchForm)
+    //get all offers for this params and redirect to page offers
   }
 
   public clearDestinationValue(): void{
     this.getDestinationInput.reset('')
   }
 
-  /// start caunter
   public getColor(): string {
     return this.color
   }
@@ -48,47 +46,17 @@ export class WelcomeComponent implements OnInit {
     this.color = color;
   }
 
-
-
   public incrementValue(step: number = 1): void {
-    
-    let inputValue = this.searchForm.value.formField + step;
-    console.log(inputValue)
+    const inputValue = this.searchForm.value.formField + step;
     this.getFormField.setValue(inputValue) 
-
-    // let inputValue = this._value + step;
-
-    // if (this._wrap) {
-    //   inputValue = this.wrappedValue(inputValue);
-    // }
-
-    // this._value = inputValue;
-
   }
 
   public shouldDisableDecrement(inputValue: number): boolean {
-    return !this._wrap && inputValue <= this._min;
+    return inputValue <= this._min;
   }
 
   public shouldDisableIncrement(inputValue: number): boolean {
-    return !this._wrap && inputValue >= this._max;
-  }
-
-  private wrappedValue(inputValue): number {
-    if (inputValue > this._max) {
-      return this._min + inputValue - this._max;
-    }
-
-    if (inputValue < this._min) {
-
-      if (this._max === Infinity) {
-        return 0;
-      }
-
-      return this._max + inputValue;
-    }
-
-    return inputValue;
+    return inputValue >= this._max;
   }
 
 }

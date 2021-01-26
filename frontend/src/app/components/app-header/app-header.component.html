@@ -3,6 +3,44 @@
     
     <div class="header" #headerMenu id="headerMenu">
         <div class="container">
+
+            <div class="logo" itemscope itemtype="http://schema.org/Organization" >
+                <!-- <a routerLink = "{{sharedService.link}}" class="myLink">a</a> -->
+                <img src="/assets/images/main_logo.svg" 
+                    alt="main-logo" 
+                    class="logo-top" 
+                    (click)="goHome($event)">
+            </div>
+
+            <div class="header-nav">
+							<ul class="auth-block">
+								<li class="auth-block_list">
+										<a [routerLink]="locationService.joinWithLangRoutePath('/login/')" CorrectLinkHref class="link">Log in</a>
+								</li>
+								<li class="auth-block_list">
+										<a [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')" CorrectLinkHref class="link">Sing up</a>
+								</li>
+							</ul>
+                <div class="social-block"></div>
+                <div class="lang-box">
+									<mat-form-field>
+										<mat-select [(ngModel)]="modelLang"
+											(openedChange)="onOpenedChange($event)"
+										>
+											<mat-option [value]='lang'
+												class="item-lang"
+												*ngFor="let lang of sharedService.languages" 
+												(click)="preventLink($event, lang)">
+												<a style="display: inline-block; font-size: 16px; text-decoration: none; width: 100%;"
+													href="{{locationService.getLocalizationPathWith(lang)}}"
+													[ngStyle]="lang === sharedService.language ? {'color': '#00D8ff'} : {'color': '#fff'}">
+													{{lang}}
+												</a>
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+                </div>
+            </div>
             
         </div>
     </div>

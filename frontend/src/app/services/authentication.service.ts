@@ -1,0 +1,50 @@
+﻿import {  Inject, Injectable } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { SharedService } from '@app/services/shared.service';
+
+import { DOCUMENT } from '@angular/common';
+import { environment } from '../../environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class AuthenticationService {
+    private tokenSubject: BehaviorSubject<string>;
+    public token: Observable<string>;
+    private apiUrl: string = environment.apiUrl;
+
+    constructor(
+        @Inject(DOCUMENT) private document: Document,
+        private router: Router,
+        private http: HttpClient,
+        private sharedService: SharedService,
+    ) {
+        this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('accessToken'));
+        this.token = this.tokenSubject.asObservable();
+    }
+
+    public get tokenValue(): string {
+        return this.tokenSubject.value;
+    }
+
+    public login(name: string, password: string) {
+        try {
+            return this.http.post<any>(`${this.apiUrl}/auth/login`, { name, password })
+                .pipe(map(res => {
+                    localStorage.setItem('accessToken', res.accessToken);
+                    this.tokenSubject.next(res.accessToken);
+                }));
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    public logout() {
+        localStorage.removeItem('accessToken');
+        this.tokenSubject.next(null);
+        this.router.navigate(['/login']);
+        window.location.reload();
+    }
+}

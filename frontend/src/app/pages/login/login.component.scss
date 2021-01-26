@@ -1,0 +1,43 @@
+@import '../../../styles/_typography.scss';
+
+app-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: $color-black04;
+    overflow: hidden;
+    .login-form {
+        align-self: center;
+        padding: 50px;
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .login-btn {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 10px 30px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                &:disabled {
+                    background-color: gray!important;
+                    cursor: default;
+                }
+            }
+    
+            .register-btn {
+                color: $color-light-blue;
+                font-size: 16px;
+                font-weight: 400;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }   
+        }
+    }
+}

@@ -1,0 +1,42 @@
+<!-- <app-login> -->
+
+	<mat-card class='login-form'>
+		<mat-card-title>Login</mat-card-title>
+		<mat-card-content>
+			<div [formGroup]="loginForm">
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" required matInput placeholder="Username" autocomplete="off" formControlName="loginInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" required matInput placeholder="Password" autocomplete="off" formControlName="passwordInput">
+					</mat-form-field>
+				</p>
+				
+				<p *ngIf="error" class="error">
+					{{ error }}
+				</p>
+
+				<div class="buttons">
+					<button
+						class="login-btn"
+						(click)="onSubmitLogin($event)"
+						[disabled]="!loginForm.valid"
+						type="submit">
+						Login
+					</button>
+
+					<a class="register-btn"
+						[routerLink]="locationService.joinWithLangRoutePath('/sign-up/')">
+						{{'Register'}}
+					</a>
+				</div>
+
+			</div>
+		</mat-card-content>
+    </mat-card>
+    
+<!-- </app-login> -->

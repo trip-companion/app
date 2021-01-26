@@ -1,0 +1,88 @@
+import {Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, ChangeDetectorRef} from '@angular/core';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { AuthenticationService } from '@app/services/authentication.service';
+import { SharedService } from '@app/services/shared.service';
+import { LocationService } from '@app/services/location.service';
+
+import { FORM_VALIDATORS } from '@app/DATA/errors-message';
+
+@Component({
+	selector: 'app-register',
+	templateUrl: './register.component.html',
+	styleUrls: ['./register.component.scss'],
+	encapsulation : ViewEncapsulation.None,
+	changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class RegisterComponent implements OnInit {
+    public loading = false;
+    public submitted = false;
+    public returnUrl: string;
+	public error = '';
+    public registerForm: FormGroup;
+    public inputErrors: Array<string>;
+    
+    constructor(private fb: FormBuilder,
+        public cdr: ChangeDetectorRef,
+        private activeRoute: ActivatedRoute,
+        private route: ActivatedRoute,
+        public locationService: LocationService,
+        private router: Router,
+        public sharedService: SharedService,
+        private authenticationService: AuthenticationService
+    ) { 
+        this.registerForm = this.fb.group({
+            loginInput: new FormControl('', Validators.required),
+            firstNameInput: new FormControl('', Validators.required),
+            lastNameInput: new FormControl('', Validators.required),
+            emailInput: new FormControl('', Validators.compose([Validators.email, Validators.required])),
+            passwordFirstInput: new FormControl('', Validators.compose([Validators.required])),
+            passwordSecondInput: new FormControl('', Validators.compose([Validators.required])),
+        }, {validators: this.checkPasswords})
+        // redirect to home if already logged in
+        if (this.authenticationService.tokenValue) { 
+            this.router.navigate(['/']);
+        }
+    }
+
+    public ngOnInit() {
+        this.activeRoute.data.subscribe(data => {
+            this.inputErrors = FORM_VALIDATORS.find(obj => {
+                return data.page === obj.url;
+            })[data.lang];
+        });
+        // get return url from route parameters or default to '/'
+		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
+
+    public checkPasswords(registerForm: FormGroup) { // here we have the 'passwords' group
+        const firstpassword = registerForm.get('passwordFirstInput').value;
+        const confirmPassword = registerForm.get('passwordSecondInput').value;
+
+        return firstpassword === confirmPassword ? null : { notSamePassword: true }
+    }
+
+    // convenience getter for easy access to form fields
+    get f() { return this.registerForm.controls; }
+
+    public onSubmitRegister(event: Event) {
+        this.submitted = true;
+        console.log(this.registerForm)
+        if (this.registerForm.invalid) {
+            return;
+        }
+		this.loading = true;
+        // this.authenticationService.login(this.f.loginInput.value, this.f.passwordInput.value)
+        //     // .pipe(first())
+        //     .subscribe(
+        //         data => {
+        //             this.router.navigate([this.returnUrl]);
+        //         },
+        //         error => {
+        //             this.error = error.statusText;
+		// 			this.loading = false;
+		// 		});
+				
+    }
+}
