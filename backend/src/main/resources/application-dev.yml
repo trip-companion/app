@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      port: &mongo_port 28000
+
+mongo:
+  embedded:
+    enabled: true
+    port: *mongo_port
+
+mongock:
+  changeLogsScanPackage:
+    - com.trip.companion.repository.migration
+
+jwt:
+  secret: dev-secret
+  refreshTokenExpirationInMs: 1209600000
+  accessTokenExpirationInMs: 1209600000
