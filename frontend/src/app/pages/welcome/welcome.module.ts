@@ -28,9 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatButtonModule,
   ],
-  providers:[
-    // MatDatepickerModule, 
-  ],
+  providers:[],
   declarations: [WelcomeComponent],
   exports: [WelcomeComponent]
 })

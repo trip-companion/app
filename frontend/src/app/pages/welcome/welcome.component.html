@@ -42,13 +42,14 @@
                       matPrefix 
                       aria-label="Remove" 
                       [color]="getColor()" 
-                      (click)="incrementValue(- searchForm.value.formField)" 
+                      (click)="incrementValue(- 1)" 
                       [disabled]="shouldDisableDecrement(searchForm.value.formField)">
                       <mat-icon>remove</mat-icon>
                     </button>
                     <input matInput
                         formControlName="formField"
                         type="number"
+                        readonly
                         (focus)="setColor('primary')"
                         (blur)="setColor('default')" />
                     <button 
@@ -57,14 +58,18 @@
                       matSuffix
                       aria-label="Add"
                       [color]="getColor()" 
-                      (click)="incrementValue(searchForm.value.formField)" 
+                      (click)="incrementValue(1)" 
                       [disabled]="shouldDisableIncrement(searchForm.value.formField)">
                       <mat-icon>add</mat-icon>
                     </button>
                   </mat-form-field>
             </div>
 
-            <button mat-fab color="warn" aria-label="Example icon button with a home icon" (click)="searchOffers()">
+            <button mat-fab
+              color="warn"
+              [disabled]="searchForm.status === 'INVALID'"
+              aria-label="Example icon button with a home icon"
+              (click)="searchOffers()">
                 <mat-icon>search</mat-icon>
             </button>
 

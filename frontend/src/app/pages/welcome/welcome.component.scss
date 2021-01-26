@@ -65,6 +65,12 @@
             ::ng-deep {
                 .mat-form-field-infix {
                     width: 25px;
+                    .mat-form-field-autofill-control {
+                        padding-bottom: 3px;
+                    }
+                    .mat-form-field-label-wrapper {
+                        padding: 0px 0px 10px 0px;
+                    }
                 }
             }
             mat-form-field {

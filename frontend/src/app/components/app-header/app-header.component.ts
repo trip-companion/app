@@ -33,5 +33,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	};
 
+	public goHome(event: MouseEvent): void {
+		event.preventDefault();
+		this.router.navigate(['/']);
+	};
+
 
 };

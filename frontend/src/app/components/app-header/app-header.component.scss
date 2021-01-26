@@ -10,13 +10,49 @@ app-header {
         padding: 7px 0px;
         width: 100%;
         display: flex;
-        justify-content: center;
+        // justify-content: center;
         background: $color-black02;
-        transition: all 0.5s;
+        // transition: all 0.5s;
         left: 0;
 
         .container {
-            height: 50px;
+            // height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0px 10px;
+            // justify-content: space-around;
+            // align-content: center;
+
+
+            .logo {
+                position: relative;
+                cursor: pointer;
+
+                &-top {
+                    width: 40px;
+                    height: 40px;
+                    transition: all 0.5s
+                }
+            }
+
+            .header-nav {
+                .auth-block {
+                    &_list {
+                        .link {
+                            padding: 5px 5px;
+                            @include list_item;
+                            color: $color-white;
+                            transition: all 0.3s ease-in-out;
+                            &:hover {
+                                opacity: 0.8;
+                            }
+                        }
+                    }
+
+                }
+            }
         }
     }
 }

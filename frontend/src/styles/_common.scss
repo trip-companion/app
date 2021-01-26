@@ -1,23 +1,6 @@
-/**
- * @author [Aleksandr Kinash]
- * @email [aleksandrkinash90@gmail.com]
- * @create date 2018-07-15 01:18:57
- * @modify date 2018-07-15 01:18:57
- * @desc [description]
-*/
 
-/* Googlebot
- *  src/styles/_preloader.scss                                              FIXED   common preloader
- *  src/styles/_mixins.scss                                                 FIXED   page min-height
- *  src/styles/_castomize.material.scss                                     FIXED
- *  src/styles.scss                                                         FIXED   fullscreen
- *  src/assets/styles/style.css                                             FIXED   <body> height
- *  src/app/modules/dialogs/jobs-blank-dialog/jobs-blank-dialog.style.scss  FIXED
- *  src/app/components/header/city-menu/city-menu.style.scss                FIXED
- *  src/app/app.style.scss                                                  FIXED   <main> height
- */
  * { box-sizing: border-box; }
-/* http://qaru.site/questions/352175/prevent-address-bar-hiding-in-mobile-browsers */
+ 
 html {
     height: 100%;
     width: 100%;
@@ -40,7 +23,6 @@ body {
     /* -webkit-overflow-scrolling: touch; iOS velocity scrolling */
     width: 100%;
     height: 100%;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 16px;
     font-weight: normal;
     font-weight: 400;
