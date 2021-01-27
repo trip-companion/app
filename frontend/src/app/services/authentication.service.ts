@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '@environments/environment';
 import { DOCUMENT } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private tokenSubject: BehaviorSubject<string>;
     public token: Observable<string>;
+    private apiUrl: string = environment.apiUrl;
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -26,16 +27,16 @@ export class AuthenticationService {
     }
 
     public login(name: string, password: string) {
+        
         try {
-        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { name, password })
-            .pipe(map(res => {
-                localStorage.setItem('accessToken', res.accessToken);
-                this.tokenSubject.next(res.accessToken);
-            }));
+            return this.http.post<any>(`${this.apiUrl}/auth/login`, { name, password })
+                .pipe(map(res => {
+                    localStorage.setItem('accessToken', res.accessToken);
+                    this.tokenSubject.next(res.accessToken);
+                }));
         } catch (e) {
             console.log(e)
         }
-
     }
 
     public logout() {

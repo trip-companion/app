@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  disableConsole: false,
   apiUrl: 'http://localhost:4000'
 };
 

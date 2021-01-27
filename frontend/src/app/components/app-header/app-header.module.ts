@@ -10,6 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+import { CorrectLinkHrefModule } from '../../derectives/correct-link-href/correct-link-href.module';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -19,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 		MatSelectModule,
 		MatIconModule,
 		FormsModule,
+		CorrectLinkHrefModule
 	],
 	declarations: [
 		HeaderComponent,

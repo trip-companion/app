@@ -10,6 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 
 import { HeaderModule } from './components/app-header/app-header.module';
+//services
+import { SharedService } from './services/shared.service';
+import { LocationService } from './services/location.service';
+import { SsrRedirectService } from './services/SsrRedirect.service';
+import { LanguageResolver } from './guards/language.resolver';
+import { StateService } from './services/state.service';
+
+
 
 @NgModule({
   declarations: [
@@ -26,7 +34,13 @@ import { HeaderModule } from './components/app-header/app-header.module';
     // UI Modules
     HeaderModule,
   ],
-  providers: [],
+  providers: [
+    SharedService,
+    StateService,
+    LanguageResolver,
+    LocationService,
+    SsrRedirectService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

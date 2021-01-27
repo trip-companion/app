@@ -15,12 +15,15 @@
             <div class="header-nav">
                 <ul class="auth-block">
                     <li class="auth-block_list">
-                        <a [routerLink]="'/login'" class="link">Log in\Sing in</a>
+                        <a [routerLink]="locationService.joinWithLangRoutePath('/login/')" CorrectLinkHref class="link">Log in</a>
+                    </li>
+                    <li class="auth-block_list">
+                        <a [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')" CorrectLinkHref class="link">Sing up</a>
                     </li>
                 </ul>
                 <div class="social-block"></div>
                 <div class="lang-box">
-                    <!-- <mat-form-field>
+                    <mat-form-field>
                         <mat-select [(ngModel)]="modelLang"
                             (openedChange)="onOpenedChange($event)">
                             <mat-option [value]='lang'
@@ -30,10 +33,10 @@
                                 <a style="display: inline-block; font-size: 16px; text-decoration: none; width: 100%;"
                                     href="{{locationService.getLocalizationPathWith(lang)}}"
                                     [ngStyle]="lang === sharedService.language ? {'color': '#00D8ff'} : {'color': '#fff'}">
-                                    {{!isMatSelectOpen?sharedService.language=== 'uk'? 'ua': lang:lang === 'uk'? 'ua': lang}}</a>
+                                    {{lang}}</a>
                             </mat-option>
                         </mat-select>
-                    </mat-form-field> -->
+                    </mat-form-field>
                 </div>
             </div>
             
