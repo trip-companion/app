@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+//resolvers
 import { LanguageResolver } from './guards/language.resolver';
+import { PageResolver } from './guards/page.resolver';
 
 // Components
 import { Redirect301Component } from './components/redirect301/redirect301.component';
 
 const PAGES_ROUTES: Routes = [
-  { path: 'login', data: {page: `login/`}, loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
-  { path: '', data: {page: `/`},  loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) },
+  { path: 'login',   resolve: {pageResolved: PageResolver}, data: {page: `login/`},   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
+  { path: 'sign-up', resolve: {pageResolved: PageResolver}, data: {page: `sign-up/`}, loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule) },
+  { path: '',        resolve: {pageResolved: PageResolver},  data: {page: `/`},       loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) },
   { path: '**',           component: Redirect301Component},
 ];
 

@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.groupEnd();
 			}
 			this.homePath = this.locationService.extractBasePATH();
+			console.log(data, this.locationService.extractBasePATH() )
 			if (this.isViewInited) { this.cdRef.detectChanges(); }
 		});
 		this.subsRouter = this.router.events.subscribe((event: any) => {
@@ -61,6 +62,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public goHome(event: MouseEvent): void {
 		event.preventDefault();
+		console.log("home path", this.homePath)
 		this.router.navigate([this.homePath]);
 	};
 

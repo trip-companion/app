@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthenticationService } from '@app/services/authentication.service'
+import { LocationService } from '../../services/location.service';
 
 @Component({
 	selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
     constructor(
 		public cdr: ChangeDetectorRef,
         private route: ActivatedRoute,
+        public locationService: LocationService,
         private router: Router,
         private authenticationService: AuthenticationService
     ) { 
@@ -56,7 +58,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.error = error;
+                    this.error = error.statusText;
 					this.loading = false;
 				});
 				

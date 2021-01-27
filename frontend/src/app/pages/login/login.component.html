@@ -20,7 +20,7 @@
 					{{ error }}
 				</p>
 
-				<div class="button">
+				<div class="buttons">
 					<button
 						class="login-btn"
 						(click)="onSubmitLogin($event)"
@@ -28,6 +28,11 @@
 						type="submit">
 						Login
 					</button>
+
+					<a class="register-btn"
+						[routerLink]="locationService.joinWithLangRoutePath('/sign-up/')">
+						{{'Register'}}
+					</a>
 				</div>
 
 			</div>

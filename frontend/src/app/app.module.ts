@@ -16,6 +16,8 @@ import { LocationService } from './services/location.service';
 import { SsrRedirectService } from './services/SsrRedirect.service';
 import { LanguageResolver } from './guards/language.resolver';
 import { StateService } from './services/state.service';
+import { PageResolver } from './guards/page.resolver';
+import { ResolverService } from './services/resolver.service';
 
 
 
@@ -40,6 +42,8 @@ import { StateService } from './services/state.service';
     LanguageResolver,
     LocationService,
     SsrRedirectService,
+    PageResolver,
+		ResolverService,
   ],
   bootstrap: [AppComponent],
 })

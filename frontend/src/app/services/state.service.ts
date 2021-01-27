@@ -37,6 +37,7 @@ export class StateService {
 	};
 
 	public set routerData(data: Data) {
+		console.log("new data", data)
 		this._routerData = data;
 		this.updateRouterDataMessage.next(this._routerData);
 	};

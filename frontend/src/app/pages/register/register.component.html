@@ -1,0 +1,62 @@
+<!-- <app-register> -->
+
+	<mat-card class='login-form'>
+		<mat-card-title>Registration</mat-card-title>
+		<mat-card-content>
+			<div [formGroup]="registerForm">
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" matInput placeholder="Login" autocomplete="off" formControlName="loginInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" matInput placeholder="Email" autocomplete="off" formControlName="emailInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" matInput placeholder="First name" autocomplete="off" formControlName="firstNameInput">
+					</mat-form-field>
+				</p>
+
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" matInput placeholder="Last name" autocomplete="off" formControlName="lastNameInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+					</mat-form-field>
+				</p>
+				
+				<p *ngIf="error" class="error">
+					{{ error }}
+				</p>
+
+				<div class="buttons">
+					<button
+						class="login-btn"
+						(click)="onSubmitRegister($event)"
+						[disabled]="!registerForm.valid"
+						type="submit">
+						Register
+					</button>
+				</div>
+
+			</div>
+		</mat-card-content>
+    </mat-card>
+    
+<!-- </app-register> -->
