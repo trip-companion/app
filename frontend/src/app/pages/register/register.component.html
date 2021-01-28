@@ -6,38 +6,43 @@
 			<div [formGroup]="registerForm">
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="text" matInput placeholder="Login" autocomplete="off" formControlName="loginInput">
+						<input type="text" required matInput placeholder="Login" autocomplete="off" formControlName="loginInput">
 					</mat-form-field>
 				</p>
 
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="text" matInput placeholder="Email" autocomplete="off" formControlName="emailInput">
+						<input type="text" required matInput placeholder="Email" autocomplete="off" formControlName="emailInput">
+						<mat-error *ngIf="true">{{inputErrors[0]}}</mat-error>
 					</mat-form-field>
 				</p>
 
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="text" matInput placeholder="First name" autocomplete="off" formControlName="firstNameInput">
+						<input type="text" required matInput placeholder="First name" autocomplete="off" formControlName="firstNameInput">
 					</mat-form-field>
 				</p>
 
 
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="text" matInput placeholder="Last name" autocomplete="off" formControlName="lastNameInput">
+						<input type="text" required matInput placeholder="Last name" autocomplete="off" formControlName="lastNameInput">
 					</mat-form-field>
 				</p>
 
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="password" matInput placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+						<input type="password" required matInput 
+						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': registerForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
 				</p>
 
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="password" matInput placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						<input type="password" required matInput
+						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': registerForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
 				</p>
 				
@@ -49,7 +54,7 @@
 					<button
 						class="login-btn"
 						(click)="onSubmitRegister($event)"
-						[disabled]="!registerForm.valid"
+						[disabled]="registerForm.invalid"
 						type="submit">
 						Register
 					</button>

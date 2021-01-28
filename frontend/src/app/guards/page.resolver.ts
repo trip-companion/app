@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 // Services
-import { ResolverService } from '../services/resolver.service';
-import { LocationService } from '../services/location.service';
-import { SsrRedirectService } from '../services/SsrRedirect.service';
-// import { SeoService } from '../services/seo.service';
-import { StateService } from '../services/state.service';
-import { SharedService } from '../services/shared.service';
+import { ResolverService } from '@app/services/resolver.service';
+import { LocationService } from '@app/services/location.service';
+import { SsrRedirectService } from '@app/services/SsrRedirect.service';
+// import { SeoService } from '@app/services/seo.service';
+import { StateService } from '@app/services/state.service';
+import { SharedService } from '@app/services/shared.service';
 // Interfaces
-import IRouteConfig from '../interfaces/route-config';
+import IRouteConfig from '@app/interfaces/route-config';
 // RxJS
 import { Observable, of } from 'rxjs';
 
-import { ROUTER_CONFIG } from '../DATA/router.config';
+import { ROUTER_CONFIG } from '@app/DATA/router.config';
 
 
 @Injectable()
@@ -34,7 +34,6 @@ export class PageResolver implements Resolve<string|null> {
 		const URL_SEGMENTS: string[] = this.resolverService.getSegments(state.url);
 		const CATEGORY_URL: string = this.resolverService.getCategoryUrl(URL_SEGMENTS, route.data.lang);
 		const PAGE_NAME = `${route.data.page}${!!route.data.subpage ? `${route.data.subpage}` : ``}`;
-		console.log(CATEGORY_URL,PAGE_NAME,URL_SEGMENTS)
 		const X = this.isRedirectRoute(CATEGORY_URL, true);
 		const REDIRECT_URL: string|null = !!X ? this.locationService.joinWithLangRoutePath(X) : null
 
@@ -58,33 +57,14 @@ export class PageResolver implements Resolve<string|null> {
 		};
 
 		this.stateService.routerData = route.data;
-		// if(PAGE_NAME === "blog/" || PAGE_NAME === 'price/') {
-		// 	this.seoService.updateMeta(CATEGORY_URL.slice(1) , CATEGORY_URL);
-		// } else {
-			// this.seoService.updateMeta(PAGE_NAME, CATEGORY_URL);
-		// }
-
+		//тут нужно будет и инитить данные из бэка по этой странице
+		
+		// когда появится сео
+		// this.seoService.updateMeta(PAGE_NAME, CATEGORY_URL);	
 		return of(CATEGORY_URL);
 	}
 
-	/**
-	 * Рекурсивная проверка наличи url в ROUTERS
-	 */
 	private isRedirectRoute(url: string, isMain: boolean): null|string {
-
-		// if(isMain && url.length > 6 && url.indexOf("/blog/") + 1 && url.indexOf("/blog/page/") === -1) {
-		// 	return this.sharedService.helpResolverForBlogPage(url);
-		// } else if (url.indexOf("/blog/page/") + 1) {
-		// 	return this.sharedService.helpPaginationResolverForBlogPage(url);
-		// };
-		
-		// if(isMain && url.length > 7 &&  url.indexOf("/price/") + 1) {
-		// 	return this.sharedService.helpResolverForPricePage(url);
-		// };
-
-		// if (!isMain && url === `/services/`) {	
-		// 	return `/services/fullcycle/`;
-		// };
 
 		if (!!this.ROUTERS.find((r: string) => r === url)) {
 			return isMain ? null : this.ROUTERS.find((r: string) => r === url);

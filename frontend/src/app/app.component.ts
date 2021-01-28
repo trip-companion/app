@@ -60,7 +60,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     const PATH: string = this.locationService.PATH;
-    console.log("this path is: ", PATH)
   }
   
   public setAdvString(): void {

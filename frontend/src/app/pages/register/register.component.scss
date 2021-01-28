@@ -10,6 +10,12 @@ app-register {
     .login-form {
         align-self: center;
         padding: 50px;
+        .helper-password {
+            color: transparent;
+            &.error {
+                color: $color-error;
+            }
+        }
         .buttons {
             display: flex;
             justify-content: space-between;

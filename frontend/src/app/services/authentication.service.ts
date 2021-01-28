@@ -1,8 +1,10 @@
 ﻿import {  Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { SharedService } from '@app/services/shared.service';
 
 import { DOCUMENT } from '@angular/common';
 import { environment } from '../../environments/environment';
@@ -16,7 +18,8 @@ export class AuthenticationService {
     constructor(
         @Inject(DOCUMENT) private document: Document,
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private sharedService: SharedService,
     ) {
         this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('accessToken'));
         this.token = this.tokenSubject.asObservable();
@@ -27,7 +30,6 @@ export class AuthenticationService {
     }
 
     public login(name: string, password: string) {
-        
         try {
             return this.http.post<any>(`${this.apiUrl}/auth/login`, { name, password })
                 .pipe(map(res => {
@@ -40,11 +42,9 @@ export class AuthenticationService {
     }
 
     public logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('accessToken');
         this.tokenSubject.next(null);
         this.router.navigate(['/login']);
         window.location.reload();
-        // this.routerwindow.location.href = 'HomeScreen.html'
     }
 }
