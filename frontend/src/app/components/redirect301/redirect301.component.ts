@@ -20,7 +20,6 @@ export class Redirect301Component {
 		const REDIRECT_URL: string = this.locationService.extractBasePATH();
 		if (isPlatformBrowser(platformId)) {
 			console.groupCollapsed(`Redirect301Component %c301 Moved Permanently:  >>> ${REDIRECT_URL || `/`}`, 'color:#00E2FF;font-size:12px;');
-			// console.log(this.router);
 			console.groupEnd();
 		} else {
 			console.log(`Redirect301Component 301 Moved Permanently:  >>> ${REDIRECT_URL || `/`}`);

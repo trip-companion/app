@@ -6,10 +6,30 @@
     height: 100vh;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 1199px) {
+        background-size: 150%
+    }
+
+    @media screen and (max-width: 850px) {
+        background-size: cover;
+    }
+
+    @media screen and (max-height: 520px) {
+        height: 550px;
+    }
 }
 
 .welcome {
-    padding-top: 100px;
+    padding-top: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-error {
+        display: inline;
+        margin-right: 5px;
+    }
 
     &-search {
         display: flex;
@@ -19,8 +39,8 @@
         border-radius: 50px;
         height: 100%;
 
-        .destination, .date, .people{
-            padding: 0.8em 1.5em 0px 1.5em;
+        .destination, .date, .people {
+            padding: 1.3em 1.5em 0px 1.5em;
             position: relative;
 
             &::after {
@@ -32,18 +52,23 @@
                 transform: rotate(180deg);
                 background: #DDDDDD !important;
                 right: 0;
-                top: 15px;
+                top: 22px;
             }
 
             ::ng-deep {
                 .mat-form-field-flex {
                     background: transparent!important;
                 }
+
+                .mat-form-field-wrapper {
+                    .mat-form-field-underline {
+                        display: none;
+                    }
+                }
             }
         }
 
         .destination {
-
             button {
                 visibility: hidden;
                 &.dirty {
@@ -55,13 +80,12 @@
         .date {
             ::ng-deep {
                 .mat-form-field-infix {
-                    width: 210px;
+                    width: 220px;
                 }
             }
         }
 
         .people {
-
             ::ng-deep {
                 .mat-form-field-infix {
                     width: 25px;
@@ -72,21 +96,177 @@
                         padding: 0px 0px 10px 0px;
                     }
                 }
+
+                .mat-form-field-prefix, .mat-form-field-suffix {
+
+                    button {
+                        width: 20px;
+                        height: 20px;
+                        .mat-ripple {
+                            right: -4px;
+                        }
+                        .mat-icon {
+                            padding-top: 0px;
+                        }
+                    }
+                }
             }
             mat-form-field {
                 width: 100%;
                 text-align: center;
                 -moz-appearance: textfield;
-              }
-              
-              input::-webkit-outer-spin-button,
-              input::-webkit-inner-spin-button {
+            }
+            
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
                 display: none;
-              }
+            }
         }
 
         button {
            margin: 0px 1em;
         }
     }
+
+    &-create {
+        margin-top: 10vh;
+        &_btn {
+            width: 250px;
+            height: 48px;
+
+        }
+    }
+
+    @media screen and (max-width: 1199px) {
+        padding-top: 20vh;
+        &-search {
+
+            .destination {
+                ::ng-deep {
+                    .mat-form-field-infix {
+                        width: 80px;
+                    }
+                }
+            }
+
+            .date {
+
+                ::ng-deep {
+                    .mat-form-field-infix {
+                        width: 200px;
+
+                        input:empty {
+                            font-size: 0.9em;
+                        }
+                    }
+                }
+            }
+
+            .people {
+                ::ng-deep {
+                    .mat-form-field-infix {
+                        width: 25px;
+                        .mat-form-field-autofill-control {
+                            padding-bottom: 3px;
+                        }
+                        .mat-form-field-label-wrapper {
+                            padding: 0px 0px 10px 0px;
+                        }
+                    }
+                }
+                mat-form-field {
+                    width: 100%;
+                    text-align: center;
+                    -moz-appearance: textfield;
+                  }
+                  
+                  input::-webkit-outer-spin-button,
+                  input::-webkit-inner-spin-button {
+                    display: none;
+                  }
+            }
+
+            button {
+                width: 40px;
+                height: 40px;
+                line-height: 14px;
+                font-size: 14px;
+
+                &::ng-deep .mat-button-wrapper{
+                    line-height: 14px;
+                    padding: 0;
+           
+                    .mat-icon {
+                        font-size: 18px;
+                        padding-top: 4px;
+                    }
+               }
+            }
+        }
+    };
+
+    @media screen and (max-width: 767px) {
+        padding-top: 80px;
+        
+        &-search {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 10px;
+
+            .destination, .date, .people {
+                &::after {
+                    display: none;
+                }
+                ::ng-deep {
+                    .mat-form-field-wrapper {
+                        .mat-form-field-underline {
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .destination {
+                ::ng-deep {
+                    .mat-form-field-wrapper {
+                        .mat-icon-button {
+                            width: 0.5em;
+                            height: 0.5em;
+                        }
+                    }
+
+                    .mat-form-field-infix {
+                        width: 100%;
+                    }
+                    mat-form-field {
+                        width: 250px;
+                    }
+                }
+            }
+
+            .people {
+                align-self: center;
+                padding: 0px;
+                ::ng-deep {
+                    .mat-form-field-wrapper {
+                        .mat-form-field-underline {
+                            display: none;
+                        }
+                    } 
+                }
+            }
+
+            .find {
+                align-self: center;
+                border-radius: 5px;
+                width: 150px;
+                height: 40px;
+                margin-bottom: 25px;
+                mat-icon {
+                    display: none;
+                }
+            }
+        };
+    };
 }

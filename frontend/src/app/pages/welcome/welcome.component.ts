@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl,  Validators } from '@angular/forms';
 
 @Component({
@@ -8,10 +9,11 @@ import { FormGroup, FormControl,  Validators } from '@angular/forms';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(DOCUMENT) private document: Document,) { }
   public _min: number = 1;
   public _max: number = 10;
   public color: string = 'default';
+  public screenWidthDesc = this.document.documentElement.clientWidth > 767;
 
 
   public searchForm = new FormGroup({
