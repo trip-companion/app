@@ -1,4 +1,4 @@
-package com.trip.companion.rest.controller.auth.dto.response;
+package com.trip.companion.rest.controller.dto.response;
 
 import lombok.Data;
 
