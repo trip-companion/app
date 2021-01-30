@@ -14,8 +14,6 @@ export class LocationService {
 	constructor(private router: Router,
 				private sharedService: SharedService,
 				private location: Location) {
-		// console.log('LocationService.constructor()');
-		// this.origin = this.document.location.origin;
 	}
 
 	public get PATH(): string {
@@ -28,14 +26,13 @@ export class LocationService {
 	}
 
 	public joinWithLangRoutePath(url: string): string {
-		// console.log(this.normalizePATH(`${this.getLangPATH()}${url}`))
 		return this.normalizePATH(`${this.getLangPATH()}${url}`);
 	}
 // ////////////////////////////////////////////////////////////////////////////
 
 	/**
      * Lang PATH
-     * @returns {string} `/` | `/ru/` | `/en/`
+     * @returns {string} `/` | `/ru/` | `/ua/`
      * @memberof LocationService
      */
 	public getLangPATH(): string {
@@ -75,7 +72,7 @@ export class LocationService {
 
 	/**
      *  USED: [ goHome() && Redirect301Component() ]
-     * @returns {string} `/` | `/ru/` | `/en/`
+     * @returns {string} `/` | `/ru/` | `/ua/`
      * @memberof LocationService
      */
 	public extractBasePATH(): string {

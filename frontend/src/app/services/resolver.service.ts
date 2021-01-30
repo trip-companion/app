@@ -24,7 +24,7 @@ export class ResolverService {
      * @memberof ResolverService
      */
 	public getCategoryUrl(segments: string[], lang: string): string {
-		return this.normalizePATH(segments.slice(lang === `uk` ? 0 : 1).join(`/`));
+		return this.normalizePATH(segments.slice(lang === `en` ? 0 : 1).join(`/`));
 	}
 
 // //////////////////////////////////////////////////////////// PRIVATE METHODS
