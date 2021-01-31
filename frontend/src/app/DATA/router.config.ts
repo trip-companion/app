@@ -24,5 +24,13 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
 			ua: `Ціни`,
 			en: `Prices`
 		}
+	},
+	{
+		url: 'faq/',
+		name: {
+			ru: `faq`,
+			ua: `faq`,
+			en: `faq`
+		}
 	}
 ];

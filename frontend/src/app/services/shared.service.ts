@@ -17,6 +17,7 @@ export class SharedService {
 	public language = 'en';											// en|ru|ua
 	private _contentLang: string;									// en-US | ru-RU | ua-UA |
 	private isBrowser: boolean;
+	public globalPrevRout: string;
 
 	private phonePopUpDataSubject = new Subject<{tarif:string, name: string}>();
 	$phonePopUpDataSubject = this. phonePopUpDataSubject.asObservable();
@@ -36,6 +37,10 @@ export class SharedService {
 		if (this.isBrowser) {
 			window.localStorage.setItem('lang', this.language);
 		}
+	}
+
+	public updatePrevRout(rout: string) {
+		this.globalPrevRout = rout;
 	}
 
 	public setDefaultLanguage(): void {
