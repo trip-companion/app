@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,6 @@ public class JwtService {
 
     public static final String TOKEN_TYPE = "Bearer ";
     public static final String EMAIL_CLAIM = "email";
-    public static final String PERMISSIONS_CLAIM = "permissions";
 
     private final JwtParser jwtParser;
     private final JwtConfiguration jwtConfiguration;
@@ -35,7 +35,6 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(user.getId())
                 .claim(EMAIL_CLAIM, user.getEmail())
-                .claim(PERMISSIONS_CLAIM, user.getPermissions())
                 .setIssuedAt(now)
                 .setExpiration(getJwtAccessTokenExpire(now))
                 .signWith(SignatureAlgorithm.HS512, jwtConfiguration.getSecret())
@@ -59,16 +58,8 @@ public class JwtService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(String.valueOf(claims.get(EMAIL_CLAIM)))
                 .password("")
-                .authorities(getUserPermissionsFromClaim(claims))
+                .authorities(Collections.singletonList(Permission.USER))
                 .build();
-    }
-
-    @SuppressWarnings("ALL")
-    private List<Permission> getUserPermissionsFromClaim(Claims claims) {
-        return ((List<String>) claims.get(PERMISSIONS_CLAIM))
-                .stream()
-                .map(Permission::valueOf)
-                .collect(Collectors.toList());
     }
 
 }

@@ -2,9 +2,9 @@ package com.trip.companion.security;
 
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.ActionForbiddenException;
-import com.trip.companion.rest.controller.auth.dto.request.LoginRequest;
-import com.trip.companion.rest.controller.auth.dto.response.LoginResponse;
-import com.trip.companion.rest.controller.auth.dto.response.RefreshRequest;
+import com.trip.companion.rest.controller.dto.request.LoginRequest;
+import com.trip.companion.rest.controller.dto.response.LoginResponse;
+import com.trip.companion.rest.controller.dto.response.RefreshRequest;
 import com.trip.companion.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class SecurityService {
     }
 
     public LoginResponse refreshToken(RefreshRequest refreshRequest) {
-        User user = userService.findByRefreshToken(refreshRequest.getJwtRefreshToken());
+        User user = userService.getByRefreshToken(refreshRequest.getJwtRefreshToken());
         checkIsUserExpired(user);
         checkIsJwtRefreshTokenExpired(user);
         User userWithRefreshToken = userService.setRefreshToken(user);
