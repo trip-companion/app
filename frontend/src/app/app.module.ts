@@ -17,13 +17,12 @@ import { LocationService } from './services/location.service';
 import { ResolverService } from './services/resolver.service';
 import { SsrRedirectService } from './services/SsrRedirect.service';
 import { StateService } from './services/state.service';
+import { HandleErrorService } from './services/handleError.service';
 //guards
 import { LanguageResolver } from './guards/language.resolver';
 import { PageResolver } from './guards/page.resolver';
 //component
 import { Redirect301Component } from './components/redirect301/redirect301.component';
-
-
 
 @NgModule({
   declarations: [
@@ -48,7 +47,8 @@ import { Redirect301Component } from './components/redirect301/redirect301.compo
     LocationService,
     SsrRedirectService,
     PageResolver,
-		ResolverService,
+	ResolverService,
+	HandleErrorService,
   ],
   bootstrap: [AppComponent],
 })

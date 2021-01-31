@@ -32,6 +32,32 @@ app-header {
                 }
             }
 
+            .header-tab  {
+                .link-block  {
+                    &_list {
+                        &:hover {
+                            background: $color-white;
+                            border-radius: 5px;
+                        }
+                        .link {
+                            display: flex;
+                            align-content: center;
+                            width: 100%;
+                            height: 100%;
+                            padding: 10px 20px;
+                            align-self: center;
+                            @include list_item;
+                            color: $color-white;
+                            transition: all 0.3s ease-in-out;
+                            &:hover {
+                                color: $color-black;
+                                opacity: 0.8;
+                            }
+                        }
+                    }
+                }
+            }
+
             .header-nav {
                 display: flex;
                 height: 100%;
@@ -41,10 +67,10 @@ app-header {
                     align-items: center;
                     height: 100%;
                     &_list {
-
                         &:hover {
                             background: $color-white;
                             border-radius: 5px;
+                            cursor: pointer;
                         }
                         .link {
                             display: flex;

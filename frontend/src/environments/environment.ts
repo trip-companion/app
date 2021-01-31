@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   disableConsole: false,
-  apiUrl: 'http://localhost:9000' //java port
+  apiUrl: 'http://localhost:9000/api/' //java port
 };
 
 /*
