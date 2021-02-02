@@ -1,10 +1,9 @@
 import { Component, OnInit, PLATFORM_ID, Inject,} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
-import { isPlatformBrowser, DOCUMENT, Location } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
 
 import { LocationService } from './services/location.service';
-import { AuthenticationService } from '@app/services/authentication.service';
 import { SharedService } from './services/shared.service';
   
 @Component({
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit {
     private locationService: LocationService,
     private location: Location,
 		private router: Router,
-		private authService: AuthenticationService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -58,7 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // const PATH: string = this.locationService.PATH;
+
   }
   
   public setAdvString(): void {

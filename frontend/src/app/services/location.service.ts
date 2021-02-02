@@ -12,8 +12,8 @@ import { SharedService } from './shared.service';
 export class LocationService {
 
 	constructor(private router: Router,
-				private sharedService: SharedService,
-				private location: Location) {
+		private sharedService: SharedService,
+		private location: Location) {
 	}
 
 	public get PATH(): string {

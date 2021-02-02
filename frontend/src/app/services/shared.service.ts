@@ -44,6 +44,7 @@ export class SharedService {
 	}
 
 	public setDefaultLanguage(): void {
+		console.log("here")
 		if (this.isBrowser && !window.localStorage.getItem('lang')) {
 			switch (window.navigator.language) {
 				case 'ru':

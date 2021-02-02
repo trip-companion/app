@@ -19,16 +19,14 @@ export class SsrRedirectService {
 
 	public redirectWithStatus(code: number, message: string, url: string): void {
 		if (!isPlatformBrowser(this.platformId)) {
-			console.log("MODE:  this.REQUEST_MODE", this.REQUEST_MODE)
-			// if (this.REQUEST_MODE === `USER-REQUEST`) {
+			if (this.REQUEST_MODE === `USER-REQUEST`) {
 				
 				const REQ: Request = this.injector.get(REQUEST) as Request;
 				const RES: Response = this.injector.get(RESPONSE) as Response;
 
 				RES.statusCode = code;
 				RES.statusMessage = message;
-				console.log("|RES IS: ", RES.statusCode, "AND ", RES.statusMessage)
-			// }
+			}
 
 			// this.REDIRECT_CONFIG.config = {
 			// 	need: true,
