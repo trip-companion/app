@@ -1,13 +1,13 @@
 ﻿import {  Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable  } from 'rxjs';
+import { BehaviorSubject, Observable, of  } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 import { environment } from '../../environments/environment';
 import { LocationService } from '@app/services/location.service';
 import { map } from 'rxjs/internal/operators/map';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { HandleErrorService } from './handleError.service';
 
@@ -27,7 +27,7 @@ export class AuthenticationService {
 		private HES: HandleErrorService,
 	) {
 		this.isBrowser = isPlatformBrowser(platformId);
-		this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('accessToken'));
+		this.tokenSubject = new BehaviorSubject<string | null>(null);
 		this.token = this.tokenSubject.asObservable();
 	}
 
@@ -35,12 +35,20 @@ export class AuthenticationService {
 		return this.tokenSubject.value;
 	}
 
+	public ngOnInit(): void {
+    if (this.isBrowser) {
+			this.tokenSubject.next(localStorage.getItem('accessToken'));
+		}
+  }
+
 	public login(email: string, password: string) {
 		try {
 			return this.http.post<any>(`${this.apiUrl}public/auth`, { email, password })
 				.pipe(map(res => {
 					this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-					this.tokenSubject.next(res.jwtAccessToken);
+					if (this.isBrowser) {
+						this.tokenSubject.next(res.jwtAccessToken);
+					}
 					return  true;
 				}));
 		} catch (e) {
@@ -53,36 +61,43 @@ export class AuthenticationService {
 	}
 
 	public refreshToken(): Observable<boolean> {
-		const refreshToken = localStorage.getItem("refreshToken");
+		if (this.isBrowser) {
+			const refreshToken = localStorage.getItem("refreshToken");
 		
-		return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
-		.pipe(map(res => {
-			console.log(res)
-			this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-			this.tokenSubject.next(res.jwtAccessToken);
-			return true;
-		}),
-			catchError((error: HttpErrorResponse | HttpResponse<any>) => {
-				return <never> this.HES.handleError(error, this.isBrowser)
-			})
-		)
+			return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
+				.pipe(map(res => {
+						this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+						if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
+						return true;
+					}),
+					catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+						return <never> this.HES.handleError(error, this.isBrowser)
+					})
+				)
+		}
 	}
 
 	private setLocalStorage(access: string, refresh: string, dateExp:  string ) {
-		localStorage.setItem('accessToken', access);
-		localStorage.setItem('refreshToken', refresh);
-		localStorage.setItem('refreshTokenExpDate', dateExp);
+		if (this.isBrowser) {
+			localStorage.setItem('accessToken', access);
+			localStorage.setItem('refreshToken', refresh);
+			localStorage.setItem('refreshTokenExpDate', dateExp);
+		}
 	}
 
 	public romeveLocalStore() {
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
-		localStorage.removeItem('refreshTokenExpDate');
-		this.tokenSubject.next(null);
+		if (this.isBrowser) {
+			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
+			localStorage.removeItem('refreshTokenExpDate');
+			this.tokenSubject.next(null);
+		}
 	}
 
 	public logout() {
+		const localLang = localStorage.getItem('lang');
+		const langRout = localLang === 'en'? '/' : localLang;
 		this.romeveLocalStore();
-		this.router.navigate([this.homePath]);
+		this.router.navigate([langRout + '/']);
 	}
 }

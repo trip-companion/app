@@ -1,20 +1,24 @@
   
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import { AuthenticationService } from '@app/services/authentication.service';
-import { LocationService } from '@app/services/location.service';
+import { SharedService } from '@app/services/shared.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-	public homePath =  this.locationService.extractBasePATH();
-	constructor(
+	private isBrowser: boolean;
+
+	constructor(@Inject(PLATFORM_ID) private platformId: Object,
 		private router: Router,
 		private authenticationService: AuthenticationService,
-		public locationService: LocationService,
-	) { }
+		public sharedService: SharedService,
+	) {
+		this.isBrowser = isPlatformBrowser(platformId);
+	}
 
 	private checkAccessExpHelper(token: string) {
 		if(!token) return true;
@@ -23,9 +27,11 @@ export class AuthGuard implements CanActivate {
 	}
 
 	private checkRefreshExpHelper() {
-		const timeNow =  new Date().valueOf();
-		const expiry = Number(localStorage.getItem('refreshTokenExpDate'));
-		return ((expiry === null || !expiry) || timeNow >= expiry);
+		if (this.isBrowser) {
+			const timeNow =  new Date().valueOf();
+			const expiry = Number(localStorage.getItem('refreshTokenExpDate'));
+			return ((expiry === null || !expiry) || timeNow >= expiry);
+		}
 	}
 
 	public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
@@ -35,20 +41,21 @@ export class AuthGuard implements CanActivate {
 			return true;
 		} else {
 			const refreshAlife = this.checkRefreshExpHelper();
-			if(!refreshAlife) {
+			if(!refreshAlife && this.isBrowser) {
 				return this.authenticationService.refreshToken()
 					.pipe(map(status => {
 						if(status) return true;
-						this.redirectToLogin(state)
+						this.redirectToLogin(route, state)
 				}))
 			}
-			this.redirectToLogin(state)
+			this.redirectToLogin(route, state)
 		}
 	}
 
-	private redirectToLogin( state: RouterStateSnapshot) {
+	private redirectToLogin( route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+		const langRout = route.data.lang === 'en'? '/' : route.data.lang;
+		this.router.navigate([langRout + '/login/'], { queryParams: { returnUrl: state.url } });
 		this.authenticationService.romeveLocalStore();
-		this.router.navigate([this.homePath + '/login/'], { queryParams: { returnUrl: state.url } });
 		return false;
 	}
 }

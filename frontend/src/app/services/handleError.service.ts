@@ -12,10 +12,10 @@ export interface IHandleError {
 
 @Injectable()
 export class HandleErrorService {
-	private isBrowser: boolean; // (!) not available inside handleError()
+	private isBrowser: boolean;
 
 	constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-			this.isBrowser = isPlatformBrowser(platformId);
+		this.isBrowser = isPlatformBrowser(platformId);
 	}
 
 	public handleError(error: HttpErrorResponse|HttpResponse<any>, isBrowser: boolean): Observable<never | boolean> {
