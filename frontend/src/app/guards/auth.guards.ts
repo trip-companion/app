@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate {
 			this.redirectToLogin(route, state)
 		}
 	}
-
+	
 	private redirectToLogin( route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 		const langRout = route.data.lang === 'en'? '/' : route.data.lang;
 		this.router.navigate([langRout + '/login/'], { queryParams: { returnUrl: state.url } });

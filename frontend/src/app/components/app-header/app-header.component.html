@@ -28,6 +28,9 @@
 						<a [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')" CorrectLinkHref class="link">Sing up</a>
 					</li>
 					<li *ngIf="userActive" class="auth-block_list">
+						<a [routerLink]="locationService.joinWithLangRoutePath('/account/')" CorrectLinkHref class="link">Account</a>
+					</li>
+					<li *ngIf="userActive" class="auth-block_list">
 						<a (click)="logout()" class="link">Logout</a>
 					</li>
 				</ul>

@@ -4,9 +4,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { FormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -24,6 +25,14 @@ import { PageResolver } from './guards/page.resolver';
 //component
 import { Redirect301Component } from './components/redirect301/redirect301.component';
 
+import { reducers } from '@app/store/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthenticationService } from './services/authentication.service';
+// import { UserEffects } from '@app/store/effects/user.effects';
+
+import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
+import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +46,9 @@ import { Redirect301Component } from './components/redirect301/redirect301.compo
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+	StoreModule.forRoot(reducers),
+	EffectsModule.forRoot(),
+    // EffectsModule.forRoot([UserEffects]),
     // UI Modules
     HeaderModule,
   ],
@@ -49,6 +61,8 @@ import { Redirect301Component } from './components/redirect301/redirect301.compo
     PageResolver,
 	ResolverService,
 	HandleErrorService,
+	{ provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
@@ -62,7 +76,8 @@ export class AppModule {
 				@Inject(PLATFORM_ID) private platformId: Object,
 				@Inject(APP_ID) private appId: string,
 				public SS: StateService,
-				private DDS: DeviceDetectorService) {
+				private DDS: DeviceDetectorService,
+				private authService: AuthenticationService,) {
 		const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
 		console.log(`Running ${platform} with appId=${appId}`);
 
@@ -71,7 +86,7 @@ export class AppModule {
 
 		if (isPlatformBrowser(platformId)) {
 			this.detectDevice();
-
+			this.authService.setTokenValue = localStorage.getItem('accessToken');
 			if (!isDevMode()) {
 				// Include Lazy Style to <head> only
 				this.lazyStyles.forEach((href: string) => this.loadStyle(href, false));
