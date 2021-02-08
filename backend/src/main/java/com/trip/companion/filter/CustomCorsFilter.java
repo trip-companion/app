@@ -3,7 +3,6 @@ package com.trip.companion.filter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,11 +21,11 @@ import static org.springframework.http.HttpMethod.*;
 @Component
 @Profile("dev")
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorsFilter extends OncePerRequestFilter {
+public class CustomCorsFilter extends OncePerRequestFilter {
 
     private static final String MAX_AGE = "3600";
     private static final String ALLOWED_ORIGINS = "*";
-    private static final String ALLOWED_HEADERS = "authorization, content-type";
+    private static final String ALLOWED_HEADERS = "*";
     private static final List<HttpMethod> ALLOWED_METHODS = List.of(GET, POST, PUT, DELETE, OPTIONS);
 
     @Override

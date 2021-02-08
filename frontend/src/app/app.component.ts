@@ -5,7 +5,7 @@ import { isPlatformBrowser, Location } from '@angular/common';
 
 import { LocationService } from './services/location.service';
 import { SharedService } from './services/shared.service';
-  
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,13 +16,11 @@ export class AppComponent implements OnInit {
   public isBrowser: boolean;
   public isShowContactsComponent: boolean = true;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
     public sharedService: SharedService,
     private locationService: LocationService,
     private location: Location,
-		private router: Router,
-  ) {
+    private router: Router,) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     this.router.events
@@ -60,13 +58,12 @@ export class AppComponent implements OnInit {
   }
   
   public setAdvString(): void {
-    //	const sourceLinks = ['gclid', 'gclsrc', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 		let queryString = this.isBrowser ? window.location : null;
 		this.isShowContactsComponent = !/\/contacts$/.test(this.router.url);
 		const PATH: string = this.locationService.PATH;
 
 		if(queryString.href.includes('?')) {
-			let advStr= this.router.url.split("?");
+			let advStr = this.router.url.split("?");
 			this.location.replaceState(`${PATH}/?${advStr[1]}`);
 		} else {
 			if (!/[^\/]\/$/.test(PATH) ) { this.location.replaceState(`${PATH}/`); }

@@ -11,6 +11,7 @@ import { AuthGuard }  from '@app/guards/auth.guards';
  
 const PAGES_ROUTES: Routes = [
   { path: 'faq',     canActivate: [AuthGuard], resolve: {pageResolved: PageResolver}, data: { page: `faq/` },   loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule) },
+  { path: 'account', canActivate: [AuthGuard], resolve: {pageResolved: PageResolver}, data: { page: `account/` },   loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule) },
   { path: 'login',   resolve: {pageResolved: PageResolver}, data: { page: `login/` },   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
   { path: 'sign-up', resolve: {pageResolved: PageResolver}, data: { page: `sign-up/` }, loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule) },
   { path: '',        resolve: {pageResolved: PageResolver}, data: { page: `/` },        loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) },

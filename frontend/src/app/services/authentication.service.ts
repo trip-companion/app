@@ -1,18 +1,18 @@
-﻿import {  Inject, Injectable, PLATFORM_ID } from '@angular/core';
+﻿import {  Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, of  } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 import { environment } from '../../environments/environment';
 import { LocationService } from '@app/services/location.service';
 import { map } from 'rxjs/internal/operators/map';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { HandleErrorService } from './handleError.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService {
+export class AuthenticationService implements OnInit {
 	private isBrowser: boolean;
 	private tokenSubject: BehaviorSubject<string>;
 	public token: Observable<string>;
@@ -35,11 +35,13 @@ export class AuthenticationService {
 		return this.tokenSubject.value;
 	}
 
+	public set setTokenValue(token) {
+		this.tokenSubject.next(token);
+	}
+
 	public ngOnInit(): void {
-    if (this.isBrowser) {
-			this.tokenSubject.next(localStorage.getItem('accessToken'));
-		}
-  }
+
+	}
 
 	public login(email: string, password: string) {
 		try {
@@ -66,14 +68,14 @@ export class AuthenticationService {
 		
 			return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
 				.pipe(map(res => {
-						this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-						if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
-						return true;
-					}),
-					catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-						return <never> this.HES.handleError(error, this.isBrowser)
-					})
-				)
+					this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+					if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
+					return true;
+				}),
+				catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+					return <never> this.HES.handleError(error, this.isBrowser)
+				})
+			)
 		}
 	}
 
