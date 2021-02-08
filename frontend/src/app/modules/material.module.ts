@@ -8,7 +8,7 @@ const MATERIAL_MODULES: any = [
 	MatSelectModule,
 	MatFormFieldModule,
 	MatInputModule,
-	MatCardModule
+	MatCardModule,
 ];
 
 @NgModule({

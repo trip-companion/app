@@ -14,7 +14,12 @@
 			<div class="header-tab">
 				<ul class="link-block">
 					<li class="link-block_list">
-						<a *ngIf="userActive" [routerLink]="locationService.joinWithLangRoutePath('/faq/')" CorrectLinkHref class="link">FAQ</a>
+						<a *ngIf="userActive"
+							[routerLink]="locationService.joinWithLangRoutePath('faq/')"
+							CorrectLinkHref
+							class="link"
+							>FAQ
+						</a>
 				</li>
 				</ul>
 			</div>

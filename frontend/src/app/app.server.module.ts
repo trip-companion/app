@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
     ServerTransferStateModule,
   ],
   bootstrap: [AppComponent],
-  providers: []
 })
-export class AppServerModule {
-}
+
+export class AppServerModule {}

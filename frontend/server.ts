@@ -12,7 +12,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
-import {renderModuleFactory} from '@angular/platform-server';
 import { ValueProvider } from '@angular/core';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack

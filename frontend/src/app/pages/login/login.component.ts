@@ -1,9 +1,8 @@
 import {Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, ChangeDetectorRef} from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthenticationService } from '@app/services/authentication.service';
-import { SharedService } from '@app/services/shared.service';
 import { LocationService } from '@app/services/location.service';
 
 @Component({
@@ -29,7 +28,7 @@ export class LoginComponent implements OnInit {
 		public cdr: ChangeDetectorRef,
 		public locationService: LocationService,
 		private router: Router,
-		public sharedService: SharedService,
+		private route: ActivatedRoute,
 		private authenticationService: AuthenticationService
 	) { 
 		if (this.authenticationService.tokenValue) { 
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	public ngOnInit() {
-		this.returnUrl = this.sharedService.globalPrevRout || this.homePath;
+		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this.homePath;
 	}
 
 	get f() { return this.loginForm.controls; }
@@ -48,8 +47,7 @@ export class LoginComponent implements OnInit {
 		if (this.loginForm.invalid) return;
 		this.loading = true;
 		this.authenticationService.login(this.f.loginInput.value, this.f.passwordInput.value)
-			.subscribe(
-				() => {
+			.subscribe(() => {
 					this.router.navigate([this.returnUrl]);
 				},
 				error => {
