@@ -14,7 +14,9 @@ export class BasicAuthInterceptor implements HttpInterceptor {
         const token = this.authenticationService.tokenValue;
         const isLoggedIn = token;
         const isApiUrl = request.url.startsWith(environment.apiUrl);
-        if (isLoggedIn && isApiUrl) {
+        const isRefreshTokenReq = request.url.includes("/api/public/auth/refresh");
+
+        if (isLoggedIn && isApiUrl && !isRefreshTokenReq) {
             request = request.clone({
                 setHeaders: { 
                     Authorization: `Bearer ${token}`

@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.groupCollapsed(`%c HeaderComponent:updateRouterData$`, 'color:green;font-size:12px;');
 				console.groupEnd();
 			}
+			// console.log(data.page)
 			this.homePath = this.locationService.extractBasePATH();
 			if (this.isViewInited) { this.cdRef.detectChanges(); }
 		});

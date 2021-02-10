@@ -18,6 +18,8 @@ import { LocationService } from './services/location.service';
 import { ResolverService } from './services/resolver.service';
 import { SsrRedirectService } from './services/SsrRedirect.service';
 import { StateService } from './services/state.service';
+//global  module
+import { GlobalPreloaderModule } from './components/global-preloader/global-preloader.module';
 import { HandleErrorService } from './services/handleError.service';
 //guards
 import { LanguageResolver } from './guards/language.resolver';
@@ -28,7 +30,6 @@ import { Redirect301Component } from './components/redirect301/redirect301.compo
 import { reducers } from '@app/store/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthenticationService } from './services/authentication.service';
-// import { UserEffects } from '@app/store/effects/user.effects';
 
 import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
 import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
@@ -48,8 +49,8 @@ import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
     BrowserAnimationsModule,
 	StoreModule.forRoot(reducers),
 	EffectsModule.forRoot(),
-    // EffectsModule.forRoot([UserEffects]),
-    // UI Modules
+	// UI Modules
+	GlobalPreloaderModule,
     HeaderModule,
   ],
   providers: [
