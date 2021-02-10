@@ -1,12 +1,11 @@
 spring:
   data:
     mongodb:
-      port: &mongo_port 28000
+      port: 28000
 
 mongo:
   embedded:
     enabled: true
-    port: *mongo_port
 
 mongock:
   changeLogsScanPackage:

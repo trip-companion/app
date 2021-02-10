@@ -1,7 +1,7 @@
 package com.trip.companion.security;
 
 import com.trip.companion.domain.user.User;
-import com.trip.companion.error.exception.ActionForbiddenException;
+import com.trip.companion.error.exception.auth.InvalidRefreshTokenException;
 import com.trip.companion.rest.controller.dto.request.LoginRequest;
 import com.trip.companion.rest.controller.dto.response.LoginResponse;
 import com.trip.companion.rest.controller.dto.response.RefreshRequest;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +19,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 
 import static com.trip.companion.security.JwtService.TOKEN_TYPE;
+import static java.lang.String.format;
 
 @Service
 @Slf4j
@@ -38,9 +38,8 @@ public class SecurityService {
     }
 
     public LoginResponse setAuthenticationAndGenerateJwt(LoginRequest loginRequest) {
-        Authentication authentication = authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        User user = userService.setRefreshToken((User) authentication.getPrincipal());
+        authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
+        User user = userService.setRefreshToken(userService.getByEmail(loginRequest.getEmail()));
         return getLoginResponse(user);
     }
 
@@ -66,22 +65,16 @@ public class SecurityService {
     }
 
     public LoginResponse refreshToken(RefreshRequest refreshRequest) {
-        User user = userService.getByRefreshToken(refreshRequest.getJwtRefreshToken());
-        checkIsUserExpired(user);
+        User user = userService.findByRefreshToken(refreshRequest.getJwtRefreshToken())
+                .orElseThrow(() -> new InvalidRefreshTokenException("Wrong refresh token"));
         checkIsJwtRefreshTokenExpired(user);
         User userWithRefreshToken = userService.setRefreshToken(user);
         return getLoginResponse(userWithRefreshToken);
     }
 
-    private void checkIsUserExpired(User user) {
-        if (!user.isAccountNonExpired()) {
-            throw new AccountExpiredException("User account is expired");
-        }
-    }
-
     private void checkIsJwtRefreshTokenExpired(User user) {
         if (user.getJwtRefreshTokenExpireDate().getTime() < System.currentTimeMillis()) {
-            throw new ActionForbiddenException(String.format("Refresh token %s is expired", user.getJwtRefreshToken()));
+            throw new InvalidRefreshTokenException(format("Refresh token %s is expired", user.getJwtRefreshToken()));
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.trip.companion.security;
 
+import com.trip.companion.error.exception.auth.InvalidJwtException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,7 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String bearerToken = request.getHeader(AUTHORIZATION);
         if (headerHasJwtToken(bearerToken)) {
-            securityService.setAuthenticationFromJwt(getJwtFromRequest(bearerToken), request);
+            try {
+                securityService.setAuthenticationFromJwt(getJwtFromRequest(bearerToken), request);
+            } catch (ExpiredJwtException exc) {
+                throw new InvalidJwtException("Expired JWT token", exc);
+            } catch (JwtException exc) {
+                throw new InvalidJwtException("Wrong JWT token", exc);
+            }
         }
         filterChain.doFilter(request, response);
     }

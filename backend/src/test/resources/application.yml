@@ -1,17 +1,11 @@
 mongock:
-  changeLogsScanPackage:
-    - com.trip.companion.repository.migration
+  enabled: false
 
 spring:
   data:
     mongodb:
       database: trip-companion
-      port: &mongo_port 28000
-
-mongo:
-  embedded:
-    enabled: true
-    port: *mongo_port
+      port: 30000
 
 jwt:
   secret: ${random.uuid}
