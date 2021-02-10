@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/trip-companion/app/branch/master/graph/badge.svg?token=lIzJjepNeC)](https://codecov.io/gh/trip-companion/app)
+
 ### Backend server
 ###### At least Java 11 requeired to run backend server
 ##### Actions to start DEV server from root directory:
