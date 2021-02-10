@@ -1,4 +1,5 @@
-import IRouteConfig from "../interfaces/route-config";
+import IRouteConfig from "@app/interfaces/route-config";
+import ILocalizationText from "@app/interfaces/localization-text";
 
 export const ROUTER_CONFIG: IRouteConfig[] = [
 	{
@@ -7,31 +8,26 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
 			ru: `Главная`,
 			ua: `Головна`,
 			en: `Home`
-		}
+		},
+		availability: false
 	},
 	{
 		url: 'login/',
 		name: {
-			ru: `Портфолио`,
-			ua: `Портфоліо`,
-			en: `Portfolio`
-		}
+			ru: `Авторизация`,
+			ua: `Увійти`,
+			en: `Log In`
+		},
+		availability: true
 	},
 	{
 		url: 'sign-up/',
 		name: {
-			ru: `Цены`,
-			ua: `Ціни`,
-			en: `Prices`
-		}
-	},
-	{
-		url: 'faq/',
-		name: {
-			ru: `faq`,
-			ua: `faq`,
-			en: `faq`
-		}
+			ru: `Зарегистрироваться`,
+			ua: `Зареєструватися`,
+			en: `Sing up`
+		},
+		availability: true
 	},
 	{
 		url: 'account/',
@@ -39,6 +35,28 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
 			ru: `Аккаунт`,
 			ua: `Кабінет`,
 			en: `Account`
-		}
-	}
+		},
+		availability: false
+	},
+	{
+		url: 'faq/',
+		name: {
+			ru: `FAQ`,
+			ua: `FAQ`,
+			en: `FAQ`
+		},
+		availability: false
+	},
 ];
+
+export const ACCOUNT_LINK_LIST: Array<string> = [
+	'login/',
+	'sign-up/',
+	'account/',
+];
+
+export const LOGOUT_NAME: ILocalizationText = {
+	ru: "Выйти",
+	ua: "Bийти",
+	en: "Sing out",
+};
