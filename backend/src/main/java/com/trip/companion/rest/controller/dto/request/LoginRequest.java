@@ -1,8 +1,7 @@
 package com.trip.companion.rest.controller.dto.request;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Data
 public class LoginRequest {

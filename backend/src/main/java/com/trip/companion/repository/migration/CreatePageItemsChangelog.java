@@ -2,16 +2,16 @@ package com.trip.companion.repository.migration;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.trip.companion.domain.Language;
 import com.trip.companion.domain.page.Page;
-import org.bson.Document;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
 
-import static com.trip.companion.domain.Language.*;
+import static com.trip.companion.domain.Language.ENG;
+import static com.trip.companion.domain.Language.RUS;
+import static com.trip.companion.domain.Language.UKR;
 import static com.trip.companion.domain.page.Page.WELCOME;
 
 @ChangeLog(order = "002")
@@ -25,7 +25,6 @@ public class CreatePageItemsChangelog {
 
     @ChangeSet(order = "001", id = "createPageItems", author = "skosinskyi")
     public void initWelcomePageItems(MongoDatabase db) {
-        MongoCollection<Document> pageItemCollection = db.getCollection("pageItem");
         DOCUMENTS.add(createPageItemDoc(ENG, WELCOME, DESTINATION_CODE, "Destination", "Choose a destination"));
         DOCUMENTS.add(createPageItemDoc(UKR, WELCOME, DESTINATION_CODE, "Пункт призначення", "Виберіть пункт призначення"));
         DOCUMENTS.add(createPageItemDoc(RUS, WELCOME, DESTINATION_CODE, "Пункт назначения", "Выберите направление"));
@@ -42,7 +41,7 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(UKR, WELCOME, SUBMIT_BUTTON_CODE, "Пошук"));
         DOCUMENTS.add(createPageItemDoc(RUS, WELCOME, SUBMIT_BUTTON_CODE, "Искать"));
 
-        pageItemCollection.insertMany(DOCUMENTS);
+        db.getCollection("pageItem").insertMany(DOCUMENTS);
     }
 
     private Document createPageItemDoc(Language language, Page page, String itemCode, String text) {

@@ -6,6 +6,7 @@ import com.trip.companion.rest.controller.dto.request.LoginRequest;
 import com.trip.companion.rest.controller.dto.response.LoginResponse;
 import com.trip.companion.rest.controller.dto.response.RefreshRequest;
 import com.trip.companion.service.UserService;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -17,8 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
 
 import static com.trip.companion.security.JwtService.TOKEN_TYPE;
 

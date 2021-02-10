@@ -1,11 +1,10 @@
 package com.trip.companion.error.dto;
 
+import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
