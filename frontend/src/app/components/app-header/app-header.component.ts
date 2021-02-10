@@ -9,6 +9,9 @@ import { LocationService } from '../../services/location.service';
 import { StateService } from '../../services/state.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 
+import { ROUTER_CONFIG, ACCOUNT_LINK_LIST, LOGOUT_NAME } from '@app/DATA/router.config';
+import IRouteConfig from "@app/interfaces/route-config";
+
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
@@ -17,12 +20,14 @@ import { AuthenticationService } from '@app/services/authentication.service';
   encapsulation : ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
-
+	public accountLinkConfig: IRouteConfig[] = [];
+	public mainLinkConfig: IRouteConfig[] = [];
 	public homePath: string;
 	public modelLang: string;
 	public isMatSelectOpen: boolean = false;
 	private isViewInited = false;
 	public userActive: boolean;
+	public logoutName: string;
 
 	private subsRouter: Subscription = new Subscription();
 	private subsChangeRouterData: Subscription = new Subscription();
@@ -35,11 +40,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 		private stateService: StateService,
 		private cdRef: ChangeDetectorRef,
 		public sharedService: SharedService,) {
+			this.linkConfigFilter(ROUTER_CONFIG, ACCOUNT_LINK_LIST);
+			this.logoutName = LOGOUT_NAME[this.sharedService.language]
 	}
 
 	public ngOnInit(): void {
 		this.modelLang = this.sharedService.language;
-
 		this.subsLoginStatus = this.authSvc.token.subscribe((token: string) => {
 			this.userActive = token?true:false;
 			this.cdRef.detectChanges();
@@ -50,7 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.groupCollapsed(`%c HeaderComponent:updateRouterData$`, 'color:green;font-size:12px;');
 				console.groupEnd();
 			}
-			// console.log(data.page)
+			this.logoutName = LOGOUT_NAME[this.sharedService.language]
 			this.homePath = this.locationService.extractBasePATH();
 			if (this.isViewInited) { this.cdRef.detectChanges(); }
 		});
@@ -87,6 +93,13 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public logout()  {
 		this.authSvc.logout();
+	};
+
+	public linkConfigFilter(routerConfig:IRouteConfig[], accoutnLink: Array<string>) {
+		this.mainLinkConfig = routerConfig.filter(rout => {
+			const findAccountRout = accoutnLink.find(pageUrl => rout.url === pageUrl)
+			return !findAccountRout? true : !this.accountLinkConfig.push(rout)
+		});
 	}
 
 };

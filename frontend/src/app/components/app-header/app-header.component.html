@@ -13,51 +13,54 @@
 
 			<div class="header-tab">
 				<ul class="link-block">
-					<li class="link-block_list">
-						<a *ngIf="userActive"
-							[routerLink]="locationService.joinWithLangRoutePath('faq/')"
+					<li class="link-block_list" *ngFor="let routConfig of mainLinkConfig">
+						<a [routerLink]="locationService.joinWithLangRoutePath(routConfig.url)"
 							CorrectLinkHref
 							class="link"
-							>FAQ
+							[routerLinkActive]="'is-active'"
+							[routerLinkActiveOptions]="{exact: true}">
+							{{routConfig.name[modelLang]}}
 						</a>
-				</li>
+					</li>
 				</ul>
 			</div>
 
 			<div class="header-nav">
 				<ul class="auth-block">
-					<li *ngIf="!userActive" class="auth-block_list">
-						<a [routerLink]="locationService.joinWithLangRoutePath('/login/')" CorrectLinkHref class="link">Log in</a>
-					</li>
-					<li *ngIf="!userActive" class="auth-block_list">
-						<a [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')" CorrectLinkHref class="link">Sing up</a>
-					</li>
+					<ng-container *ngFor="let routConfig of accountLinkConfig;let i = index">
+						<li *ngIf="routConfig.availability?!userActive:userActive"
+							class="auth-block_list">
+							<a [routerLink]="locationService.joinWithLangRoutePath(routConfig.url)" 
+								CorrectLinkHref 
+								class="link"
+								[routerLinkActive]="'is-active'"
+								[routerLinkActiveOptions]="{exact: true}">
+								{{routConfig.name[modelLang]}}
+							</a>
+						</li>
+					</ng-container>
 					<li *ngIf="userActive" class="auth-block_list">
-						<a [routerLink]="locationService.joinWithLangRoutePath('/account/')" CorrectLinkHref class="link">Account</a>
-					</li>
-					<li *ngIf="userActive" class="auth-block_list">
-						<a (click)="logout()" class="link">Logout</a>
+						<a (click)="logout()" class="link">{{logoutName}}</a>
 					</li>
 				</ul>
-					<div class="social-block"></div>
-					<div class="lang-box">
-						<mat-form-field>
-							<mat-select [(ngModel)]="modelLang"
-								(openedChange)="onOpenedChange($event)"
-							>
-								<mat-option [value]='lang'
-									class="item-lang"
-									*ngFor="let lang of sharedService.languages" 
-									(click)="preventLink($event, lang)">
-									<a style="display: inline-block; font-size: 16px; text-decoration: none; width: 100%;"
-										href="{{locationService.getLocalizationPathWith(lang)}}"
-										[ngStyle]="lang === sharedService.language ? {'color': '#00D8ff'} : {'color': '#fff'}">
-										{{lang}}
-									</a>
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
+				<div class="social-block"></div>
+				<div class="lang-box">
+					<mat-form-field>
+						<mat-select [(ngModel)]="modelLang"
+							(openedChange)="onOpenedChange($event)">
+							<mat-option [value]='lang'
+								class="item-lang"
+								*ngFor="let lang of sharedService.languages" 
+								(click)="preventLink($event, lang)">
+								<a style="display: inline-block; font-size: 16px; text-decoration: none; width: 100%;"
+									href="{{locationService.getLocalizationPathWith(lang)}}"
+									[ngStyle]="lang === sharedService.language ? {'color': '#00D8ff'} : {'color': '#fff'}">
+									{{lang}}
+								</a>
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
 			</div>
 		</div>
 	</div>

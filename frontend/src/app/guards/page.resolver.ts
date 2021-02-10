@@ -6,7 +6,6 @@ import { LocationService } from '@app/services/location.service';
 import { SsrRedirectService } from '@app/services/SsrRedirect.service';
 // import { SeoService } from '@app/services/seo.service';
 import { StateService } from '@app/services/state.service';
-import { SharedService } from '@app/services/shared.service';
 // Interfaces
 import IRouteConfig from '@app/interfaces/route-config';
 // RxJS
@@ -23,9 +22,7 @@ export class PageResolver implements Resolve<string|null> {
 				private locationService: LocationService,
 				private ssrRedirectService: SsrRedirectService,
 				private resolverService: ResolverService,
-				private stateService: StateService,
-				// private seoService: SeoService,
-				private sharedService: SharedService) {
+				private stateService: StateService,) {
 		this.pushRoute(ROUTER_CONFIG);
 	}
 

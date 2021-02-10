@@ -13,19 +13,19 @@ app-header {
         left: 0;
 
         .container {
-            // height: 50px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             width: 100%;
             padding: 0px 10px;
 
-
             .logo {
                 position: relative;
                 cursor: pointer;
+                height: 100%;
+                display: flex;
 
                 &-top {
+                    align-self: center;
                     width: 40px;
                     height: 40px;
                     transition: all 0.5s
@@ -33,11 +33,15 @@ app-header {
             }
 
             .header-tab  {
+                display: flex;
+                padding: 0px 10px;
                 .link-block  {
+                    display: flex;
                     &_list {
+                        margin: 0px 5px;
+                        border-radius: 5px;
                         &:hover {
                             background: $color-white;
-                            border-radius: 5px;
                         }
                         .link {
                             display: flex;
@@ -49,9 +53,16 @@ app-header {
                             @include list_item;
                             color: $color-white;
                             transition: all 0.3s ease-in-out;
+                            border-radius: 5px;
                             &:hover {
                                 color: $color-black;
                                 opacity: 0.8;
+                            }
+                            &.is-active {
+                                color: $color-base-blue;
+                                &:hover {
+                                    background: $color-black07;
+                                }
                             }
                         }
                     }
@@ -60,16 +71,18 @@ app-header {
 
             .header-nav {
                 display: flex;
-                height: 100%;
+                width: 100%;
+                justify-content: flex-end;
                 align-items: center;
                 .auth-block {
                     display: flex;
                     align-items: center;
                     height: 100%;
                     &_list {
+                        border-radius: 5px;
+                        margin: 0px 5px;
                         &:hover {
                             background: $color-white;
-                            border-radius: 5px;
                             cursor: pointer;
                         }
                         .link {
@@ -82,9 +95,17 @@ app-header {
                             @include list_item;
                             color: $color-white;
                             transition: all 0.3s ease-in-out;
+                            border-radius: 5px;
                             &:hover {
                                 color: $color-black;
                                 opacity: 0.8;
+                            }
+                            &.is-active {
+                                color: $color-base-blue;
+                                &:hover {
+                                    background: $color-black07;
+                                    border-radius: 5px;
+                                }
                             }
                         }
                     }
