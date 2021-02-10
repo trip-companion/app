@@ -1,16 +1,15 @@
 package com.trip.companion.domain.user;
 
 import com.trip.companion.domain.base.BaseEntity;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import javax.management.relation.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.management.relation.Role;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 @Document
 @Data

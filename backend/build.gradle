@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'checkstyle'
+    id 'jacoco'
 }
 
 group 'com.trip.companion'
@@ -64,3 +66,29 @@ task bootRunDev {
 }
 
 bootRunDev.finalizedBy bootRun
+
+checkstyle {
+    toolVersion '8.37'
+    checkstyleTest.enabled = false
+    configFile(new File('checkstyle.xml'))
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+        reports.all { report ->
+            def outputFile = report.destination
+            if (outputFile.exists() && outputFile.text.contains("<error ")) {
+                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport

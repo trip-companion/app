@@ -4,10 +4,9 @@ import com.trip.companion.domain.Language;
 import com.trip.companion.domain.page.Page;
 import com.trip.companion.domain.page.PageItem;
 import com.trip.companion.repository.PageItemRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PageItemService {

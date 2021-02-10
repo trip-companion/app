@@ -1,9 +1,8 @@
 package com.trip.companion.repository;
 
 import com.trip.companion.domain.user.User;
-import org.springframework.data.mongodb.repository.MongoRepository;
-
 import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<User, Long> {
 

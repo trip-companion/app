@@ -1,14 +1,12 @@
 package com.trip.companion.rest.controller;
 
 import com.trip.companion.domain.base.BaseEntity;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 public abstract class MappingController {
 
