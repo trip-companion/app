@@ -18,6 +18,7 @@ ext {
     mongockVersion = '4.1.19'
     openApiUiVersion = '1.5.3'
     modelMapperVersion = '2.3.9'
+    gsonVersion = '2.8.6'
 }
 
 dependencyManagement {
@@ -37,6 +38,8 @@ dependencies {
     implementation 'com.github.cloudyrock.mongock:mongodb-springdata-v3-driver'
 
     implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
     implementation "org.springdoc:springdoc-openapi-ui:${openApiUiVersion}"
 
     implementation "io.jsonwebtoken:jjwt:${jsonWebTokenVersion}"
