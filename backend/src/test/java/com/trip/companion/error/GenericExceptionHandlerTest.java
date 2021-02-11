@@ -1,7 +1,6 @@
 package com.trip.companion.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.trip.companion.EmbeddedMongoDbTest;
 import com.trip.companion.error.dto.ErrorResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -118,5 +117,4 @@ class GenericExceptionHandlerTest {
         assertEquals(exceptionMessage, errorResponse.getMessage());
         assertEquals(servletPath, errorResponse.getPath());
     }
-
 }
