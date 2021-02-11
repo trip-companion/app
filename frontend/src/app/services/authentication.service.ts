@@ -44,39 +44,44 @@ export class AuthenticationService implements OnInit {
 	}
 
 	public login(email: string, password: string) {
-		try {
-			return this.http.post<any>(`${this.apiUrl}public/auth`, { email, password })
-				.pipe(map(res => {
-					this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-					if (this.isBrowser) {
-						this.tokenSubject.next(res.jwtAccessToken);
-					}
-					return  true;
-				}));
-		} catch (e) {
-			console.log(e)
-		}
+		
+		return this.http.post<any>(`${this.apiUrl}public/auth`, { email, password })
+			.pipe(map(res => {
+				this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+				if (this.isBrowser) {
+					this.tokenSubject.next(res.jwtAccessToken);
+				}
+				return true;
+			}),
+			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+				return <never> this.HES.handleError(error, this.isBrowser)
+			})
+		);
 	}
 
 	public singUp(email: string, firstName: string, lastName: string, password: string) {
 		return this.http.post<any>(`${this.apiUrl}public/user`, { email, firstName, lastName, password })
+		.pipe(map(() => {}),
+			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+				return <never> this.HES.handleError(error, this.isBrowser)
+			})
+		);
+		
 	}
 
 	public refreshToken(): Observable<boolean> {
-		if (this.isBrowser) {
-			const refreshToken = localStorage.getItem("refreshToken");
-		
-			return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
-				.pipe(map(res => {
-					this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-					if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
-					return true;
-				}),
-				catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-					return <never> this.HES.handleError(error, this.isBrowser)
-				})
-			)
-		}
+		const refreshToken = localStorage.getItem("refreshToken");
+
+		return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
+			.pipe(map(res => {
+				this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+				if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
+				return true;
+			}),
+			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+				return <never> this.HES.handleError(error, this.isBrowser)
+			})
+		)
 	}
 
 	private setLocalStorage(access: string, refresh: string, dateExp:  string ) {

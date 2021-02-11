@@ -20,18 +20,18 @@
               </mat-form-field>
         </div>
         <div class="date">
-            <mat-form-field appearance="fill">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
-                  <input matStartDate formControlName="start" autocomplete="off" placeholder="MM/DD/YYYY">
-                  <input matEndDate formControlName="end" autocomplete="off" placeholder="MM/DD/YYYY">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-              
-                <mat-error *ngIf="searchForm.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-                <mat-error *ngIf="searchForm.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-              </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
+              <input matStartDate formControlName="start" autocomplete="off" placeholder="MM/DD/YYYY">
+              <input matEndDate formControlName="end" autocomplete="off" placeholder="MM/DD/YYYY">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          
+            <mat-error *ngIf="searchForm.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="searchForm.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
         </div>
 
         <div class="people">
@@ -70,7 +70,9 @@
           color="warn"
           [disabled]="searchForm.status === 'INVALID'"
           (click)="searchOffers()">
-          {{!screenWidthDesc ? 'submit' : ''}}
+          <span class="find-text">
+            {{'submit'}}
+          </span>
             <mat-icon>search</mat-icon>
         </button>
 

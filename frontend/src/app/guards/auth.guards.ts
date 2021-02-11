@@ -48,7 +48,7 @@ export class AuthGuard implements CanActivate {
 						this.redirectToLogin(route, state)
 				}))
 			}
-			this.redirectToLogin(route, state)
+			this.redirectToLogin(route, state);
 		}
 	}
 	

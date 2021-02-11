@@ -1,0 +1,26 @@
+@import '../../../styles/typography';
+
+snack-bar-container {
+    // background: green!important;
+    &.error-window {
+        background: $color-error;
+        simple-snack-bar {
+            &.mat-simple-snackbar  {
+                span {
+                    color: $color-white087;
+                }
+            }
+        }
+    };
+
+    &.success-window  {
+        background: $success-background;
+        simple-snack-bar {
+            &.mat-simple-snackbar  {
+                span {
+                    color: $color-white;
+                }
+            }
+        }
+    };
+}

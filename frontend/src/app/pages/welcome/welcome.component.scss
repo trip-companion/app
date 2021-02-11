@@ -103,7 +103,7 @@
                         width: 20px;
                         height: 20px;
                         .mat-ripple {
-                            right: -4px;
+                            right: 0px;
                         }
                         .mat-icon {
                             padding-top: 0px;
@@ -125,6 +125,12 @@
 
         button {
            margin: 0px 1em;
+        }
+
+        .find {
+            &-text {
+                display: none
+            }
         }
     }
 
@@ -263,6 +269,9 @@
                 width: 150px;
                 height: 40px;
                 margin-bottom: 25px;
+                &-text {
+                    display: flex;
+                }
                 mat-icon {
                     display: none;
                 }
