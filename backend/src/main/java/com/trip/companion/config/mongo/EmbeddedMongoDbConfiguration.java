@@ -21,7 +21,7 @@ public class EmbeddedMongoDbConfiguration {
 
     @Bean
     @Primary
-    public IMongodConfig mongoClient(@Value("${mongo.embedded.port:28000}") int port) throws IOException {
+    public IMongodConfig mongoClient(@Value("${spring.data.mongo.port:28000}") int port) throws IOException {
         return new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(port, Network.localhostIsIPv6()))

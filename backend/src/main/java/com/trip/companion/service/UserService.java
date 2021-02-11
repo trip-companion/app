@@ -2,13 +2,13 @@ package com.trip.companion.service;
 
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.ActionForbiddenException;
-import com.trip.companion.error.exception.AuthenticationException;
 import com.trip.companion.error.exception.NoDataFoundException;
 import com.trip.companion.repository.UserRepository;
 import com.trip.companion.security.JwtService;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
         try {
             return getByEmail(email);
         } catch (Exception exc) {
-            throw new AuthenticationException("Bad credentials");
+            throw new BadCredentialsException("Bad credentials");
         }
     }
 
@@ -44,17 +44,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User setRefreshToken(User user) {
-        if (user.getId() == null) {
-            throw new ActionForbiddenException("User id must not be null when set refresh token");
-        }
         user.setJwtRefreshToken(UUID.randomUUID().toString());
         user.setJwtRefreshTokenExpireDate(jwtService.getJwtRefreshTokenExpire());
         return repository.save(user);
     }
 
-    public User getByRefreshToken(String jwtRefreshToken) {
-        return repository.findByJwtRefreshToken(jwtRefreshToken)
-                .orElseThrow(() -> new NoDataFoundException("User not found by refresh token " + jwtRefreshToken));
+    public Optional<User> findByRefreshToken(String jwtRefreshToken) {
+        return repository.findByJwtRefreshToken(jwtRefreshToken);
     }
 
     public Optional<User> findByEmail(String email) {
