@@ -11,7 +11,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: Document,) { }
   public _min: number = 1;
-  public _max: number = 10;
+  public _max: number = 50;
   public color: string = 'default';
   public screenWidthDesc = this.document.documentElement.clientWidth > 767;
 

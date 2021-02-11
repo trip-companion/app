@@ -11,7 +11,6 @@ import { StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { HeaderModule } from './components/app-header/app-header.module';
 //services
 import { SharedService } from './services/shared.service';
 import { LocationService } from './services/location.service';
@@ -20,17 +19,18 @@ import { SsrRedirectService } from './services/SsrRedirect.service';
 import { StateService } from './services/state.service';
 //global  module
 import { GlobalPreloaderModule } from './components/global-preloader/global-preloader.module';
-import { HandleErrorService } from './services/handleError.service';
+import { GlobalEventModule } from './components/global-event/global-event.module';
+import { HeaderModule } from './components/app-header/app-header.module';
 //guards
 import { LanguageResolver } from './guards/language.resolver';
 import { PageResolver } from './guards/page.resolver';
+import { HandleErrorService } from './services/handleError.service';
 //component
 import { Redirect301Component } from './components/redirect301/redirect301.component';
-
 import { reducers } from '@app/store/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthenticationService } from './services/authentication.service';
-
+//Interceptor
 import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
 import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
 
@@ -52,6 +52,7 @@ import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
 	// UI Modules
 	GlobalPreloaderModule,
     HeaderModule,
+	GlobalEventModule,
   ],
   providers: [
     SharedService,

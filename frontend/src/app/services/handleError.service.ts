@@ -20,7 +20,7 @@ export class HandleErrorService {
 
 	public handleError(error: HttpErrorResponse|HttpResponse<any>, isBrowser: boolean): Observable<never | boolean> {
 		let errorMessage: IHandleError;
-		
+
 		if (isBrowser) {
 			console.groupCollapsed(`%cHandleError`, 'color:red;font-size:13px;');
 			console.log(error);
@@ -30,23 +30,7 @@ export class HandleErrorService {
 			console.log(error);
 		}
 
-		// Connection error
-		if (error.status === 0) {
-			errorMessage = <IHandleError> {
-				success: false,
-				status: 0,
-				statusText: 'Sorry, there was a connection error occurred. Please try again.',
-			};
-		// Internal Server Error
-		} else if (error.status === 500) {
-			errorMessage = <IHandleError> {
-				success: false,
-				status: 500,
-				statusText: 'Internal Server Error'
-			};
-		} else {
-			errorMessage =  (error as HttpResponse<any>).body.json ?  (error as HttpResponse<any>).body.json() : error;
-		}
+		errorMessage = (error as HttpResponse<any>).body.json ?  (error as HttpResponse<any>).body.json() : error;
 		return of(false);
 	}
 }

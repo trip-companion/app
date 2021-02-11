@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 
 import { MaterialModule } from '@app/modules/material.module';
-
 import { LoginRoutingModule } from './login-routing.module';
 
 @NgModule({

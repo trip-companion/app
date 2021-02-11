@@ -19,8 +19,8 @@ export class SharedService {
 	private isBrowser: boolean;
 	public globalPrevRout: string;
 
-	private phonePopUpDataSubject = new Subject<{tarif:string, name: string}>();
-	$phonePopUpDataSubject = this. phonePopUpDataSubject.asObservable();
+	private globalEventSubject = new Subject<{message:string, type: string}>();
+	$globalEventSubject = this.globalEventSubject.asObservable();
 
 	constructor(@Inject(PLATFORM_ID) private platformId: Object,
 				@Inject(DOCUMENT) private document: Document,
@@ -43,25 +43,7 @@ export class SharedService {
 		this.globalPrevRout = rout;
 	}
 
-	public setDefaultLanguage(): void {
-		console.log("here")
-		if (this.isBrowser && !window.localStorage.getItem('lang')) {
-			switch (window.navigator.language) {
-				case 'ru':
-				case 'ru-RU':
-					window.localStorage.setItem('lang', 'ru');
-					break;
-				case 'ua':
-				case 'ua-UA':
-					window.localStorage.setItem('lang', 'ua');
-					break;
-				case 'en':
-				case 'en-US':
-					window.localStorage.setItem('lang', 'en');
-					break;
-				default:
-					window.localStorage.setItem('lang', 'en');
-			}
-		}
-	}
+	public setGlobalEventData(message:string, type: string)  {
+		this.globalEventSubject.next({message, type});
+	};
 }

@@ -45,13 +45,14 @@
 					</mat-form-field>
 				</p>
 				
-				<p *ngIf="error" class="error">
+				<!-- <p *ngIf="error" class="error">
 					{{ error }}
-				</p>
+				</p> -->
 
 				<div class="buttons">
 					<button
-						class="login-btn"
+						mat-raised-button
+						class="register-btn"
 						(click)="onSubmitRegister($event)"
 						[disabled]="registerForm.invalid"
 						type="submit">

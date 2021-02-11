@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 
 import { MaterialModule } from '@app/modules/material.module';
-
 import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({
