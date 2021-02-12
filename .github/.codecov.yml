@@ -15,3 +15,7 @@ coverage:
   range: 50..100
   round: down
   precision: 2
+
+ignore:
+  - "backend/src/main/java/com/trip/companion/config/*.java"
+  - "backend/src/main/java/com/trip/companion/TripCompanionApplication.java"

@@ -18,4 +18,10 @@ public class ErrorResponse {
         this.message = exc.getMessage();
         this.path = request.getServletPath();
     }
+
+    public ErrorResponse(String message, HttpServletRequest request) {
+        this.timeStamp = new Date();
+        this.message = message;
+        this.path = request.getServletPath();
+    }
 }
