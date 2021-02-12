@@ -22,6 +22,7 @@ ext {
     openApiUiVersion = '1.5.3'
     modelMapperVersion = '2.3.9'
     gsonVersion = '2.8.6'
+    janinoVersion = '3.0.7'
 }
 
 dependencyManagement {
@@ -48,6 +49,8 @@ dependencies {
 
     implementation "io.jsonwebtoken:jjwt:${jsonWebTokenVersion}"
     implementation 'javax.xml.bind:jaxb-api:2.1'
+
+    implementation "org.codehaus.janino:janino:${janinoVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"

@@ -8,7 +8,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Collections;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +17,10 @@ public class JwtService {
     public static final String TOKEN_TYPE = "Bearer ";
     public static final String EMAIL_CLAIM = "email";
 
-    private final JwtParser jwtParser;
     private final JwtConfiguration jwtConfiguration;
+    private final JwtParser jwtParser = Jwts.parser();
 
-    @Autowired
-    public JwtService(JwtParser jwtParser, JwtConfiguration jwtConfiguration) {
-        this.jwtParser = jwtParser;
+    public JwtService(JwtConfiguration jwtConfiguration) {
         this.jwtConfiguration = jwtConfiguration;
     }
 
