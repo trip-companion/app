@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-//@Component
 public class EmbeddedMongoDbExtension implements AfterAllCallback, BeforeAllCallback {
     private static final String CONNECTION_STRING = "mongodb://%s:%d";
     private static final String DB_NAME = "trip-companion";
