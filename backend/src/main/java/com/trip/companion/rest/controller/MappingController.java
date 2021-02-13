@@ -2,6 +2,7 @@ package com.trip.companion.rest.controller;
 
 import com.trip.companion.domain.base.BaseEntity;
 import java.util.List;
+import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,15 +19,11 @@ public abstract class MappingController {
     }
 
     public <I, E extends BaseEntity> E mapRequestDtoToEntity(I requestDto, Class<E> entityClass) {
-        return requestDto != null
-                ? modelMapper.map(requestDto, entityClass)
-                : null;
+        return Optional.ofNullable(requestDto).map(dto -> modelMapper.map(dto, entityClass)).orElse(null);
     }
 
     public <O, E extends BaseEntity> O mapEntityToResponseDto(E entity, Class<O> responseClass) {
-        return entity != null
-                ? modelMapper.map(entity, responseClass)
-                : null;
+        return Optional.ofNullable(entity).map(e -> modelMapper.map(e, responseClass)).orElse(null);
     }
 
     public <O, E extends BaseEntity> List<O> mapEntityList(List<E> entityList, Class<O> responseClass) {

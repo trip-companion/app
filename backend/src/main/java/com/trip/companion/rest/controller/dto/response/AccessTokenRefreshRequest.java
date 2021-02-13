@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class RefreshRequest {
+public class AccessTokenRefreshRequest {
     @NotEmpty
     private String jwtRefreshToken;
 }

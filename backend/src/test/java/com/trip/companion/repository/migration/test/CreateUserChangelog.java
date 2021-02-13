@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ChangeLog(order = "001")
 public class CreateUserChangelog {
+    public static final String TEST_USER_EMAIL = "testUser@gmail.com";
+    public static final String TEST_USER_PASSWORD = "12345678";
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -17,8 +19,8 @@ public class CreateUserChangelog {
     public void initUser(MongoDatabase db) {
         MongoCollection<Document> userCollection = db.getCollection("user");
         Document user = new Document()
-                .append("email", "testUser@gmail.com")
-                .append("password", passwordEncoder.encode("12345678"));
+                .append("email", TEST_USER_EMAIL)
+                .append("password", passwordEncoder.encode(TEST_USER_PASSWORD));
         userCollection.insertOne(user);
     }
 

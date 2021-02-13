@@ -1,3 +1,4 @@
+![Project CI](https://github.com/trip-companion/app/workflows/Project%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/trip-companion/app/branch/master/graph/badge.svg?token=lIzJjepNeC)](https://codecov.io/gh/trip-companion/app)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=trip-companion_app&metric=alert_status)](https://sonarcloud.io/dashboard?id=trip-companion_app)
 

@@ -3,6 +3,3 @@ backend:
 
 frontend:
   - frontend/**/*
-
-CI:
-  - .github/**/*

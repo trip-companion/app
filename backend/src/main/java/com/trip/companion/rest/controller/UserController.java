@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api")
 public class UserController extends MappingController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -25,7 +25,7 @@ public class UserController extends MappingController {
     }
 
     @PostMapping("public/user")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@Valid @RequestBody UserRequest request) {
         userService.registerUser(request.getEmail(), request.getFirstName(), request.getLastName(),
                 request.getPassword());
