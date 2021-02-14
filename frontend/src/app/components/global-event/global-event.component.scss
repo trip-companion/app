@@ -23,4 +23,15 @@ snack-bar-container {
             }
         }
     };
+
+    &.warning-window {
+        background: $warning-background;
+        simple-snack-bar {
+            &.mat-simple-snackbar  {
+                span {
+                    color: $text-dark;
+                }
+            }
+        }
+    };
 }

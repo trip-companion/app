@@ -81,11 +81,21 @@
             ::ng-deep {
                 .mat-form-field-infix {
                     width: 220px;
+                    mat-date-range-input {
+                        // width: 70%;
+                    }
                 }
             }
         }
 
         .people {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            mat-label {
+                position: absolute;
+            }
             ::ng-deep {
                 .mat-form-field-infix {
                     width: 25px;

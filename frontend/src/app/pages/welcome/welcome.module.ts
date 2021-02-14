@@ -14,6 +14,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+import { EffectsModule } from '@ngrx/effects';
+import { PageDataEffects } from '@app/store/effects/pageData.effects';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -27,8 +30,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    EffectsModule.forFeature([PageDataEffects])
   ],
-  providers:[],
+  providers: [],
   declarations: [WelcomeComponent],
   exports: [WelcomeComponent]
 })
