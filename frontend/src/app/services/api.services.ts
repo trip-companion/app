@@ -13,7 +13,10 @@ export class ApiService {
   constructor (private http: HttpClient) {}
 
   public getCurrentUser() {
-    return this.http.get<any>(`${this.apiUrl}user/current/`, { });
+    return this.http.get<IUserModel>(`${this.apiUrl}user/current/`, {});
   };
 
+  public getCurrentPageData(pageId: string, language: string) {
+    return this.http.get<any>(`${this.apiUrl}public/page/${pageId}/${language}`, {});
+  };
 };

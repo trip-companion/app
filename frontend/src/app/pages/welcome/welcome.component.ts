@@ -1,6 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl,  Validators } from '@angular/forms';
+import { SharedService } from '@app/services/shared.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -8,13 +10,18 @@ import { FormGroup, FormControl,  Validators } from '@angular/forms';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-
-  constructor(@Inject(DOCUMENT) private document: Document,) { }
   public _min: number = 1;
   public _max: number = 50;
   public color: string = 'default';
   public screenWidthDesc = this.document.documentElement.clientWidth > 767;
+  public pageDataContent: any;
+  public minSearchDate: Date;
 
+  constructor(@Inject(DOCUMENT) private document: Document,
+    public sharedService: SharedService,
+    private activeRoute: ActivatedRoute,) {
+      this.minSearchDate  = new Date();
+    }
 
   public searchForm = new FormGroup({
     start: new FormControl('',  Validators.compose([Validators.required])),
@@ -22,11 +29,12 @@ export class WelcomeComponent implements OnInit {
     destinationValue: new FormControl('',  Validators.compose([Validators.required])),
     formField: new FormControl(1,  Validators.compose([Validators.required]))
   });
+
   get getDestinationInput(): any { return this.searchForm.get('destinationValue')}
   get getFormField(): any { return this.searchForm.get('formField')}
 
   public ngOnInit() {
-    
+    this.pageDataContent = this.activeRoute.data['value'].pageContent.page.mappings.main;
   }
 
   public searchOffers(): void {
