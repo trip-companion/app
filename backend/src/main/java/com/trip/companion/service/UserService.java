@@ -1,8 +1,8 @@
 package com.trip.companion.service;
 
 import com.trip.companion.domain.user.User;
-import com.trip.companion.error.exception.ActionForbiddenException;
 import com.trip.companion.error.exception.NoDataFoundException;
+import com.trip.companion.error.exception.client.UserAlreadyRegisteredException;
 import com.trip.companion.repository.UserRepository;
 import com.trip.companion.security.JwtService;
 import java.util.Optional;
@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
 
     public User registerUser(String email, String firstName, String lastName, String password) {
         if (repository.existsByEmail(email)) {
-            throw new ActionForbiddenException("User with email " + email + "already registered");
+            throw new UserAlreadyRegisteredException(email);
         }
         User user = new User();
         user.setEmail(email);

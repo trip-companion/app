@@ -47,9 +47,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-*/.gradle/**
-*/build/**
+**/.gradle/**
+**/build/**
 
-*/package-lock.json
+**/package-lock.json
 
-*/.logs/**
+**/.logs/**

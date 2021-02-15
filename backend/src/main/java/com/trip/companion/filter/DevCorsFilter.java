@@ -27,7 +27,7 @@ import static org.springframework.http.HttpMethod.PUT;
 @Component
 @Profile("dev")
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CustomCorsFilter extends OncePerRequestFilter {
+public class DevCorsFilter extends OncePerRequestFilter {
 
     private static final String MAX_AGE = "3600";
     private static final String ALLOWED_ORIGINS = "*";

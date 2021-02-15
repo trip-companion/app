@@ -4,7 +4,7 @@ import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.auth.InvalidRefreshTokenException;
 import com.trip.companion.rest.controller.dto.request.LoginRequest;
 import com.trip.companion.rest.controller.dto.response.LoginResponse;
-import com.trip.companion.rest.controller.dto.response.RefreshRequest;
+import com.trip.companion.rest.controller.dto.response.AccessTokenRefreshRequest;
 import com.trip.companion.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +62,8 @@ public class SecurityService {
         log.debug("Authorized user with email {}", userDetails.getUsername());
     }
 
-    public LoginResponse refreshToken(RefreshRequest refreshRequest) {
-        User user = userService.findByRefreshToken(refreshRequest.getJwtRefreshToken())
+    public LoginResponse refreshAccessToken(AccessTokenRefreshRequest accessTokenRefreshRequest) {
+        User user = userService.findByRefreshToken(accessTokenRefreshRequest.getJwtRefreshToken())
                 .orElseThrow(() -> new InvalidRefreshTokenException("Wrong refresh token"));
         checkIsJwtRefreshTokenExpired(user);
         User userWithRefreshToken = userService.setRefreshToken(user);

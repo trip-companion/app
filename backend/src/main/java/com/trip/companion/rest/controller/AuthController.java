@@ -2,7 +2,7 @@ package com.trip.companion.rest.controller;
 
 import com.trip.companion.rest.controller.dto.request.LoginRequest;
 import com.trip.companion.rest.controller.dto.response.LoginResponse;
-import com.trip.companion.rest.controller.dto.response.RefreshRequest;
+import com.trip.companion.rest.controller.dto.response.AccessTokenRefreshRequest;
 import com.trip.companion.security.SecurityService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ public class AuthController {
     }
 
     @PostMapping
-    public LoginResponse generateJwt(@Valid @RequestBody LoginRequest loginRequest) {
+    public LoginResponse generateAccessToken(@Valid @RequestBody LoginRequest loginRequest) {
         return securityService.setAuthenticationAndGenerateJwt(loginRequest);
     }
 
     @PostMapping("refresh")
-    public LoginResponse refreshToken(@Valid @RequestBody RefreshRequest refreshRequest) {
-        return securityService.refreshToken(refreshRequest);
+    public LoginResponse refreshAccessToken(@Valid @RequestBody AccessTokenRefreshRequest accessTokenRefreshRequest) {
+        return securityService.refreshAccessToken(accessTokenRefreshRequest);
     }
 
 }

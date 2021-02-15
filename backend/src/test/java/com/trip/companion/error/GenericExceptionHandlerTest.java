@@ -2,6 +2,8 @@ package com.trip.companion.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trip.companion.error.dto.ErrorResponse;
+import com.trip.companion.error.exception.client.ClientException;
+import com.trip.companion.service.error.ErrorMessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,6 +34,8 @@ class GenericExceptionHandlerTest {
     private GenericExceptionHandler genericExceptionHandler;
     @Autowired
     private ObjectMapper objectMapper;
+    @MockBean
+    private ErrorMessageService errorMessageService;
 
     @Test
     void handleAuthExceptionFromFilterTest() throws IOException {
@@ -53,7 +58,6 @@ class GenericExceptionHandlerTest {
         verify(response, times(1)).setStatus(HttpStatus.UNAUTHORIZED.value());
         assertNotNull(capturedErrorResponse.getTimeStamp());
         assertEquals(exceptionMessage, capturedErrorResponse.getMessage());
-        assertEquals(servletPath, capturedErrorResponse.getPath());
     }
 
     @Test
@@ -77,44 +81,52 @@ class GenericExceptionHandlerTest {
         verify(response, times(1)).setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         assertNotNull(capturedErrorResponse.getTimeStamp());
         assertEquals(exceptionMessage, capturedErrorResponse.getMessage());
-        assertEquals(servletPath, capturedErrorResponse.getPath());
     }
 
     @Test
     void handleAuthExceptionTest() {
         String exceptionMessage = "exceptionMessage";
-        String servletPath = "servletPath";
-        HttpServletRequest request = mock(HttpServletRequest.class);
         AuthenticationException exception = new BadCredentialsException(exceptionMessage);
 
-        when(request.getServletPath()).thenReturn(servletPath);
-
-        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleAuthException(exception, request);
+        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleAuthException(exception);
         ErrorResponse errorResponse = responseEntity.getBody();
 
         assertTrue(Objects.nonNull(errorResponse));
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
         assertNotNull(errorResponse.getTimeStamp());
         assertEquals(exceptionMessage, errorResponse.getMessage());
-        assertEquals(servletPath, errorResponse.getPath());
+    }
+
+    @Test
+    void handleClientExceptionTest() {
+        String exceptionMessage = "exceptionMessage";
+        String expectedDisplayMessage = "displayMessage";
+        ClientException exception = new ClientException(exceptionMessage, ErrorCode.USER_ALREADY_REGISTERED);
+
+        when(errorMessageService.getDisplayMessageByErrorCode(ErrorCode.USER_ALREADY_REGISTERED))
+                .thenReturn(expectedDisplayMessage);
+
+        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleClientException(exception);
+        ErrorResponse errorResponse = responseEntity.getBody();
+
+        assertTrue(Objects.nonNull(errorResponse));
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNotNull(errorResponse.getTimeStamp());
+        assertEquals(exceptionMessage, errorResponse.getMessage());
+        assertEquals(expectedDisplayMessage, errorResponse.getDisplayMessage());
     }
 
     @Test
     void handleExceptionTest() {
         String exceptionMessage = "exceptionMessage";
-        String servletPath = "servletPath";
-        HttpServletRequest request = mock(HttpServletRequest.class);
         RuntimeException exception = new RuntimeException(exceptionMessage);
 
-        when(request.getServletPath()).thenReturn(servletPath);
-
-        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleException(exception, request);
+        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleException(exception);
         ErrorResponse errorResponse = responseEntity.getBody();
 
         assertTrue(Objects.nonNull(errorResponse));
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertNotNull(errorResponse.getTimeStamp());
         assertEquals(exceptionMessage, errorResponse.getMessage());
-        assertEquals(servletPath, errorResponse.getPath());
     }
 }

@@ -9,7 +9,7 @@ coverage:
         base: auto
     project:
       default:
-        target: 60%
+        target: 80%
         threshold: 2%
         base: auto
   range: 50..100
@@ -17,5 +17,7 @@ coverage:
   precision: 2
 
 ignore:
-  - "backend/src/main/java/com/trip/companion/config/*.java"
+  - "backend/src/main/java/com/trip/companion/config/**/*"
+  - "backend/src/main/java/com/trip/companion/repository/migration/**/*"
+  - "backend/src/main/java/com/trip/companion/filter/DevCorsFilter.java"
   - "backend/src/main/java/com/trip/companion/TripCompanionApplication.java"
