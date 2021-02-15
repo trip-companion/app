@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 console.log(err);
             }
 
-            const errorText = err.error.message || err.statusText;
+            const errorText = err.errror.displayMessage || err.statusText;
             this.sharedService.setGlobalEventData(errorText, 'error-window');
             return throwError(err);
         }))

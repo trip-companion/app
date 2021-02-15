@@ -2,7 +2,6 @@
   "name": "angular-starter",
   "version": "11.0.3",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --open",
     "build": "ng build",
     "test": "ng test",
