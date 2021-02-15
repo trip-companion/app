@@ -63,3 +63,20 @@ jobs:
       with:
         fail_ci_if_error: true
         file: ./backend/build/reports/jacoco/test/jacocoTestReport.xml
+    - name: Deploy to the DEV AWS server
+      uses: wlixcc/SFTP-Deploy-Action@1.1
+      with:
+        username: ubuntu
+        server: ${{ secrets.AWS_DEV_SERVER_IP }}
+        ssh_private_key: ${{ secrets.AWS_DEV_SSH_PRIVATE_KEY }}
+        local_path: ./backend/build/libs/backend-0.0.1.jar
+        remote_path: /home/ubuntu/backend-0.0.1.jar
+    - name: Restart service on AWS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AWS_DEV_SERVER_IP }}
+        username: ubuntu
+        key: ${{ secrets.AWS_DEV_SSH_PRIVATE_KEY }}
+        script: |
+          mv /home/ubuntu/backend-0.0.1.jar /opt/trip-companion/backend-0.0.1.jar
+          sudo service trip-companion restart

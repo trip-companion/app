@@ -17,7 +17,9 @@ coverage:
   precision: 2
 
 ignore:
+  - "backend/src/main/java/com/trip/companion/config"
   - "backend/src/main/java/com/trip/companion/config/**/*"
+  - "backend/src/main/java/com/trip/companion/repository/migration"
   - "backend/src/main/java/com/trip/companion/repository/migration/**/*"
   - "backend/src/main/java/com/trip/companion/filter/DevCorsFilter.java"
   - "backend/src/main/java/com/trip/companion/TripCompanionApplication.java"
