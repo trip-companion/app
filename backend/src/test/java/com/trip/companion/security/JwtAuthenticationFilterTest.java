@@ -4,12 +4,12 @@ import com.trip.companion.error.exception.auth.InvalidJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
+import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
@@ -26,10 +26,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class JwtAuthenticationFilterTest {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
     @MockBean
     private SecurityService securityService;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @PostConstruct
+    private void init() {
+        jwtAuthenticationFilter = new JwtAuthenticationFilter(securityService);
+    }
 
     @Test
     void verifySecurityServiceNotInvokedIfAuthHeaderMissing() throws ServletException, IOException {

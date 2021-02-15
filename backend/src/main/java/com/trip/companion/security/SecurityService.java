@@ -8,20 +8,16 @@ import com.trip.companion.rest.controller.dto.response.RefreshRequest;
 import com.trip.companion.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Service;
 
 import static com.trip.companion.security.JwtService.TOKEN_TYPE;
 import static java.lang.String.format;
 
-@Service
 @Slf4j
 public class SecurityService {
 
@@ -29,8 +25,7 @@ public class SecurityService {
     private final UserService userService;
     private final JwtService jwtService;
 
-    @Autowired
-    public SecurityService(@Lazy AuthenticationManager authenticationManager, UserService userService,
+    public SecurityService(AuthenticationManager authenticationManager, UserService userService,
                            JwtService jwtService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -38,8 +33,10 @@ public class SecurityService {
     }
 
     public LoginResponse setAuthenticationAndGenerateJwt(LoginRequest loginRequest) {
-        authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
-        User user = userService.setRefreshToken(userService.getByEmail(loginRequest.getEmail()));
+        String email = loginRequest.getEmail();
+        authenticateUser(email, loginRequest.getPassword());
+        User user = userService.setRefreshToken(userService.getByEmail(email));
+        log.info("User with email {} authenticated", email);
         return getLoginResponse(user);
     }
 
@@ -62,6 +59,7 @@ public class SecurityService {
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.debug("Authorized user with email {}", userDetails.getUsername());
     }
 
     public LoginResponse refreshToken(RefreshRequest refreshRequest) {
