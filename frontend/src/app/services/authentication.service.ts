@@ -1,15 +1,13 @@
 ﻿import {  Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 import { environment } from '../../environments/environment';
 import { LocationService } from '@app/services/location.service';
 import { map } from 'rxjs/internal/operators/map';
 import { catchError } from 'rxjs/operators';
-
-import { HandleErrorService } from './handleError.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnInit {
@@ -24,7 +22,6 @@ export class AuthenticationService implements OnInit {
 		private router: Router,
 		private http: HttpClient,
 		public locationService: LocationService,
-		private HES: HandleErrorService,
 	) {
 		this.isBrowser = isPlatformBrowser(platformId);
 		this.tokenSubject = new BehaviorSubject<string | null>(null);
@@ -51,22 +48,12 @@ export class AuthenticationService implements OnInit {
 				if (this.isBrowser) {
 					this.tokenSubject.next(res.jwtAccessToken);
 				}
-				return true;
-			}),
-			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-				return <never> this.HES.handleError(error, this.isBrowser)
 			})
 		);
 	}
 
 	public singUp(email: string, firstName: string, lastName: string, password: string) {
-		return this.http.post<any>(`${this.apiUrl}public/user`, { email, firstName, lastName, password })
-		.pipe(map(() => {}),
-			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-				return <never> this.HES.handleError(error, this.isBrowser)
-			})
-		);
-		
+		return this.http.post<any>(`${this.apiUrl}public/user`, { email, firstName, lastName, password });
 	}
 
 	public refreshToken(): Observable<boolean> {
@@ -77,9 +64,8 @@ export class AuthenticationService implements OnInit {
 				this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
 				if (this.isBrowser) this.tokenSubject.next(res.jwtAccessToken);
 				return true;
-			}),
-			catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-				return <never> this.HES.handleError(error, this.isBrowser)
+			}),catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
+				return of(false)
 			})
 		)
 	}

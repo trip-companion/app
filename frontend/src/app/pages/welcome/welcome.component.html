@@ -4,25 +4,25 @@
 
       <div class="welcome-search">
         <div class="destination">
-            <mat-form-field  appearance="fill" [formGroup]="searchForm">
-                <mat-label>Destination</mat-label>
-                <input 
-                    matInput type="text"
-                    autocomplete="off"
-                    formControlName="destinationValue"
-                    placeholder="Choice plase for trevel">
-                <button mat-button 
-                    [ngClass]="{'dirty': searchForm.value.destinationValue.length > 0}"
-                    matSuffix mat-icon-button aria-label="Clear"
-                    (click)="clearDestinationValue()">
-                  <mat-icon class="material-icons">close</mat-icon>
-                </button>
-              </mat-form-field>
+          <mat-form-field  appearance="fill" [formGroup]="searchForm">
+              <mat-label>{{pageDataContent.searchArea.destination.text}}</mat-label>
+              <input 
+                  matInput type="text"
+                  autocomplete="off"
+                  formControlName="destinationValue"
+                  placeholder="{{pageDataContent.searchArea.destination.placeholder}}">
+              <button mat-button 
+                  [ngClass]="{'dirty': searchForm.value.destinationValue.length > 0}"
+                  matSuffix mat-icon-button aria-label="Clear"
+                  (click)="clearDestinationValue()">
+                <mat-icon class="material-icons">close</mat-icon>
+              </button>
+            </mat-form-field>
         </div>
         <div class="date">
           <mat-form-field appearance="fill">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker">
+            <mat-label>{{pageDataContent.searchArea.dateRange.text}}</mat-label>
+            <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker" [min]="minSearchDate">
               <input matStartDate formControlName="start" autocomplete="off" placeholder="MM/DD/YYYY">
               <input matEndDate formControlName="end" autocomplete="off" placeholder="MM/DD/YYYY">
             </mat-date-range-input>
@@ -35,6 +35,7 @@
         </div>
 
         <div class="people">
+          <mat-label>{{pageDataContent.searchArea.peopleCount.text}}</mat-label>
             <mat-form-field [formGroup]="searchForm" appearance="fill">
                 <button 
                   mat-button 
@@ -71,7 +72,7 @@
           [disabled]="searchForm.status === 'INVALID'"
           (click)="searchOffers()">
           <span class="find-text">
-            {{'submit'}}
+            {{pageDataContent.searchArea.submitButton.text}}
           </span>
             <mat-icon>search</mat-icon>
         </button>
@@ -81,7 +82,7 @@
       <div class="welcome-create">
         <button class="welcome-create_btn" mat-raised-button color="warn">Create new trip</button>
       </div>
-      
+      <!-- <span>{{pageData.searchArea.dateRange.text}}</span> -->
     </div>
   
 <!-- </app-welcome> -->

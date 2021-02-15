@@ -7,10 +7,16 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { SharedService } from '@app/services/shared.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import ILocalizationText from '../interfaces/localization-text';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 	private isBrowser: boolean;
+	public actionName: ILocalizationText = {
+		ru:'Ваша сессия завершена. Перезайдите в систему.',
+		ua: 'Ваша сесія завершена. Перезайдіть в систему.',
+		en: 'Your session has ended. Log back into the system.'
+	};
 
 	constructor(@Inject(PLATFORM_ID) private platformId: Object,
 		private router: Router,
@@ -45,7 +51,7 @@ export class AuthGuard implements CanActivate {
 				return this.authenticationService.refreshToken()
 					.pipe(map(status => {
 						if(status) return true;
-						this.redirectToLogin(route, state)
+						this.redirectToLogin(route, state);
 				}))
 			}
 			this.redirectToLogin(route, state);
@@ -53,6 +59,7 @@ export class AuthGuard implements CanActivate {
 	}
 	
 	private redirectToLogin( route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+		this.sharedService.setGlobalEventData(this.actionName[this.sharedService.language], 'warning-window')
 		const langRout = route.data.lang === 'en'? '/' : route.data.lang;
 		this.router.navigate([langRout + '/login/'], { queryParams: { returnUrl: state.url } });
 		this.authenticationService.romeveLocalStore();

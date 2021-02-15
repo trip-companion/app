@@ -3,22 +3,21 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { environment } from '@environments/environment';
-import { AuthenticationService } from '@app/services/authentication.service';
+
+import { LANGUAGE_MODEL } from  '@app/models/language.model';
+import { SharedService } from '@app/services/shared.service';
 
 @Injectable()
-export class BasicAuthInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) { }
+export class SetHeaderInterceptor implements HttpInterceptor {
+    constructor(private sharedService: SharedService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = this.authenticationService.tokenValue;
-        const isLoggedIn = token;
         const isApiUrl = request.url.startsWith(environment.apiUrl);
-        const isPublicUri  = request.url.includes("/api/public/")
 
-        if (isLoggedIn && isApiUrl && !isPublicUri) {
+        if (isApiUrl) {
             request = request.clone({
                 setHeaders: { 
-                    Authorization: `Bearer ${token}`
+                    Language: LANGUAGE_MODEL[this.sharedService.language]
                 }
             });
         }

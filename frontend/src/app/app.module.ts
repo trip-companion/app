@@ -14,7 +14,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 //services
 import { SharedService } from './services/shared.service';
 import { LocationService } from './services/location.service';
-import { ResolverService } from './services/resolver.service';
 import { SsrRedirectService } from './services/SsrRedirect.service';
 import { StateService } from './services/state.service';
 //global  module
@@ -24,7 +23,8 @@ import { HeaderModule } from './components/app-header/app-header.module';
 //guards
 import { LanguageResolver } from './guards/language.resolver';
 import { PageResolver } from './guards/page.resolver';
-import { HandleErrorService } from './services/handleError.service';
+import { PageDataResolver } from './guards/pageData.resolver';
+import { ResolverService } from './services/resolver.service';
 //component
 import { Redirect301Component } from './components/redirect301/redirect301.component';
 import { reducers } from '@app/store/app.state';
@@ -33,6 +33,7 @@ import { AuthenticationService } from './services/authentication.service';
 //Interceptor
 import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
 import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
+import { SetHeaderInterceptor } from '@app/helpers/header.inerceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,6 @@ import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
     BrowserAnimationsModule,
 	StoreModule.forRoot(reducers),
 	EffectsModule.forRoot(),
-	// UI Modules
 	GlobalPreloaderModule,
     HeaderModule,
 	GlobalEventModule,
@@ -62,9 +62,10 @@ import { ErrorInterceptor }  from '@app/helpers/error.interceptor';
     SsrRedirectService,
     PageResolver,
 	ResolverService,
-	HandleErrorService,
+	PageDataResolver,
 	{ provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+	{ provide: HTTP_INTERCEPTORS, useClass: SetHeaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

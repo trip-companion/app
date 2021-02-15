@@ -33,7 +33,7 @@ export class GlobalPreloaderComponent implements OnInit, AfterViewInit, OnDestro
 
 	public ngOnInit(): void {
 		this.preloader.classList.add('off');
-		this.subsGlobalEventStore = this.store.select('globalEvent').subscribe(({loadingPageContent})=> {
+		this.subsGlobalEventStore = this.store.select('globalEvent').subscribe(({loadingPageContent}) => {
 			loadingPageContent?this.preloader.classList.remove('off'):this.preloader.classList.add('off');
 		})
 	}

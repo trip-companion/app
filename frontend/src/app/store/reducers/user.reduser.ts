@@ -2,22 +2,22 @@ import * as UserActions from '../actions/user.action';
 import  IUserModel  from '@app/interfaces/store.models/user.model';
 
 export interface State {
-	user: IUserModel | null,
+	user: IUserModel,
 	loading: boolean,
-	error: Error,
 };
 
 const initialState: State = {
 	user: null,
 	loading: false,
-	error: undefined,
 };
 
-export function userReducer(state = initialState, action: UserActions.UserActions ) {
+export function userReducer(state = initialState, action: UserActions.UserActions ): State {
+	
 	switch (action.type) {
 		case UserActions.USER_ACTION.LOAD_USER_ACTION:
 			return {
 				...state,
+				user: null,
 				loading: true
 			}
 
@@ -29,6 +29,6 @@ export function userReducer(state = initialState, action: UserActions.UserAction
 			}
 
 		default:
-			return state;
+			return {...state};
 	};
 };
