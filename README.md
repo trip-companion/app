@@ -15,3 +15,109 @@ Password: 12345678
 Swagger documentation is available by path /swagger-ui.html
 
 By default, documentation may be retrieved by url http://localhost:9000/swagger-ui.html
+
+### Frontend
+###### Requirements: [Node: 14+](https://nodejs.org/en/), [Angular CLI: 11.0.4+](https://cli.angular.io/)
+
+## Quick start
+```bash
+
+# change directory to our repo
+cd frontend
+
+# install the repo with npm
+npm install
+
+# run Development server
+ng serve
+
+#run dev with ssr
+npm run dev:ssr
+
+# production Build with ssr
+npm run build:ssr
+
+# run prod Build on server
+npm run serve:ssr
+
+```
+
+### Package in production front(Angular): 
+```
+   "@angular/animations": "11.0.3",
+    "@angular/cdk": "^11.1.1",
+    "@angular/common": "11.0.3",
+    "@angular/compiler": "11.0.3",
+    "@angular/core": "11.0.3",
+    "@angular/forms": "11.0.3",
+    "@angular/material": "^11.1.1",
+    "@angular/material-moment-adapter": "^11.1.1",
+    "@angular/platform-browser": "11.0.3",
+    "@angular/platform-browser-dynamic": "11.0.3",
+    "@angular/platform-server": "11.0.3",
+    "@angular/router": "11.0.3",
+    "@ngrx/effects": "^10.1.2",
+    "@ngrx/store": "^10.1.2",
+    "@nguniversal/express-engine": "11.0.1",
+    "cors": "^2.8.5",
+    "express": "4.17.1",
+    "moment": "^2.29.1",
+    "ngx-device-detector": "^2.0.5",
+    "rxjs": "6.6.3",
+    "tslib": "2.0.3",
+    "zone.js": "0.11.3"
+```
+### Package in dev front(Angular): 
+```
+    "@angular-devkit/build-angular": "0.1100.3",
+    "@angular/cli": "11.0.3",
+    "@angular/compiler-cli": "11.0.3",
+    "@nguniversal/builders": "11.0.1",
+    "@types/express": "4.17.9",
+    "@types/jasmine": "3.6.2",
+    "@types/node": "14.14.10",
+    "codelyzer": "6.0.1",
+    "jasmine-core": "3.6.0",
+    "jasmine-spec-reporter": "6.0.0",
+    "karma": "5.2.3",
+    "karma-chrome-launcher": "3.1.0",
+    "karma-coverage": "2.0.3",
+    "karma-jasmine": "4.0.1",
+    "karma-jasmine-html-reporter": "1.5.4",
+    "protractor": "7.0.0",
+    "ts-node": "9.1.0",
+    "tslint": "6.1.3",
+    "typescript": "4.0.5"
+```
+
+## Build file Structure
+```
+dist/
+ ├── browser/
+ |    ├─ assets/                * assets folder
+ |    |
+ |    ├─ index.html
+ |    ├─ runtime.###.js
+ |    ├─ polyfills.###.js       
+ |    ├─ main.###.js
+ |    ├─ styles.###.css
+ |    |
+ |    └─ favicon.ico
+ |
+ ├── server/
+ |     └─  main.js
+ |     └─  **.module.js         *front module file for node ssr
+```
+
+### schema URL
+
+```bash
+# HOST/?lang/?page/
+
+# localization included in the layout routing configuration
+#   NAME      URL FRAGMENT
+    EN       "/"
+    UA       "ua/"
+    RU       "ru/"   
+
+```
