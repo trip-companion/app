@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { CorrectLinkHrefDirective } from './correct-link-href.directive';
 
 @NgModule({
-	declarations: [ CorrectLinkHrefDirective ],
-	exports: [ CorrectLinkHrefDirective ]
+  declarations: [ CorrectLinkHrefDirective ],
+  exports: [ CorrectLinkHrefDirective ]
 })
 export class CorrectLinkHrefModule {}

@@ -5,10 +5,10 @@ import * as GlobalEvent from './reducers/globalEvent.reduser';
 import * as PageData from './reducers/pageData.reduser';
 
 export interface AppState {
-    userInfo: User.State,
-    globalEvent: GlobalEvent.State,
-    pageData: PageData.State,
-};
+    userInfo: User.State;
+    globalEvent: GlobalEvent.State;
+    pageData: PageData.State;
+}
 
 export const reducers: ActionReducerMap<AppState, any> = {
     userInfo: User.userReducer,
@@ -17,5 +17,5 @@ export const reducers: ActionReducerMap<AppState, any> = {
 };
 
 export const getPageDataState = createFeatureSelector<PageData.State>('pageData');
-//page state data
+// page state data
 export const getPageData = createSelector(getPageDataState, PageData.getPageDataContent);

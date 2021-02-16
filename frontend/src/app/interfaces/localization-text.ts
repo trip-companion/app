@@ -1,5 +1,5 @@
 export default interface ILocalizationText {
-	ru: string;
-	ua: string;
-	en: string;
+  ru: string;
+  ua: string;
+  en: string;
 }

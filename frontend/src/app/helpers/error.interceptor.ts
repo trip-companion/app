@@ -10,9 +10,9 @@ import { SharedService } from '@app/services/shared.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     private isBrowser: boolean;
-    constructor(@Inject(PLATFORM_ID) private platformId: Object,
-        private authenticationService: AuthenticationService,
-        public sharedService: SharedService,) {
+    constructor(@Inject(PLATFORM_ID) private platformId: object,
+                private authenticationService: AuthenticationService,
+                public sharedService: SharedService, ) {
             this.isBrowser = isPlatformBrowser(platformId);
         }
 
@@ -31,9 +31,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 console.log(err);
             }
 
-            const errorText = err.errror.displayMessage || err.statusText;
+            const errorText = err.error.displayMessage || err.error.message;
             this.sharedService.setGlobalEventData(errorText, 'error-window');
             return throwError(err);
-        }))
+        }));
     }
 }

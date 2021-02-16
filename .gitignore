@@ -50,6 +50,4 @@ Thumbs.db
 **/.gradle/**
 **/build/**
 
-**/package-lock.json
-
 **/.logs/**

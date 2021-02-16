@@ -1,4 +1,4 @@
-import IErrorMessage from "@app/interfaces/errors-message";
+import IErrorMessage from '@app/interfaces/errors-message';
 
 export const FORM_VALIDATORS: IErrorMessage[] = [
     {
@@ -16,4 +16,4 @@ export const FORM_VALIDATORS: IErrorMessage[] = [
             'Паролі не співпадають',
         ]
     },
-]
+];

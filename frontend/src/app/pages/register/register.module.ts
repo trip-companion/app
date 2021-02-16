@@ -11,7 +11,7 @@ import { MaterialModule } from '@app/modules/material.module';
 import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({
-	imports: [
+  imports: [
     CommonModule,
     RegisterRoutingModule,
     ReactiveFormsModule,
@@ -19,7 +19,7 @@ import { RegisterRoutingModule } from './register-routing.module';
     MaterialModule,
   ],
   exports: [RegisterComponent],
-	declarations: [RegisterComponent],
-	providers: []
+  declarations: [RegisterComponent],
+  providers: []
 })
 export class RegisterModule {}

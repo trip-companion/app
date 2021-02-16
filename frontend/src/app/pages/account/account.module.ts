@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -16,7 +16,7 @@ import { userReducer } from '@app/store/reducers/user.reduser';
     StoreModule.forFeature('userInfo', userReducer),
     EffectsModule.forFeature([UserEffects])
   ],
-  providers:[],
+  providers: [],
   declarations: [AccountComponent],
   exports: [AccountComponent]
 })

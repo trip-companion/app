@@ -1,25 +1,27 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl,  Validators } from '@angular/forms';
 import { SharedService } from '@app/services/shared.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
-export class WelcomeComponent implements OnInit {
-  public _min: number = 1;
-  public _max: number = 50;
-  public color: string = 'default';
+export class WelcomeComponent implements OnInit, OnDestroy {
+  public peopleMin = 1;
+  public peopleMax = 50;
+  public color = 'default';
   public screenWidthDesc = this.document.documentElement.clientWidth > 767;
-  public pageDataContent: any;
+  public pageDataContent: Data;
   public minSearchDate: Date;
+  private subsPageData: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-    public sharedService: SharedService,
-    private activeRoute: ActivatedRoute,) {
+              public sharedService: SharedService,
+              private activeRoute: ActivatedRoute, ) {
       this.minSearchDate  = new Date();
     }
 
@@ -30,24 +32,30 @@ export class WelcomeComponent implements OnInit {
     formField: new FormControl(1,  Validators.compose([Validators.required]))
   });
 
-  get getDestinationInput(): any { return this.searchForm.get('destinationValue')}
-  get getFormField(): any { return this.searchForm.get('formField')}
+  get getDestinationInput(): any { return this.searchForm.get('destinationValue'); }
+  get getFormField(): any { return this.searchForm.get('formField'); }
 
-  public ngOnInit() {
-    this.pageDataContent = this.activeRoute.data['value'].pageContent.page.mappings.main;
+  public ngOnInit(): void {
+    this.subsPageData = this.activeRoute.data.subscribe(data => {
+      this.pageDataContent = data.pageContent.page.mappings.main;
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.subsPageData.unsubscribe();
   }
 
   public searchOffers(): void {
-    console.log("in searchOffers, form: ", this.searchForm)
-    //get all offers for this params and redirect to page offers
+    console.log('in searchOffers, form: ', this.searchForm);
+    // get all offers for this params and redirect to page offers
   }
 
   public clearDestinationValue(): void{
-    this.getDestinationInput.reset('')
+    this.getDestinationInput.reset('');
   }
 
   public getColor(): string {
-    return this.color
+    return this.color;
   }
 
   public setColor(color: string): void {
@@ -56,15 +64,15 @@ export class WelcomeComponent implements OnInit {
 
   public incrementValue(step: number = 1): void {
     const inputValue = this.searchForm.value.formField + step;
-    this.getFormField.setValue(inputValue) 
+    this.getFormField.setValue(inputValue);
   }
 
   public shouldDisableDecrement(inputValue: number): boolean {
-    return inputValue <= this._min;
+    return inputValue <= this.peopleMin;
   }
 
   public shouldDisableIncrement(inputValue: number): boolean {
-    return inputValue >= this._max;
+    return inputValue >= this.peopleMax;
   }
 
 }

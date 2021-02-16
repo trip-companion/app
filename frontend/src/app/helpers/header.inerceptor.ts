@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '@environments/environment';
 
-import { LANGUAGE_MODEL } from  '@app/models/language.model';
+import { LANGUAGE_MODEL } from '@app/models/language.model';
 import { SharedService } from '@app/services/shared.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class SetHeaderInterceptor implements HttpInterceptor {
 
         if (isApiUrl) {
             request = request.clone({
-                setHeaders: { 
+                setHeaders: {
                     Language: LANGUAGE_MODEL[this.sharedService.language]
                 }
             });

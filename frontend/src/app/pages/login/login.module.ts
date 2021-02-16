@@ -11,7 +11,7 @@ import { MaterialModule } from '@app/modules/material.module';
 import { LoginRoutingModule } from './login-routing.module';
 
 @NgModule({
-	imports: [
+  imports: [
     CommonModule,
     LoginRoutingModule,
     ReactiveFormsModule,
@@ -19,7 +19,7 @@ import { LoginRoutingModule } from './login-routing.module';
     MaterialModule,
   ],
   exports: [LoginComponent],
-	declarations: [LoginComponent],
-	providers: []
+  declarations: [LoginComponent],
+  providers: []
 })
 export class LoginModule {}
