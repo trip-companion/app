@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/trip-companion/app/branch/master/graph/badge.svg?token=lIzJjepNeC)](https://codecov.io/gh/trip-companion/app)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=trip-companion_app&metric=alert_status)](https://sonarcloud.io/dashboard?id=trip-companion_app)
 
-### Backend server
+## Backend server
 ###### At least Java 11 requeired to run backend server
 ##### Actions to start DEV server from root directory:
 1. cd backend
@@ -17,10 +17,10 @@ Swagger documentation is available by path /swagger-ui.html
 
 By default, documentation may be retrieved by url http://localhost:9000/swagger-ui.html
 
-### Frontend
+## Frontend
 ###### Requirements: [Node: 14+](https://nodejs.org/en/), [Angular CLI: 11.0.4+](https://cli.angular.io/)
 
-## Quick start
+### Start frontend
 ```bash
 
 # change directory to our repo
@@ -91,7 +91,7 @@ npm run serve:ssr
     "typescript": "4.0.5"
 ```
 
-## Build file Structure
+### Build file Structure
 ```
 dist/
  ├── browser/
@@ -120,5 +120,23 @@ dist/
     EN       "/"
     UA       "ua/"
     RU       "ru/"   
+
+```
+
+## Concurrently runner for project
+###### Requirements: [install concurrently global](https://www.npmjs.com/package/concurrently#install)
+
+### Start whole project
+```bash
+
+# Attention! If it's your first run of project or front packages changed run this command:
+linux OS systems: npm run start_with_install-lin
+windows OS: npm run start_with_install-win
+# PS: This command install npm packages of front, after up dev build. Parallels we run backend with command 'gradlew clean bootRunDev'
+
+
+# usually run(run front and backend server)
+linux OS systems: npm run start-lin
+windows OS: npm run start-win
 
 ```
