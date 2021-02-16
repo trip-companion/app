@@ -8,56 +8,56 @@ export interface IDeviceInfo {
     device: string;					// desktop | tablet | mobile | unknow
     browser: string;				// chrome | opera | safari | firefox | ms-edge | ie
     isXiaomiBrowser: boolean;
-	browserVersion: number;
+  browserVersion: number;
 }
 
 @Injectable()
 export class StateService {
-	public isBrowser: boolean;
-	public appId: string;
-	// Device Info
-	public deviceInfo: IDeviceInfo = <IDeviceInfo>{};
-	public scrollableElement: Element|HTMLElement = null;
+  public isBrowser: boolean;
+  public appId: string;
+  // Device Info
+  public deviceInfo: IDeviceInfo = {} as IDeviceInfo;
+  public scrollableElement: Element|HTMLElement = null;
 
-	public currentYear: number;
-	private _routerData: Data = null;
-	
-    private updateRouterDataMessage = new BehaviorSubject<Data>(null);
-    public updateRouterData$ = this.updateRouterDataMessage.asObservable();
-	public queryParams: Params = {};
-	public _initialUrl: string = null;  
+  public currentYear: number;
+  private routerDataVaribale: Data = null;
 
-	// public isToggleSidebar:BehaviorSubject<boolean> = new BehaviorSubject(false);
-	// public toggleSidebarObservable = this.isToggleSidebar.asObservable()
-	// public isToggleClassForHeader:BehaviorSubject<boolean> = new BehaviorSubject(false);
-	// public toggleClassForHeaderObservable = this.isToggleClassForHeader.asObservable()
+  private updateRouterDataMessage = new BehaviorSubject<Data>(null);
+  public updateRouterData$ = this.updateRouterDataMessage.asObservable();
+  public queryParams: Params = {};
 
-	constructor() {
-		this.currentYear = new Date().getFullYear();
-	};
+  // public isToggleSidebar:BehaviorSubject<boolean> = new BehaviorSubject(false);
+  // public toggleSidebarObservable = this.isToggleSidebar.asObservable()
+  // public isToggleClassForHeader:BehaviorSubject<boolean> = new BehaviorSubject(false);
+  // public toggleClassForHeaderObservable = this.isToggleClassForHeader.asObservable()
 
-	public set routerData(data: Data) {
-		this._routerData = data;
-		this.updateRouterDataMessage.next(this._routerData);
-	};
-	public get routerData(): Data {
-		return this._routerData
-	};
+  constructor() {
+    this.currentYear = new Date().getFullYear();
+  }
 
-	public get isFixHideChromeAddressbar(): boolean {
-        return this.deviceInfo.browser === `chrome` && this.deviceInfo.device !== `desktop` && this.deviceInfo.browserVersion > 41;
-	};
+  public set routerData(data: Data) {
+    this.routerDataVaribale = data;
+    this.updateRouterDataMessage.next(this.routerDataVaribale);
+  }
 
-	public isDesktop(): boolean {
-		return this.deviceInfo.device === `desktop`;
-	};
+  public get routerData(): Data {
+    return this.routerDataVaribale;
+  }
 
-	public isTablet(): boolean {
-		return this.deviceInfo.device === `tablet`;
-	};
+  public get isFixHideChromeAddressbar(): boolean {
+    return this.deviceInfo.browser === `chrome` && this.deviceInfo.device !== `desktop` && this.deviceInfo.browserVersion > 41;
+  }
 
-	public isMobile(): boolean {
-		return this.deviceInfo.device === `mobile`;
-	};
+  public isDesktop(): boolean {
+    return this.deviceInfo.device === `desktop`;
+  }
 
-};
+  public isTablet(): boolean {
+    return this.deviceInfo.device === `tablet`;
+  }
+
+  public isMobile(): boolean {
+    return this.deviceInfo.device === `mobile`;
+  }
+
+}

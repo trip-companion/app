@@ -6,11 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 const MATERIAL_MODULES: any = [
-	MatSelectModule,
-	MatFormFieldModule,
-	MatInputModule,
-	MatButtonModule,
-	MatCardModule,
+  MatSelectModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonModule,
+  MatCardModule,
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 export enum LANGUAGE_MODEL {
-    ua = "UKR",
-    en = "ENG",
-    ru = "RUS"
-};
+    ua = 'UKR',
+    en = 'ENG',
+    ru = 'RUS'
+}

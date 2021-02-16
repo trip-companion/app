@@ -2,28 +2,28 @@ import { Directive, AfterViewChecked, Inject, ElementRef, PLATFORM_ID } from '@a
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
-	selector: '[CorrectLinkHref]'
+  selector: '[CorrectLinkHref]'
 })
 export class CorrectLinkHrefDirective implements AfterViewChecked {
-	public isBrowser: boolean;
+  public isBrowser: boolean;
 
-	constructor(@Inject(ElementRef) private element: ElementRef,
-				@Inject(PLATFORM_ID) private platformId: Object) {
-		this.isBrowser = isPlatformBrowser(platformId);
-	}
+  constructor(@Inject(ElementRef) private element: ElementRef,
+              @Inject(PLATFORM_ID) private platformId: object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
-	public ngAfterViewChecked(): void {
-		this.correct();
-	}
+  public ngAfterViewChecked(): void {
+    this.correct();
+  }
 
-	/**
-     * @description в Браузере href абсолютный - pathname относительный
-     *              на ноде href относительный - pathname пуст
-     */
-	private correct(): void {
-		const LINK: HTMLAnchorElement = this.element.nativeElement;
-		const PATH: string = this.isBrowser ? LINK.pathname : LINK.href;
-		
-		LINK.href = `/${PATH}/`.replace(/\/{2,}/g, '/');
-	}
+  /**
+   * @description в Браузере href абсолютный - pathname относительный
+   *              на ноде href относительный - pathname пуст
+   */
+  private correct(): void {
+    const LINK: HTMLAnchorElement = this.element.nativeElement;
+    const PATH: string = this.isBrowser ? LINK.pathname : LINK.href;
+
+    LINK.href = `/${PATH}/`.replace(/\/{2,}/g, '/');
+  }
 }

@@ -7,20 +7,20 @@ import { StateService } from '../services/state.service';
 
 @Injectable()
 export class LanguageResolver implements Resolve<boolean>  {
-	constructor(private stateService: StateService,
-				private sharedService: SharedService) {}
+  constructor(private stateService: StateService,
+              private sharedService: SharedService) {}
 
-	public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-		
-		if (this.stateService.isBrowser) {
-			console.groupCollapsed(`%c LangResolver`, 'color:blue;font-size:12px;');
-			console.log(`APP LANG:	    ${route.data.lang}`);
-			console.groupEnd();
-		} else {
-			console.log(`LangResolver: ${route.data.lang}`);
-		}
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-		this.sharedService.defineLang(route.data.lang);
-		return of(true);
-	}
+    if (this.stateService.isBrowser) {
+      console.groupCollapsed(`%c LangResolver`, 'color:blue;font-size:12px;');
+      console.log(`APP LANG:	    ${route.data.lang}`);
+      console.groupEnd();
+    } else {
+      console.log(`LangResolver: ${route.data.lang}`);
+    }
+
+    this.sharedService.defineLang(route.data.lang);
+    return of(true);
+  }
 }

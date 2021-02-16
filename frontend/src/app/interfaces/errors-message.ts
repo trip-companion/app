@@ -1,6 +1,6 @@
 export default interface IErrorMessage {
     url: string;
-    en: Array<string>;
-    ua: Array<string>;
-    ru: Array<string>;
+    en: string[];
+    ua: string[];
+    ru: string[];
 }

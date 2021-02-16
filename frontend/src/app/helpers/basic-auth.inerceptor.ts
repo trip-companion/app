@@ -13,11 +13,11 @@ export class BasicAuthInterceptor implements HttpInterceptor {
         const token = this.authenticationService.tokenValue;
         const isLoggedIn = token;
         const isApiUrl = request.url.startsWith(environment.apiUrl);
-        const isPublicUri  = request.url.includes("/api/public/")
+        const isPublicUri  = request.url.includes('/api/public/');
 
         if (isLoggedIn && isApiUrl && !isPublicUri) {
             request = request.clone({
-                setHeaders: { 
+                setHeaders: {
                     Authorization: `Bearer ${token}`
                 }
             });

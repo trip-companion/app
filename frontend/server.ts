@@ -17,24 +17,24 @@ import { ValueProvider } from '@angular/core';
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 
 function normalizeUrl(url: string): string {
-	const URL: string = `${url}/`.replace(/\/{2,}/g, '/').replace(/:\//, '://');
-	return /\?\w+=/.test(URL) ? URL.replace(/\/$/, '') : URL;
-};
+  const replacedUrl: string = `${url}/`.replace(/\/{2,}/g, '/').replace(/:\//, '://');
+  return /\?\w+=/.test(replacedUrl) ? replacedUrl.replace(/\/$/, '') : replacedUrl;
+}
 
 function getFullUrl(req: express.Request): string {
-	return `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-};
+  return `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+}
 
 function getParsedFullUrl(req: express.Request): Url {
-	return URL.parse(getFullUrl(req), true);
-};
+  return URL.parse(getFullUrl(req), true);
+}
 
 function checkProtocol(protocol: string, host: string): string {
-	const REG_IP: RegExp = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
-	const REG_DEV: RegExp = /lanetpro\.lanet\.ua/;
-	const REG_LOCALHOST: RegExp = /localhost:/;
-	return REG_IP.test(host) || REG_DEV.test(host) || REG_LOCALHOST.test(host) ? `${protocol}:`.replace(/:{2,}/g, `:`) : `https:`;
-};
+  const REG_IP: RegExp = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
+  const REG_DEV: RegExp = /lanetpro\.lanet\.ua/;
+  const REG_LOCALHOST: RegExp = /localhost:/;
+  return REG_IP.test(host) || REG_DEV.test(host) || REG_LOCALHOST.test(host) ? `${protocol}:`.replace(/:{2,}/g, `:`) : `https:`;
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -55,21 +55,21 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-  server.get(/.*/, (req: express.Request, res: express.Response, next: Function) => {
+  server.get(/.*/, (req: express.Request, res: express.Response, next: any) => {
 
     const pURL: Url = getParsedFullUrl(req);
     // console.log(pURL);
     if (/\.|assets*/g.test(pURL.pathname)) {
         next();
         return;
-    };
+    }
 
     if (/%/g.test(pURL.path)) {
         // retrieval % on ''
         const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(pURL.protocol, pURL.host)}//${pURL.host}${pURL.path.replace(/%/g, '')}`);
         console.log(`301 Redirect:[retrieval %]: ${REDIRECT_URL}`);
         res.redirect(301, REDIRECT_URL);
-        
+
     } else if (pURL.path !== `/` && !/\/$|\.|\?\w+=/.test(pURL.path)) {
         // stripTrailingSlash
         const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(req.protocol, pURL.host)}//${pURL.host}${pURL.path}`);
@@ -78,30 +78,30 @@ export function app(): express.Express {
 
     } else {
         next();
-    };
+    }
   });
 
-  server.get('*', (req: express.Request, res: express.Response, next: Function) => {
+  server.get('*', (req: express.Request, res: express.Response, next: any) => {
 
     const pURL: Url = getParsedFullUrl(req);
-  
+
     if (!/\?\w+=/.test(pURL.path) && /\.|assets*/g.test(pURL.path)) {
       console.log(`404 Not Found :: ${pURL.path}`);
       res.status(404).send('Not Found');
       return;
     }
     console.log(`Universal engine * ${getFullUrl(req)}`);
-  
+
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-  
+
     res.render(indexHtml, {
       req,
       res,
       providers: [
-        <ValueProvider> { provide: REQUEST, useValue: req },
-        <ValueProvider> { provide: RESPONSE, useValue: res },
-        <ValueProvider> { provide: `REQUEST_MODE`, useValue: `USER-REQUEST` },
-        <ValueProvider> { provide: `REDIRECT_CONFIG`, useValue: null }
+        { provide: REQUEST, useValue: req } as ValueProvider,
+        { provide: RESPONSE, useValue: res } as ValueProvider,
+        { provide: `REQUEST_MODE`, useValue: `USER-REQUEST` } as ValueProvider,
+        { provide: `REDIRECT_CONFIG`, useValue: null } as ValueProvider
       ],
     });
   });
