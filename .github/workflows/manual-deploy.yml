@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  backendDeploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,4 +36,5 @@ jobs:
         key: ${{ secrets.AWS_DEV_SSH_PRIVATE_KEY }}
         script: |
           mv /home/ubuntu/backend*.jar /opt/trip-companion/
+          ls -t1 /opt/trip-companion/backend-* | tail -n +2 | xargs rm
           sudo service trip-companion restart

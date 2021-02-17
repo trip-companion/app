@@ -84,6 +84,7 @@ jobs:
         fail_ci_if_error: true
         file: ./backend/build/reports/jacoco/test/jacocoTestReport.xml
     - name: Deploy to the DEV AWS server
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       uses: wlixcc/SFTP-Deploy-Action@1.1
       with:
         username: ubuntu
@@ -92,6 +93,7 @@ jobs:
         local_path: ./backend/build/libs/backend*.jar
         remote_path: /home/ubuntu
     - name: Restart service on AWS
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.AWS_DEV_SERVER_IP }}
@@ -99,4 +101,5 @@ jobs:
         key: ${{ secrets.AWS_DEV_SSH_PRIVATE_KEY }}
         script: |
           mv /home/ubuntu/backend*.jar /opt/trip-companion/
+          ls -t1 /opt/trip-companion/backend-* | tail -n +2 | xargs rm
           sudo service trip-companion restart
