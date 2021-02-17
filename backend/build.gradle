@@ -8,7 +8,6 @@ plugins {
 }
 
 group 'com.trip.companion'
-version '0.0.1'
 sourceCompatibility = '11'
 
 repositories {
@@ -16,6 +15,7 @@ repositories {
 }
 
 ext {
+    hash = 'git rev-parse --short HEAD'.execute().text.trim()
     jsonWebTokenVersion = '0.9.1'
     lombokVersion = '1.18.16'
     mongockVersion = '4.1.19'
@@ -24,6 +24,8 @@ ext {
     gsonVersion = '2.8.6'
     janinoVersion = '3.0.7'
 }
+
+version = "0.0.1-${hash}"
 
 dependencyManagement {
     imports {
