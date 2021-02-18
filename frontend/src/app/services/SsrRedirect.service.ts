@@ -12,9 +12,9 @@ interface IRenderModuleFactoryRedirect {
 @Injectable()
 export class SsrRedirectService {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
               @Inject(Injector) private injector: Injector,
-              @Optional() @Inject('REQUEST_MODE') protected REQUEST_MODE: string,   // "PRE-RENDER" | "USER-REQUEST"
+              @Optional() @Inject('REQUEST_MODE') protected REQUEST_MODE: string, // "PRE-RENDER" | "USER-REQUEST"
               @Optional() @Inject('REDIRECT_CONFIG') protected REDIRECT_CONFIG: {[key: string]: IRenderModuleFactoryRedirect}|null) {}
 
   public redirectWithStatus(code: number, message: string, url: string): void {

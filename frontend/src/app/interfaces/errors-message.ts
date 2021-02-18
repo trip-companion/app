@@ -3,4 +3,4 @@ export default interface IErrorMessage {
     en: string[];
     ua: string[];
     ru: string[];
-}
+};

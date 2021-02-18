@@ -10,7 +10,7 @@ const initialState: State = {
   loading: false,
 };
 
-export function pageDataReducer(state = initialState, action: Actions.PageDataActions ): State {
+export const pageDataReducer = (state = initialState, action: Actions.PageDataActions): State => {
 
   switch (action.type) {
     case Actions.PAGE_DATA_ACTION.LOAD_PAGE_DATA:
@@ -30,6 +30,6 @@ export function pageDataReducer(state = initialState, action: Actions.PageDataAc
     default:
       return {...state};
   }
-}
+};
 
-export const getPageDataContent = (state: State)  => state.page;
+export const getPageDataContent = (state: State) => state.page;

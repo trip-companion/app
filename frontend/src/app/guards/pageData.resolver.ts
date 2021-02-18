@@ -9,19 +9,17 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { catchError, first, tap, } from 'rxjs/operators';
 
-
 @Injectable()
-export class PageDataResolver implements Resolve<boolean|object> {
+export class PageDataResolver implements Resolve<any> {
   private isBrowser = true;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
-              private router: Router,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,private router: Router,
               private store: Store<AppState>,
-              public sharedService: SharedService, ) {
+              public sharedService: SharedService,) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean|object> {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const lang = route.data.lang;
     const pageName = route.data.page;
     this.store.dispatch(new LoadGlobalEventAction());
@@ -38,11 +36,11 @@ export class PageDataResolver implements Resolve<boolean|object> {
       first((pageData) => {
         if (pageData.page != null) { return true; }
       }),
-      catchError((error: Error)  => this.errorHandler(error, true, lang))
+      catchError((error: Error) => this.errorHandler(error, true, lang))
     );
   }
 
-  private errorHandler(error: Error, isNeedRedirect: boolean, lang: string): Observable<boolean|object> {
+  private errorHandler(error: Error, isNeedRedirect: boolean, lang: string): Observable<any> {
     if (this.isBrowser) {
       console.groupCollapsed(`DataPage.resolve() %cCatchError:  '/${isNeedRedirect ? '<<<' : '>>>'}`, 'color:#FE9336;font-size:13px;');
       console.log(error);

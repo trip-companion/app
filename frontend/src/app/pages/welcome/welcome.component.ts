@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl,  Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SharedService } from '@app/services/shared.service';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,20 +17,19 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   public screenWidthDesc = this.document.documentElement.clientWidth > 767;
   public pageDataContent: Data;
   public minSearchDate: Date;
+  public searchForm = new FormGroup({
+    start: new FormControl('', Validators.compose([Validators.required])),
+    end: new FormControl('', Validators.compose([Validators.required])),
+    destinationValue: new FormControl('', Validators.compose([Validators.required])),
+    formField: new FormControl(1, Validators.compose([Validators.required]))
+  });
   private subsPageData: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
               public sharedService: SharedService,
-              private activeRoute: ActivatedRoute, ) {
-      this.minSearchDate  = new Date();
-    }
-
-  public searchForm = new FormGroup({
-    start: new FormControl('',  Validators.compose([Validators.required])),
-    end: new FormControl('',  Validators.compose([Validators.required])),
-    destinationValue: new FormControl('',  Validators.compose([Validators.required])),
-    formField: new FormControl(1,  Validators.compose([Validators.required]))
-  });
+              private activeRoute: ActivatedRoute,) {
+    this.minSearchDate = new Date();
+  }
 
   get getDestinationInput(): any { return this.searchForm.get('destinationValue'); }
   get getFormField(): any { return this.searchForm.get('formField'); }

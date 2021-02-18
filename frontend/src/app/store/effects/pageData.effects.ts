@@ -13,14 +13,12 @@ export class PageDataEffects {
 
   @Effect() getPageData$ = this.actions$
     .pipe(ofType<LoadPageDataAction>(PAGE_DATA_ACTION.LOAD_PAGE_DATA),
-      switchMap((actions) => {
-        return this.api.getCurrentPageData(actions.pageId, LANGUAGE_MODEL[this.sharedService.language]);
-      }),
+      switchMap((actions) => this.api.getCurrentPageData(actions.pageId, LANGUAGE_MODEL[this.sharedService.language])),
       switchMap(data => [
         new SetPageDataAction(data),
       ]),
-      catchError( error => of(new LoadGlobalEventFailAction(error)))
-     );
+      catchError(error => of(new LoadGlobalEventFailAction(error)))
+    );
 
   constructor(private actions$: Actions,
               private api: ApiService,

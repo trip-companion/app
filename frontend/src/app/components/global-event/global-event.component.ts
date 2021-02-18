@@ -41,8 +41,8 @@ export class GlobalEventComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-        this.subsDataGlobalEvent.unsubscribe();
-    }
+    this.subsDataGlobalEvent.unsubscribe();
+  }
 
   public openSnackBar(message: string, action: string, type: string): void {
     this.snackBar.open(message, action, { duration: 5000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: type});

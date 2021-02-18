@@ -1,4 +1,4 @@
-import {  Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -11,14 +11,13 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private isBrowser: boolean;
-  private tokenSubject: BehaviorSubject<string>;
   public token: Observable<string>;
   private apiUrl: string = environment.apiUrl;
-  public homePath =  this.locationService.extractBasePATH();
+  private isBrowser: boolean;
+  private tokenSubject: BehaviorSubject<string>;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
+    @Inject(PLATFORM_ID) private platformId: any,
     private router: Router,
     private http: HttpClient,
     public locationService: LocationService,
@@ -45,33 +44,11 @@ export class AuthenticationService {
           this.tokenSubject.next(res.jwtAccessToken);
         }
       })
-    );
+      );
   }
 
   public singUp(email: string, firstName: string, lastName: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}public/user`, { email, firstName, lastName, password });
-  }
-
-  public refreshToken(): Observable<boolean> {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
-      .pipe(map(res => {
-        this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-        if (this.isBrowser) { this.tokenSubject.next(res.jwtAccessToken); }
-        return true;
-      }), catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => {
-        return of(false);
-      })
-    );
-  }
-
-  private setLocalStorage(access: string, refresh: string, dateExp: string ): void {
-    if (this.isBrowser) {
-      localStorage.setItem('accessToken', access);
-      localStorage.setItem('refreshToken', refresh);
-      localStorage.setItem('refreshTokenExpDate', dateExp);
-    }
   }
 
   public romeveLocalStore(): void {
@@ -89,4 +66,25 @@ export class AuthenticationService {
     this.romeveLocalStore();
     this.router.navigate([langRout + '/']);
   }
+
+  public refreshToken(): Observable<boolean> {
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
+      .pipe(map(res => {
+        this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+        if (this.isBrowser) { this.tokenSubject.next(res.jwtAccessToken); }
+        return true;
+      }), catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => of(false))
+      );
+  }
+
+  private setLocalStorage(access: string, refresh: string, dateExp: string): void {
+    if (this.isBrowser) {
+      localStorage.setItem('accessToken', access);
+      localStorage.setItem('refreshToken', refresh);
+      localStorage.setItem('refreshTokenExpDate', dateExp);
+    }
+  }
+
 }

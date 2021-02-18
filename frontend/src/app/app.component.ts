@@ -4,6 +4,7 @@ import { filter, pairwise } from 'rxjs/operators';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { LocationService } from './services/location.service';
 import { SharedService } from './services/shared.service';
+import { InjectionToken } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +16,18 @@ export class AppComponent implements OnInit {
   public isBrowser: boolean;
   public isShowContactsComponent = true;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
               public sharedService: SharedService,
               private locationService: LocationService,
               private location: Location,
-              private router: Router, ) {
+              private router: Router,) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     this.router.events
       .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
       .subscribe((events: RoutesRecognized[]) => {
         this.sharedService.updatePrevRout(events[0].urlAfterRedirects);
-    });
+      });
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit {
       const advStr = this.router.url.split('?');
       this.location.replaceState(`${PATH}/?${advStr[1]}`);
     } else {
-      if (!/[^\/]\/$/.test(PATH) ) { this.location.replaceState(`${PATH}/`); }
+      if (!/[^\/]\/$/.test(PATH)) { this.location.replaceState(`${PATH}/`); }
     }
   }
 }

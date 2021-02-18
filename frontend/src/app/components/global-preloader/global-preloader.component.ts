@@ -15,35 +15,25 @@ import { AppState } from '@app/store/app.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation : ViewEncapsulation.None
 })
-export class GlobalPreloaderComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GlobalPreloaderComponent implements OnInit {
 
   public homePath: string;
   public modelLang: string;
   public isMatSelectOpen = false;
-  private isViewInited = false;
   public userActive: boolean;
-  private preloader =  this.document.getElementsByTagName('app-global-preloader')[0] as HTMLElement;
+  private preloader = this.document.getElementsByTagName('app-global-preloader')[0] as HTMLElement;
   private subsGlobalEventStore: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
               private cdRef: ChangeDetectorRef,
               public sharedService: SharedService,
-              private store: Store<AppState>, ) {
+              private store: Store<AppState>,) {
   }
 
   public ngOnInit(): void {
     this.preloader.classList.add('off');
-    this.subsGlobalEventStore = this.store.select('globalEvent').subscribe(({loadingPageContent}) => {
-      loadingPageContent ? this.preloader.classList.remove('off') : this.preloader.classList.add('off');
-    });
+    this.subsGlobalEventStore = this.store.select('globalEvent').subscribe(({loadingPageContent}) =>
+      loadingPageContent ? this.preloader.classList.remove('off') : this.preloader.classList.add('off')
+    );
   }
-
-  public ngAfterViewInit(): void {
-
-  }
-
-  public ngOnDestroy(): void {
-
-  }
-
 }

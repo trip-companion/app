@@ -9,19 +9,19 @@ import { SharedService } from '@app/services/shared.service';
 
 @Injectable()
 export class SetHeaderInterceptor implements HttpInterceptor {
-    constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService) { }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const isApiUrl = request.url.startsWith(environment.apiUrl);
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const isApiUrl = request.url.startsWith(environment.apiUrl);
 
-        if (isApiUrl) {
-            request = request.clone({
-                setHeaders: {
-                    Language: LANGUAGE_MODEL[this.sharedService.language]
-                }
-            });
+    if (isApiUrl) {
+      request = request.clone({
+        setHeaders: {
+          Language: LANGUAGE_MODEL[this.sharedService.language]
         }
-
-        return next.handle(request);
+      });
     }
+
+    return next.handle(request);
+  }
 }

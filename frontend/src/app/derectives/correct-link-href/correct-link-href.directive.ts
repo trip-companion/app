@@ -8,7 +8,7 @@ export class CorrectLinkHrefDirective implements AfterViewChecked {
   public isBrowser: boolean;
 
   constructor(@Inject(ElementRef) private element: ElementRef,
-              @Inject(PLATFORM_ID) private platformId: object) {
+              @Inject(PLATFORM_ID) private platformId: any) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 

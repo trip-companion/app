@@ -10,7 +10,7 @@ const initialState: State = {
   error: undefined,
 };
 
-export function globalEventReducer(state = initialState, action: GlobalEventActions.GlobalEventActions): State {
+export const globalEventReducer = (state = initialState, action: GlobalEventActions.GlobalEventActions): State => {
   switch (action.type) {
     case GlobalEventActions.GLOBAL_EVENT_ACTION.EVENT_ACTION:
       return {
@@ -34,4 +34,4 @@ export function globalEventReducer(state = initialState, action: GlobalEventActi
     default:
       return {...state};
   }
-}
+};
