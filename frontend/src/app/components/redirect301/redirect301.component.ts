@@ -7,12 +7,12 @@ import { LocationService } from '../../services/location.service';
 
 @Component({
   selector: 'app-redirect-301',
-  styles: [``],
-  template: ``
+  styles: [''],
+  template: ''
 })
 export class Redirect301Component {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
               private router: Router,
               private ssrRedirectService: SsrRedirectService,
               private locationService: LocationService) {

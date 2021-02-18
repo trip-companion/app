@@ -28,10 +28,11 @@ export class LocationService {
   public joinWithLangRoutePath(url: string): string {
     return this.normalizePATH(`${this.getLangPATH()}${url}`);
   }
-// ////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////
 
   /**
    * Lang PATH
+   *
    * @returns {string} `/` | `/ru/` | `/ua/`
    * @memberof LocationService
    */
@@ -42,6 +43,7 @@ export class LocationService {
   /**
    * After Lang PATH
    *  USED: [ DynamicLinksDirective ]
+   *
    * @returns {string}
    * @memberof LocationService
    */
@@ -57,6 +59,7 @@ export class LocationService {
   /**
    * GET after Lang PATH with trailing slash
    * USED: [ PageResolver ]
+   *
    * @param {string} url
    * @returns {string}
    * @memberof LocationService
@@ -72,6 +75,7 @@ export class LocationService {
 
   /**
    *  USED: [ goHome() && Redirect301Component() ]
+   *
    * @returns {string} `/` | `/ru/` | `/ua/`
    * @memberof LocationService
    */
@@ -81,6 +85,7 @@ export class LocationService {
 
   /**
    * Extracts parent URL
+   *
    * @param step number
    *  1: first parent
    *  2: second parent
@@ -94,6 +99,7 @@ export class LocationService {
   /**
    * Get Alternative Lang Url
    * FROM: [ header, sidenav ]
+   *
    * @param {string} alternateRoute from LocalizationService
    * @returns {string}
    * @memberof LocationService
@@ -102,7 +108,7 @@ export class LocationService {
     return this.normalizePATH(`${alternateRoute}${this.getAfterLangPATH()}`);
   }
 
-// //////////////////////////////////////////////////////////////////////// PRIVATE METHODS
+  // //////////////////////////////////////////////////////////////////////// PRIVATE METHODS
   private get SEGMENTS(): string[] {
     return this.PATH.replace(/^\/|\/$/g, '').split(`/`);
   }

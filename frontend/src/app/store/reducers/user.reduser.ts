@@ -11,7 +11,7 @@ const initialState: State = {
   loading: false,
 };
 
-export function userReducer(state = initialState, action: UserActions.UserActions ): State {
+export const userReducer = (state = initialState, action: UserActions.UserActions): State => {
 
   switch (action.type) {
     case UserActions.USER_ACTION.LOAD_USER_ACTION:
@@ -31,4 +31,4 @@ export function userReducer(state = initialState, action: UserActions.UserAction
     default:
       return {...state};
   }
-}
+};

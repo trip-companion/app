@@ -15,13 +15,12 @@ const MATHING_CONTETNT_LANG: {[key: string]: string} = {
 export class SharedService {
   public languages: string[] = [`en`, `ru`, `ua`];
   public language = 'en';											// en|ru|ua
-  private isBrowser: boolean;
   public globalPrevRout: string;
+  public globalEventSubject = new Subject<{message: string; type: string}>();
+  public $globalEventSubject = this.globalEventSubject.asObservable();
+  private isBrowser: boolean;
 
-  private globalEventSubject = new Subject<{message: string, type: string}>();
-  $globalEventSubject = this.globalEventSubject.asObservable();
-
-  constructor(@Inject(PLATFORM_ID) private platformId: object,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
               @Inject(DOCUMENT) private document: Document,
               public router: Router) {
     this.isBrowser = isPlatformBrowser(platformId);

@@ -17,10 +17,10 @@ export class LoginComponent implements OnInit {
   public submitted = false;
   public returnUrl: string;
   public error = '';
-  public homePath =  this.locationService.extractBasePATH();
+  public homePath = this.locationService.extractBasePATH();
 
   public loginForm = new FormGroup({
-    loginInput: new FormControl('testUser@gmail.com',  Validators.compose([Validators.email, Validators.required])),
+    loginInput: new FormControl('testUser@gmail.com', Validators.compose([Validators.email, Validators.required])),
     passwordInput: new FormControl('12345678', Validators.required),
   });
 
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || this.homePath;
   }
 
+
   get getLoginFormControls(): {[key: string]: any} | null { return this.loginForm.controls; }
 
   public onSubmitLogin(event: Event): any {
@@ -48,13 +49,13 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.login(this.getLoginFormControls.loginInput.value, this.getLoginFormControls.passwordInput.value)
       .subscribe(() => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.error = error.statusText;
-          this.loading = false;
-          this.cdr.detectChanges();
-        });
+        this.router.navigate([this.returnUrl]);
+      },
+      error => {
+        this.error = error.statusText;
+        this.loading = false;
+        this.cdr.detectChanges();
+      });
   }
 
 }

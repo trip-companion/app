@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 export enum GLOBAL_EVENT_ACTION {
     EVENT_SUCCESS = 'EVENT_SUCCESS',
     EVENT_FAIL = 'EVENT_FAIL',
-    EVENT_ACTION  = 'EVENT_ACTION',
+    EVENT_ACTION = 'EVENT_ACTION',
 }
 // use effect ngrx
 export class LoadGlobalEventAction implements Action {

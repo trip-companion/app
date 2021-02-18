@@ -11,9 +11,9 @@ export interface AppState {
 }
 
 export const reducers: ActionReducerMap<AppState, any> = {
-    userInfo: User.userReducer,
-    globalEvent: GlobalEvent.globalEventReducer,
-    pageData: PageData.pageDataReducer,
+  userInfo: User.userReducer,
+  globalEvent: GlobalEvent.globalEventReducer,
+  pageData: PageData.pageDataReducer,
 };
 
 export const getPageDataState = createFeatureSelector<PageData.State>('pageData');

@@ -4,7 +4,7 @@ import { RegisterComponent } from './register.component';
 
 const routes: Routes = [
   { path: '', component: RegisterComponent },
-  { path: '**',   canLoad: [false] }
+  { path: '**', canLoad: [false] }
 ];
 
 @NgModule({

@@ -22,7 +22,7 @@ export class PageResolver implements Resolve<string|null> {
               private locationService: LocationService,
               private ssrRedirectService: SsrRedirectService,
               private resolverService: ResolverService,
-              private stateService: StateService, ) {
+              private stateService: StateService,) {
     this.pushRoute(ROUTER_CONFIG);
   }
 
@@ -77,8 +77,8 @@ export class PageResolver implements Resolve<string|null> {
   }
 
   private pushRoute(config: IRouteConfig[]): void {
-    config.forEach((c: IRouteConfig) => {
-      !!c.coreUrl ? this.pushRoute(c.childConfig) : this.ROUTERS.push(this.locationService.normalizePATH(c.url));
-    });
+    config.forEach((c: IRouteConfig) =>
+      !!c.coreUrl ? this.pushRoute(c.childConfig) : this.ROUTERS.push(this.locationService.normalizePATH(c.url))
+    );
   }
 }

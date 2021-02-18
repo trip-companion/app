@@ -24,11 +24,11 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public mainLinkConfig: IRouteConfig[] = [];
   public homePath: string;
   public modelLang: string;
-  public isMatSelectOpen = false;
-  private isViewInited = false;
   public userActive: boolean;
   public logoutName: string;
 
+  public isMatSelectOpen = false;
+  private isViewInited = false;
   private subsRouter: Subscription = new Subscription();
   private subsChangeRouterData: Subscription = new Subscription();
   private subsLoginStatus: Subscription = new Subscription();
@@ -39,9 +39,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
               public locationService: LocationService,
               private stateService: StateService,
               private cdRef: ChangeDetectorRef,
-              public sharedService: SharedService, ) {
-      this.linkConfigFilter(ROUTER_CONFIG, ACCOUNT_LINK_LIST);
-      this.logoutName = LOGOUT_NAME[this.sharedService.language];
+              public sharedService: SharedService,) {
+    this.linkConfigFilter(ROUTER_CONFIG, ACCOUNT_LINK_LIST);
+    this.logoutName = LOGOUT_NAME[this.sharedService.language];
   }
 
   public ngOnInit(): void {
@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     event.preventDefault();
   }
 
-  public logout(): void  {
+  public logout(): void {
     this.authSvc.logout();
   }
 
