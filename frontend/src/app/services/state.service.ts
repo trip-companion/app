@@ -18,14 +18,13 @@ export class StateService {
   // Device Info
   public deviceInfo: IDeviceInfo = {} as IDeviceInfo;
   public scrollableElement: Element|HTMLElement = null;
-
-  public currentYear: number;
-  private routerDataVaribale: Data = null;
-
-  private updateRouterDataMessage = new BehaviorSubject<Data>(null);
-  public updateRouterData$ = this.updateRouterDataMessage.asObservable();
   public queryParams: Params = {};
+  public currentYear: number;
 
+  public updateRouterDataMessage = new BehaviorSubject<Data>(null);
+  public updateRouterData$ = this.updateRouterDataMessage.asObservable();
+
+  private routerDataVaribale: Data = null;
   // public isToggleSidebar:BehaviorSubject<boolean> = new BehaviorSubject(false);
   // public toggleSidebarObservable = this.isToggleSidebar.asObservable()
   // public isToggleClassForHeader:BehaviorSubject<boolean> = new BehaviorSubject(false);

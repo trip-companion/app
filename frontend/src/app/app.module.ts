@@ -14,7 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 // services
 import { SharedService } from './services/shared.service';
 import { LocationService } from './services/location.service';
-import { SsrRedirectService } from './services/SsrRedirect.service';
+import { SsrRedirectService } from '@app/services/SsrRedirect.service';
 import { StateService } from './services/state.service';
 // global  module
 import { GlobalPreloaderModule } from './components/global-preloader/global-preloader.module';
@@ -34,6 +34,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
 import { ErrorInterceptor } from '@app/helpers/error.interceptor';
 import { SetHeaderInterceptor } from '@app/helpers/header.inerceptor';
+import { InjectionToken } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -76,16 +77,16 @@ export class AppModule {
   ];
 
   constructor(@Inject(DOCUMENT) private document: Document,
-              @Inject(PLATFORM_ID) private platformId: object,
+              @Inject(PLATFORM_ID) private platformId: any,
               @Inject(APP_ID) private appId: string,
-              public SS: StateService,
-              private DDS: DeviceDetectorService,
-              private authService: AuthenticationService, ) {
+              public ss: StateService,
+              private dds: DeviceDetectorService,
+              private authService: AuthenticationService,) {
     const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
     console.log(`Running ${platform} with appId=${appId}`);
 
-    this.SS.isBrowser = isPlatformBrowser(platformId);
-    this.SS.appId = appId;
+    this.ss.isBrowser = isPlatformBrowser(platformId);
+    this.ss.appId = appId;
 
     if (isPlatformBrowser(platformId)) {
       this.detectDevice();
@@ -102,8 +103,8 @@ export class AppModule {
     if (preload) {
       L.setAttribute(`rel`, `preload`);
       L.setAttribute(`as`, `style`);
-      L.addEventListener(`load`, (e: Event) => {
-        e.target[`setAttribute`](`rel`, `stylesheet`);
+      L.addEventListener(`load`, (e: any) => {
+        L.setAttribute(`rel`, `stylesheet`);
       });
     } else {
       L.setAttribute(`rel`, `stylesheet`);
@@ -113,13 +114,16 @@ export class AppModule {
   }
 
   private detectDevice(): void {
-    this.SS.deviceInfo.device = this.DDS.isDesktop() ? `desktop` : this.DDS.isTablet() ? `tablet` : this.DDS.isMobile() ? `mobile` : `unknow`;
-    this.SS.deviceInfo.browser = this.DDS.browser.toLowerCase();
-    this.SS.deviceInfo.isXiaomiBrowser = /XiaoMi|MiuiBrowser/.test(this.DDS.userAgent);
-    this.SS.deviceInfo.browserVersion = parseInt(this.DDS.browser_version.split(`.`)[0], 0);
-    if (this.SS.isBrowser) {
+    this.ss.deviceInfo.device = this.dds.isDesktop()
+      ? `desktop` : this.dds.isTablet()
+        ? `tablet` : this.dds.isMobile()
+          ? `mobile` : `unknow`;
+    this.ss.deviceInfo.browser = this.dds.browser.toLowerCase();
+    this.ss.deviceInfo.isXiaomiBrowser = /XiaoMi|MiuiBrowser/.test(this.dds.userAgent);
+    this.ss.deviceInfo.browserVersion = parseInt(this.dds.browser_version.split(`.`)[0], 2);
+    if (this.ss.isBrowser) {
       console.groupCollapsed(`%c DeviceInfo`, 'color:grey;font-size:12px;');
-      console.log(this.SS.deviceInfo);
+      console.log(this.ss.deviceInfo);
       console.groupEnd();
     }
   }

@@ -17,7 +17,7 @@ export class ApiService {
     return this.http.get<IUserModel>(`${this.apiUrl}user/current/`, {});
   }
 
-  public getCurrentPageData(pageId: string, language: string): Observable<any>  {
+  public getCurrentPageData(pageId: string, language: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}public/page/${pageId}/${language}`, {});
   }
 }

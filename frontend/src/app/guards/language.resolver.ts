@@ -6,7 +6,7 @@ import { SharedService } from '../services/shared.service';
 import { StateService } from '../services/state.service';
 
 @Injectable()
-export class LanguageResolver implements Resolve<boolean>  {
+export class LanguageResolver implements Resolve<boolean> {
   constructor(private stateService: StateService,
               private sharedService: SharedService) {}
 

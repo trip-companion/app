@@ -4,4 +4,4 @@ export default interface IUserModel {
     lastName: string | null;
     permissions?: string;
     language?: string;
-}
+};

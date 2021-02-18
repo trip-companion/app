@@ -4,7 +4,7 @@ import { Subscription} from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
-import { GetUserAction  } from '@app/store/actions/user.action';
+import { GetUserAction } from '@app/store/actions/user.action';
 import { LoadGlobalEventAction } from '@app/store/actions/globalEvent.action';
 
 import IUserModel from '@app/interfaces/store.models/user.model';
@@ -15,8 +15,8 @@ import IUserModel from '@app/interfaces/store.models/user.model';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit, OnDestroy {
-  private subsUserStore: Subscription = new Subscription();
   public user: IUserModel = null;
+  private subsUserStore: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
               private cdRef: ChangeDetectorRef,

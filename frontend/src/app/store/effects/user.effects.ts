@@ -11,16 +11,14 @@ export class UserEffects {
 
   @Effect() getUser$ = this.actions$
     .pipe(ofType<GetUserAction>(USER_ACTION.LOAD_USER_ACTION),
-      switchMap(() => {
-        return this.api.getCurrentUser();
-      }),
+      switchMap(() => this.api.getCurrentUser()),
       switchMap(user => [
         new LoadGlobalEventSuccessAction(),
         new UserLoadAction(user)
       ]),
-      catchError( error => of(new LoadGlobalEventFailAction(error)))
-     );
+      catchError(error => of(new LoadGlobalEventFailAction(error)))
+    );
 
   constructor(private actions$: Actions,
-              private api: ApiService, ) {}
+              private api: ApiService,) {}
 }

@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   public error = '';
   public registerForm: FormGroup;
   public inputErrors: string[];
-  public homePath =  this.locationService.extractBasePATH();
+  public homePath = this.locationService.extractBasePATH();
   public successMessage: ILocalizationText = {
     ru: 'Регистрация успешна, залогиньтесь.',
     ua: 'Реєстрація успішна, залогіньтесь.',
@@ -53,17 +53,15 @@ export class RegisterComponent implements OnInit {
 
   public ngOnInit(): void {
     this.activeRoute.data.subscribe(data => {
-      this.inputErrors = FORM_VALIDATORS.find(obj => {
-        return data.page === obj.url;
-      })[data.lang];
+      this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
     });
     this.returnUrl = this.sharedService.globalPrevRout || this.homePath;
   }
 
-  public checkPasswords(registerForm: FormGroup): object | null { // here we have the 'passwords' group
-      const firstpassword = registerForm.get('passwordFirstInput').value;
-      const confirmPassword = registerForm.get('passwordSecondInput').value;
-      return firstpassword === confirmPassword ? null : { notSamePassword: true };
+  public checkPasswords(registerForm: FormGroup): any | null { // here we have the 'passwords' group
+    const firstpassword = registerForm.get('passwordFirstInput').value;
+    const confirmPassword = registerForm.get('passwordSecondInput').value;
+    return firstpassword === confirmPassword ? null : { notSamePassword: true };
   }
 
   get getReginsterFormControls(): {[key: string]: any} | null {return this.registerForm.controls; }
@@ -73,10 +71,10 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) { return; }
     this.loading = true;
     this.authenticationService.singUp(
-        this.getReginsterFormControls.emailInput.value,
-        this.getReginsterFormControls.firstNameInput.value,
-        this.getReginsterFormControls.lastNameInput.value,
-        this.getReginsterFormControls.passwordFirstInput.value)
+      this.getReginsterFormControls.emailInput.value,
+      this.getReginsterFormControls.firstNameInput.value,
+      this.getReginsterFormControls.lastNameInput.value,
+      this.getReginsterFormControls.passwordFirstInput.value)
       .subscribe(() => {
         this.sharedService.setGlobalEventData(this.successMessage[this.sharedService.language], 'success-window');
         this.router.navigate([this.homePath + 'login/']);
@@ -85,6 +83,6 @@ export class RegisterComponent implements OnInit {
         this.error = error.statusText;
         this.loading = false;
         this.cdr.detectChanges();
-    });
+      });
   }
 }

@@ -8,6 +8,6 @@ import { Component, Inject } from '@angular/core';
 })
 export class FaqComponent {
 
-  constructor(@Inject(DOCUMENT) private document: Document, ) { }
+  constructor(@Inject(DOCUMENT) private document: Document,) { }
 
 }

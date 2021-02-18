@@ -35,9 +35,9 @@ const PAGES_ROUTES: Routes = [
 ];
 
 export const ROUTES: Routes = [
-  { path: 'ua',       resolve: {langResolved: LanguageResolver}, data: {lang: 'ua'}, children: PAGES_ROUTES},
-  { path: 'ru',       resolve: {langResolved: LanguageResolver}, data: {lang: 'ru'}, children: PAGES_ROUTES},
-  { path: '',         resolve: {langResolved: LanguageResolver}, data: {lang: 'en'}, children: PAGES_ROUTES},
+  { path: 'ua', resolve: {langResolved: LanguageResolver}, data: {lang: 'ua'}, children: PAGES_ROUTES},
+  { path: 'ru', resolve: {langResolved: LanguageResolver}, data: {lang: 'ru'}, children: PAGES_ROUTES},
+  { path: '', resolve: {langResolved: LanguageResolver}, data: {lang: 'en'}, children: PAGES_ROUTES},
 ];
 
 @NgModule({
