@@ -24,6 +24,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public cardHeader = '/assets/images/account/account_card_head.jpg';
   public cardUser = '/assets/images/account/avatar-exemple.png';
   public mainForm: FormGroup;
+  public passwordForm: FormGroup;
   public inputErrors: string[];
   private subsUserStore: Subscription = new Subscription();
 
@@ -33,10 +34,14 @@ export class AccountComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     public sharedService: SharedService,
     private store: Store<AppState>) {
+
     this.mainForm = this.fb.group({
       emailInput: new FormControl('', Validators.compose([Validators.email])),
       firstNameInput: new FormControl('', Validators.required),
       lastNameInput: new FormControl('', Validators.required),
+    });
+
+    this.passwordForm = this.fb.group({
       passwordFirstInput: new FormControl(''),
       passwordSecondInput: new FormControl(''),
     }, {validators: this.checkPasswords});

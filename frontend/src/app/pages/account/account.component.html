@@ -53,7 +53,35 @@
 					</mat-form-field>
 				</p>
 
+				<!-- <p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput 
+						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+				</p>
+
 				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput
+						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+        </p> -->
+        
+      </div>
+      <button mat-raised-button
+        color="accent"
+        (click)="onSubmitEditMainData($event)"
+        [disabled]="mainForm.invalid"
+        class="main-profile_submit">
+        Accent main
+      </button>
+
+
+      <div [formGroup]="passwordForm" class="main-profile_params">
+
+        <p>
 					<mat-form-field class="example-full-width">
 						<input type="password" matInput 
 						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
@@ -68,15 +96,9 @@
 						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
         </p>
-        
+
       </div>
-      <button mat-raised-button
-        color="accent"
-        (click)="onSubmitEditMainData($event)"
-        [disabled]="mainForm.invalid"
-        class="main-profile_submit">
-        Accent main
-      </button>
+
     </div>
 
     <div class="main-about">
