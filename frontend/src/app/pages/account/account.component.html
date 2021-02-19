@@ -1,5 +1,90 @@
 <!-- <app-account> -->
 
-  <h1>In Account page</h1>
+  <section class="card">
+    <div class="user-profile-images">
+      <img [src]="cardHeader" class="user-header_img" alt="User Timeline Image">
+      <div class="user-face_img">
+        <img [src]="cardUser" class="avatar" alt="User Profile Image">
+        <input type="file"
+          #fileInput
+          id="uploadFile"
+          (change)="uploadAvatar($event)"
+          name="uploadFile"
+          multiple="multiple"
+          accept="image/*" 
+        />
+      </div>
+    </div>
+    <div class="user-profile-text">
+      <h4 class="title">Ivan Ivanov</h4>
+      <span class="discription">norm pacan</span>
+    </div>
+    <div class="card-content">
+      <div class="card-content_buttons">
+        <button mat-raised-button color="accent">Accent</button>
+        <button mat-raised-button color="warn">Edit</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="main">
+
+    <div class="main-profile">
+      <h3 class="main-profile_title">Main info</h3>
+
+      <div [formGroup]="mainForm" class="main-profile_params">
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" required matInput placeholder="Email" autocomplete="off" formControlName="emailInput">
+						<mat-error *ngIf="true">{{inputErrors[0]}}</mat-error>
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" required matInput placeholder="First name" autocomplete="off" formControlName="firstNameInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="text" required matInput placeholder="Last name" autocomplete="off" formControlName="lastNameInput">
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput 
+						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+				</p>
+
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" matInput
+						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+        </p>
+        
+      </div>
+      <button mat-raised-button
+        color="accent"
+        (click)="onSubmitEditMainData($event)"
+        [disabled]="mainForm.invalid"
+        class="main-profile_submit">
+        Accent main
+      </button>
+    </div>
+
+    <div class="main-about">
+      <h3 class="main-profile_title">About me</h3>
+
+      <button mat-raised-button color="accent" class="main-profile_submit">Accent about</button>
+    </div>
+
+  </section>
   
 <!-- </app-account> -->

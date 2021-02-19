@@ -1,27 +1,151 @@
+@import '../../../styles/typography';
+
 :host {
     display: flex;
-    background: url('/assets/images/app-root-bg.jpg') center no-repeat;
+    background: $account-bg;
     width: 100%;
-    background-size: 100%;
-    height: 100vh;
+    height: 100%;
     flex-direction: column;
-    align-items: center;
+    padding: 0px 0px;
 
-    @media screen and (max-width: 1199px) {
-        background-size: 150%
-    }
+    .card {
+        position: relative;
+        margin-top: 58px;
+        height: 520px;
+        box-shadow: $boxShadow-container;
+        border-radius: 10px;
 
-    @media screen and (max-width: 850px) {
-        background-size: cover;
-    }
+       .user-profile-images {
+           position: relative;
+           height: 420px;
+           .user-header_img {
+               height: 420px;
+               width: 100%;
+           }
+           .user-face_img {
+                height: 140px;
+                width: 140px;
+                position: relative;
+                top: -70px;
+                left: 30px;
+                box-shadow: $boxShadow-card;
+                border-radius: 5px;
+                z-index: 11;
+                overflow: hidden;
+                background: white;
+                .avatar {
+                    height: 140px;
+                    width: 140px;
+                }
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 140px;
+                    width: 140px;
+                    content: '';
+                    opacity: 0;
+                    background-image: url("/assets/images/account/avatar-hover.png"), linear-gradient(to bottom, rgba(72,76,97,0) 0%, rgba(72,76,97,0.8) 0%);
+                    background-size: cover;
+                    transform: translate3d(0,50%,0);
+                    transition: all 0.5s;
+                }
+                #uploadFile {
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;    
+                    z-index: 9;
+                    opacity: 0;
+                    height: 100%;
+                    cursor: pointer;
+                    position: absolute;
+                };
+           }
 
-    @media screen and (max-height: 520px) {
-        height: 550px;
-    }
-}
+           .user-face_img:hover {
+                cursor: pointer;
+                &::before {
+                    opacity: 1;
+                    transform: translate3d(0,0,0);
+                }
+            }
+       };
+       .user-profile-text {
+            height: 0px;
+            position: relative;
+            top: -230px;
+            margin-left: 250px;
+            .title {
+                color: $color-white;
+                @include card_title;
+            }
+            .discription {
+                color: $color-white;
+                @include card_subtitle;
+            }
+       }
 
-h1 {
-    color: red;
-    padding-top:  35vh;
-    font-size: 40px;
+       .card-content {
+           display: flex;
+           position: relative;
+           height: 100px;
+           padding-left: 200px;
+           align-items: center;
+           &_buttons  {
+               width: 150px;
+               display: flex;
+               justify-content: space-between;
+           }
+       };
+    };
+
+    .main {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        // min-height: 500px;
+        margin: 30px 20px 40px 20px;
+        grid-gap:  0px 30px;
+        
+        &-profile, &-about {
+            box-shadow: 5px 1px 50px 5px rgba(25,42,70,.11);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            &_title {
+                flex-grow: 1;
+                color: $title-color;
+                @include card_title;
+            }
+
+            &_params  {
+                align-self: center;
+                flex-grow: 2;
+
+                .helper-password {
+                    color: transparent;
+                    &.error {
+                        color: $color-error;
+                    }
+                }
+            }
+
+            &_submit {
+                align-self: center;
+            }
+        }
+   };
+
+    // @media screen and (max-width: 1199px) {
+    //     background-size: 150%
+    // }
+
+    // @media screen and (max-width: 850px) {
+    //     background-size: cover;
+    // }
+
+    // @media screen and (max-height: 520px) {
+    //     height: 550px;
+    // }
 }
