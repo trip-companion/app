@@ -26,7 +26,7 @@ import static org.springframework.http.HttpMethod.PUT;
 
 @Component
 @Profile("dev")
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class DevCorsFilter extends OncePerRequestFilter {
 
     private static final String MAX_AGE = "3600";
