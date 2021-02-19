@@ -19,6 +19,8 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
+    private String avatarId;
+
     private String password;
     private String jwtRefreshToken;
     private Date jwtRefreshTokenExpireDate;
