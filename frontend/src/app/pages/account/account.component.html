@@ -1,5 +1,353 @@
 <!-- <app-account> -->
 
-  <h1>In Account page</h1>
-  
+  <section class="card">
+    <div class="user-profile-images">
+      <img [src]="cardHeader" class="user-header_img" alt="User Timeline Image">
+      <div class="user-face_img" *ngIf="user">
+        <img [src]="cardUser" class="avatar" alt="User Profile Image">
+        <input type="file"
+          #fileInput
+          id="uploadFile"
+          (change)="uploadAvatar($event)"
+          name="uploadFile"
+          multiple="multiple"
+          accept="image/*" 
+        />
+      </div>
+    </div>
+    <div class="user-profile-text">
+      <h4 class="title" *ngIf="user">{{user.firstName + ' ' + user.lastName}}</h4>
+      <span class="discription">norm pacan</span>
+    </div>
+    <div class="card-content">
+      <div class="card-content_buttons">
+        <button mat-raised-button color="accent">Chat</button>
+        <button mat-raised-button color="accent">My post</button>
+        <button mat-raised-button color="accent">Feedback</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="main">
+
+    <div class="main-profile">
+      <h3 class="main-profile_title">Contact info</h3>
+
+				<p class="main-profile_params">
+					<mat-form-field class="example-full-width">
+            <input type="text" 
+              required matInput 
+              placeholder="Email" 
+              autocomplete="off" 
+              #emailInput
+              [formControl]="emailForm"
+            >
+						<mat-error *ngIf="true">{{inputErrors[0]}}</mat-error>
+					</mat-form-field>
+				</p>
+
+      <button mat-raised-button
+        color="primary"
+        (click)="onSubmitEditEmail($event)"
+        [disabled]="emailForm.invalid"
+        class="main-profile_submit">
+        Edit email
+      </button>
+
+      <div [formGroup]="passwordForm" class="main-profile_password">
+        <p>
+					<mat-form-field class="example-full-width">
+						<input type="password" required matInput 
+						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+				</p>
+				<p>
+					<mat-form-field class="example-full-width">
+						<input type="password" required matInput
+						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
+					</mat-form-field>
+        </p>
+      </div>
+      <button mat-raised-button
+        color="primary"
+        (click)="onSubmitChangePassword($event)"
+        [disabled]="passwordForm.invalid"
+        class="password_submit">
+        Change password
+      </button>
+    </div>
+
+    <div class="main-about" *ngIf="userAbout">
+      <h3 class="main-profile_title">About me</h3>
+      <div class="main-about-container">
+
+        <div class="container-form" [formGroup]="mainForm">
+
+          <p class="form-firstname">
+            <mat-form-field class="example-full-width">
+              <input type="text" formControlName="firstNameInput"
+              required matInput placeholder="First name" autocomplete="off" >
+            </mat-form-field>
+          </p>
+    
+          <p class="form-lastname">
+            <mat-form-field class="example-full-width">
+              <input type="text" formControlName="lastNameInput"
+              required matInput placeholder="Last name" autocomplete="off" >
+            </mat-form-field>
+          </p>
+
+          <div class="user-status">
+            <label id="user-status-label">Pick your status</label>
+            <mat-radio-group
+              required
+              aria-labelledby="user-status-label"
+              class="example-radio-group"
+              formControlName="userStatusRadio"
+            >
+              <mat-radio-button class="example-radio-button" *ngFor="let status of userStatuses" [value]="status">
+                {{status}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="user-personal">
+            <div class="user-birth">
+              <mat-form-field appearance="fill">
+                <mat-label>Date of birth</mat-label>
+                <input readonly matInput
+                  [max]="minSearchDate"
+                  [matDatepicker]="dateOfBirthPiker"
+                  formControlName="dateOfBirthInput"
+                >
+                <mat-datepicker-toggle matSuffix [for]="dateOfBirthPiker"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfBirthPiker startView="year" [startAt]="startDate"></mat-datepicker>
+              </mat-form-field>
+              <span class="user-old">{{mainForm.controls.dateOfBirthInput.value | userYearsOld}}</span>
+            </div>
+
+            <div class="user-gender">
+              <label id="user-gender-label">Gender</label>
+              <mat-radio-group 
+              aria-label="user-gender"
+              formControlName="userGenderRadio"
+              class="gender-radio-group"
+              >
+                <mat-radio-button
+                  *ngFor="let gender of userGender"
+                  class="gender-radio-button"
+                  [value]='gender'>
+                  {{gender}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div class="description">
+            <mat-form-field class="example-full-width">
+              <mat-label>Description</mat-label>
+              <textarea
+                formControlName="descriptionTextarea"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="10" 
+                matInput placeholder="About me">
+                {{user.about}}
+              </textarea>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="languages">
+          <h4 class="languages-title">Languages</h4>
+
+          <div class="languages-new">
+
+            <button mat-mini-fab
+              color="accent"
+              class="languages-new_btn"
+              [disabled]="!languageForm.valid"
+              aria-label="Example icon button with a plus one icon"
+              (click)="addNewUserLanguage($event)">
+              <mat-icon>plus_one</mat-icon>
+            </button>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Languages</mat-label>
+              <input type="text"
+                    aria-label="languages"
+                    matInput
+                    #languageInput
+                    [formControl]="languageForm"
+                    [matAutocomplete]="languageAuto">
+              <mat-autocomplete #languageAuto="matAutocomplete">
+                <mat-option *ngFor="let lang of availableLanguagesForUser" [value]="lang.displayName">
+                  {{lang.displayName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="lvl-radio-group"
+              [(ngModel)]="choicesLvlOfLang">
+              <mat-radio-button 
+                class="example-radio-button" 
+                *ngFor="let lvl of lvlOfKnowledgeLanguage"
+                [value]="lvl">
+                  {{lvl}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="languages-list">
+            <mat-list role="list">
+              <mat-list-item role="listitem" 
+                *ngFor="let lang of userLanguageKnowledge;let j = index">
+                {{lang.isoCode | userLanguagesNameByIso: availableLanguages}}: {{lang.level | userLangLvl:sharedService.language}}
+                <button mat-mini-fab
+                color="warn"
+                (click)="deleteCurrentLang(j, lang.isoCode)"
+                aria-label="Example icon button with a filter list icon"
+                class="delete-item">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="interest">
+          <mat-form-field class="example-chip-list">
+            <mat-label>My interests</mat-label>
+            <mat-chip-list #chipListOfInterests aria-label="Interest selection">
+              <mat-chip
+                *ngFor="let interest of userInterestsChoices"
+                [selectable]="true"
+                [removable]="true"
+                color="accent"
+                (removed)="removeInterest(interest)">
+                {{interest | userInterestsNameById:availableInterests}}
+                <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+              </mat-chip>
+              <input
+                placeholder="New Interest..."
+                #interestInput
+                [formControl]="interestsForm"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipListOfInterests"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedInterest($event)">
+              <mat-option *ngFor="let interest of availableInterestsForUser" [value]="interest.displayName">
+                {{interest.displayName}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="skills">
+          <h4 class="skills-title">My skills</h4>
+          <div class="skills-new">
+
+              <button mat-mini-fab
+                color="accent"
+                class="skills-new_btn"
+                [disabled]="skillsForm.invalid"
+                aria-label="Example icon button with a plus one icon"
+                (click)="addNewUserSkill($event)">
+                <mat-icon>plus_one</mat-icon>
+              </button>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Choose skills</mat-label>
+                <input type="text"
+                      aria-label="skills"
+                      matInput
+                      #skillInput
+                      [formControl]="skillsForm"
+                      [matAutocomplete]="skillsAuto">
+                <mat-autocomplete #skillsAuto="matAutocomplete">
+                  <mat-option *ngFor="let skill of availableSkillsForUser" [value]="skill.displayName">
+                    {{skill.displayName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+    
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="lvl-radio-group"
+                [(ngModel)]="choicesLvlOfSkill">
+                <mat-radio-button 
+                  class="example-radio-button" 
+                  *ngFor="let lvl of lvlOfKnowledgeSkill;let i = index"
+                  [value]="lvl">
+                    {{lvl}}
+                </mat-radio-button>
+              </mat-radio-group>
+
+          </div>
+
+          <div class="skills-list">
+            <ng-container *ngFor="let skillCategory of userSkillsKnowladgeList;let categoryIndex = index">
+              <div class="skills-list_category" *ngIf="skillCategory.list.length > 0">
+                <span class="category-title">{{skillCategory.name + ' :'}}</span>
+                <mat-list role="list" class="list-item">
+                  <mat-list-item role="listitem" *ngFor="let skill of skillCategory.list;let j = index">
+                    {{skill.displayName}}
+                    <button mat-mini-fab
+                    color="warn"
+                    (click)="deleteCurrentSkill(categoryIndex, j)"
+                    aria-label="Example icon button with a filter list icon"
+                    class="delete-item">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- <div class="skills-more">
+            <mat-form-field class="example-full-width">
+              <mat-label>More details about your skills</mat-label>
+              <textarea cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="40" matInput placeholder="More information"></textarea>
+            </mat-form-field>
+          </div> -->
+        </div>
+
+        <div class="more">
+          <h4 class="more-title">Some more information</h4>
+          <mat-list role="list" class="list-item">
+            <mat-list-item role="listitem" *ngFor="let feature of accountFeatures">
+              <mat-icon *ngIf="feature | userCheckFeatures: currentUserFeatures;else elseDescSplit"
+                (click)="changeFeatures(feature.id, false)">radio_button_unchecked</mat-icon>
+              <ng-template #elseDescSplit>
+                <mat-icon (click)="changeFeatures(feature.id, true)">check_circle_outline</mat-icon>
+              </ng-template>
+              {{feature.displayName}}
+            </mat-list-item>
+          </mat-list>
+        </div>
+
+      </div>
+
+      <button mat-raised-button
+        [disabled]="mainForm.invalid"
+        color="primary"
+        (click)="onSubmitMainData($event)"
+        class="main-profile_submit">
+        Edit main data
+      </button>
+    </div>
+
+  </section>
+
 <!-- </app-account> -->

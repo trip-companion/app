@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
   Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -27,9 +27,9 @@ export class GlobalEventComponent implements OnInit, OnDestroy {
   private subsDataGlobalEvent: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-              private cdRef: ChangeDetectorRef,
-              public sharedService: SharedService,
-              private snackBar: MatSnackBar) {}
+    private cdRef: ChangeDetectorRef,
+    public sharedService: SharedService,
+    private snackBar: MatSnackBar) {}
 
   public ngOnInit(): void {
     this.modelLang = this.sharedService.language;

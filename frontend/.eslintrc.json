@@ -27,6 +27,26 @@
         "no-multiple-empty-lines": "error",
         "prefer-const": "error",
         "no-use-before-define": "error",
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "types": {
+              // add a custom message to help explain why not to use it
+              "Foo": "Don't use Foo because it is unsafe",
+              "object": false,
+              // add a custom message, AND tell the plugin how to fix it
+              "String": {
+                "message": "Use string instead",
+                "fixWith": "string"
+              },
+      
+              "{}": {
+                "message": "Use object instead",
+                "fixWith": "object"
+              }
+            }
+          }
+        ],
         "indent": ["error", 2, {
           "FunctionDeclaration": {"parameters": "first"},
           "SwitchCase": 1

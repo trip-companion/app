@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
-  Inject, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+  Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 // services
@@ -25,7 +25,6 @@ export class GlobalPreloaderComponent implements OnInit {
   private subsGlobalEventStore: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-              private cdRef: ChangeDetectorRef,
               public sharedService: SharedService,
               private store: Store<AppState>,) {
   }

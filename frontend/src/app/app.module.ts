@@ -34,7 +34,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { BasicAuthInterceptor } from '@app/helpers/basic-auth.inerceptor';
 import { ErrorInterceptor } from '@app/helpers/error.interceptor';
 import { SetHeaderInterceptor } from '@app/helpers/header.inerceptor';
-import { InjectionToken } from '@angular/core';
 
 @NgModule({
   declarations: [

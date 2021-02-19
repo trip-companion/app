@@ -4,7 +4,6 @@ import { filter, pairwise } from 'rxjs/operators';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { LocationService } from './services/location.service';
 import { SharedService } from './services/shared.service';
-import { InjectionToken } from '@angular/core';
 
 @Component({
   selector: 'app-root',

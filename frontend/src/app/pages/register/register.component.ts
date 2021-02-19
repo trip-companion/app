@@ -31,13 +31,13 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
-              public cdr: ChangeDetectorRef,
-              private activeRoute: ActivatedRoute,
-              private route: ActivatedRoute,
-              public locationService: LocationService,
-              private router: Router,
-              public sharedService: SharedService,
-              private authenticationService: AuthenticationService
+  public cdr: ChangeDetectorRef,
+  private activeRoute: ActivatedRoute,
+  private route: ActivatedRoute,
+  public locationService: LocationService,
+  private router: Router,
+  public sharedService: SharedService,
+  private authenticationService: AuthenticationService
   ) {
     this.registerForm = this.fb.group({
       emailInput: new FormControl('123@ukr.net', Validators.compose([Validators.email, Validators.required])),
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
       lastNameInput: new FormControl('GGGG333', Validators.required),
       passwordFirstInput: new FormControl('1235', Validators.compose([Validators.required])),
       passwordSecondInput: new FormControl('1235', Validators.compose([Validators.required])),
-    }, {validators: this.checkPasswords});
+    }, { validators: this.checkPasswords });
     if (this.authenticationService.tokenValue) {
       this.router.navigate([this.homePath]);
     }
@@ -58,15 +58,15 @@ export class RegisterComponent implements OnInit {
     this.returnUrl = this.sharedService.globalPrevRout || this.homePath;
   }
 
-  public checkPasswords(registerForm: FormGroup): any | null { // here we have the 'passwords' group
+  public checkPasswords(registerForm: FormGroup): any | null {
     const firstpassword = registerForm.get('passwordFirstInput').value;
     const confirmPassword = registerForm.get('passwordSecondInput').value;
     return firstpassword === confirmPassword ? null : { notSamePassword: true };
   }
 
-  get getReginsterFormControls(): {[key: string]: any} | null {return this.registerForm.controls; }
+  get getReginsterFormControls(): {[key: string]: any} | null { return this.registerForm.controls; }
 
-  public onSubmitRegister(event: Event): void{
+  public onSubmitRegister(event: Event): void {
     this.submitted = true;
     if (this.registerForm.invalid) { return; }
     this.loading = true;

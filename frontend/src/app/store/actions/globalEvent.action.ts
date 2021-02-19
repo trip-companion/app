@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 export enum GLOBAL_EVENT_ACTION {
     EVENT_SUCCESS = 'EVENT_SUCCESS',

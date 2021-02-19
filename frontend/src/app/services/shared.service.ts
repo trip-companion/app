@@ -5,6 +5,8 @@ import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
+import { environment } from '@environments/environment';
+
 const MATHING_CONTETNT_LANG: {[key: string]: string} = {
   en: `en-US`,
   ru: `ru-RU`,
@@ -19,10 +21,11 @@ export class SharedService {
   public globalEventSubject = new Subject<{message: string; type: string}>();
   public $globalEventSubject = this.globalEventSubject.asObservable();
   private isBrowser: boolean;
+  private host: string = environment.host;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any,
-              @Inject(DOCUMENT) private document: Document,
-              public router: Router) {
+    @Inject(DOCUMENT) private document: Document,
+    public router: Router) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -43,5 +46,9 @@ export class SharedService {
 
   public setGlobalEventData(message: string, type: string): void {
     this.globalEventSubject.next({message, type});
+  }
+
+  public getCorrectImg(apiSrc: string): string {
+    return this.host + apiSrc;
   }
 }

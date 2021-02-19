@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import IUserModel from '@app/interfaces/store.models/user.model';
 
 export enum USER_ACTION {
-    UPDATE_USER = 'UPDATE_USER',
+    UPDATE_USER_ACTION = 'UPDATE_USER_ACTION',
     LOAD_USER_ACTION = 'LOAD_USER_ACTION',
     LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS',
 }
@@ -16,10 +16,9 @@ export class UserLoadAction implements Action {
     constructor(public payload: IUserModel) {}
 }
 
+export class UpdateUserAction implements Action {
+    readonly type = USER_ACTION.UPDATE_USER_ACTION;
+    constructor(public user: IUserModel) {}
+};
 
-// export class UpdateUserAction implements Action {
-//     readonly type = USER_ACTION.UPDATE_USER
-//     constructor(public payload: {id: number}) {}
-// };
-
-export type UserActions = GetUserAction | UserLoadAction ;
+export type UserActions = GetUserAction | UserLoadAction | UpdateUserAction;
