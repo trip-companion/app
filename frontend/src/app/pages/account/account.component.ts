@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subscription} from 'rxjs';
-
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { GetUserAction } from '@app/store/actions/user.action';
@@ -10,8 +10,12 @@ import { FORM_VALIDATORS } from '@app/DATA/errors-message';
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Event } from '@angular/router';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { ViewChild } from '@angular/core';
 import { SharedService } from '@app/services/shared.service';
+import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account',
@@ -20,6 +24,18 @@ import { SharedService } from '@app/services/shared.service';
 })
 export class AccountComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  //test
+  public visible = true;
+  public selectable = true;
+  public removable = true;
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public fruitCtrl = new FormControl();
+  public filteredFruits: Observable<string[]>;
+  public fruits: string[] = ['Lemon'];
+  public allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  //test
   public user: IUserModel = null;
   public cardHeader = '/assets/images/account/account_card_head.jpg';
   public cardUser = '/assets/images/account/avatar-exemple.png';
@@ -35,6 +51,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     public sharedService: SharedService,
     private store: Store<AppState>) {
 
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this.filter(fruit) : this.allFruits.slice()));
+
     this.mainForm = this.fb.group({
       emailInput: new FormControl('', Validators.compose([Validators.email])),
       firstNameInput: new FormControl('', Validators.required),
@@ -42,8 +62,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
 
     this.passwordForm = this.fb.group({
-      passwordFirstInput: new FormControl(''),
-      passwordSecondInput: new FormControl(''),
+      passwordFirstInput: new FormControl('', Validators.required),
+      passwordSecondInput: new FormControl('', Validators.required),
     }, {validators: this.checkPasswords});
   }
 
@@ -69,9 +89,15 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.subsUserStore.unsubscribe();
   }
 
-  public checkPasswords(registerForm: FormGroup): any | null {
-    const firstpassword = registerForm.get('passwordFirstInput').value;
-    const confirmPassword = registerForm.get('passwordSecondInput').value;
+  public selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  public checkPasswords(passwordForm: FormGroup): any | null {
+    const firstpassword = passwordForm.get('passwordFirstInput').value;
+    const confirmPassword = passwordForm.get('passwordSecondInput').value;
 
     return firstpassword === confirmPassword ? null : { notSamePassword: true };
   }
@@ -116,7 +142,42 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   };
 
+  public onSubmitChangePassword(event: Event): void {
+    console.log(this.passwordForm.controls);
 
+  };
+  ///////////////////////////////////////////////////////////
+  public add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.fruits.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  public remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  }
+  ///////////////////////////////////////////////////////
   private initMainForm() {
     this.mainForm.controls.firstNameInput.setValue(this.user.firstName);
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);

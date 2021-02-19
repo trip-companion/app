@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
 
   get getReginsterFormControls(): {[key: string]: any} | null { return this.registerForm.controls; }
 
-  public onSubmitRegister(event: Event): void{
+  public onSubmitRegister(event: Event): void {
     this.submitted = true;
     if (this.registerForm.invalid) { return; }
     this.loading = true;

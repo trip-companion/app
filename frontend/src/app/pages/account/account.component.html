@@ -21,8 +21,9 @@
     </div>
     <div class="card-content">
       <div class="card-content_buttons">
-        <button mat-raised-button color="accent">Accent</button>
-        <button mat-raised-button color="warn">Edit</button>
+        <button mat-raised-button color="accent">Chat</button>
+        <button mat-raised-button color="accent">My post</button>
+        <button mat-raised-button color="accent">Feedback</button>
       </div>
     </div>
   </section>
@@ -53,25 +54,9 @@
 					</mat-form-field>
 				</p>
 
-				<!-- <p>
-					<mat-form-field class="example-full-width">
-						<input type="password" matInput 
-						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
-					</mat-form-field>
-				</p>
-
-				<p>
-					<mat-form-field class="example-full-width">
-						<input type="password" matInput
-						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
-					</mat-form-field>
-        </p> -->
-        
       </div>
       <button mat-raised-button
-        color="accent"
+        color="primary"
         (click)="onSubmitEditMainData($event)"
         [disabled]="mainForm.invalid"
         class="main-profile_submit">
@@ -79,32 +64,83 @@
       </button>
 
 
-      <div [formGroup]="passwordForm" class="main-profile_params">
-
+      <div [formGroup]="passwordForm" class="main-profile_password">
         <p>
 					<mat-form-field class="example-full-width">
-						<input type="password" matInput 
+						<input type="password" required matInput 
 						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
 				</p>
-
 				<p>
 					<mat-form-field class="example-full-width">
-						<input type="password" matInput
+						<input type="password" required matInput
 						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': mainForm.errors}">{{inputErrors[1]}}</mat-hint>
+						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
         </p>
-
       </div>
+      <button mat-raised-button
+        color="primary"
+        (click)="onSubmitChangePassword($event)"
+        [disabled]="passwordForm.invalid"
+        class="password_submit">
+        Change password
+      </button>
 
     </div>
 
     <div class="main-about">
       <h3 class="main-profile_title">About me</h3>
 
-      <button mat-raised-button color="accent" class="main-profile_submit">Accent about</button>
+      <div class="main-about-container">
+
+        <p class="description">
+          <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <textarea cdkTextareaAutosize
+            cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="40" matInput placeholder="About you"></textarea>
+          </mat-form-field>
+        </p>
+
+        <p class="interest">
+
+          <mat-form-field class="example-chip-list">
+            <mat-label>Favorite Fruits</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip
+                *ngFor="let fruit of fruits"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(fruit)">
+                {{fruit}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+                placeholder="New fruit..."
+                #fruitInput
+                [formControl]="fruitCtrl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                {{fruit}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+        </p>
+
+      </div>
+
+
+
+
+      <button mat-raised-button color="primary" class="main-profile_submit">Accent about</button>
     </div>
 
   </section>
