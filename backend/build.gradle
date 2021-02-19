@@ -23,6 +23,7 @@ ext {
     modelMapperVersion = '2.3.9'
     gsonVersion = '2.8.6'
     janinoVersion = '3.0.7'
+    tikaVersion = '1.25'
 }
 
 version = "0.0.1-${hash}"
@@ -53,6 +54,8 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.1'
 
     implementation "org.codehaus.janino:janino:${janinoVersion}"
+
+    implementation "org.apache.tika:tika-core:${tikaVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
