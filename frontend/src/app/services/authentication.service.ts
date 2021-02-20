@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 import { LocationService } from '@app/services/location.service';
 import { map } from 'rxjs/internal/operators/map';
 import { catchError } from 'rxjs/operators';
@@ -43,8 +43,7 @@ export class AuthenticationService {
         if (this.isBrowser) {
           this.tokenSubject.next(res.jwtAccessToken);
         }
-      })
-      );
+      }));
   }
 
   public singUp(email: string, firstName: string, lastName: string, password: string): Observable<any> {
