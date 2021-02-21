@@ -16,20 +16,23 @@ import { ViewChild } from '@angular/core';
 import { SharedService } from '@app/services/shared.service';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
-import { map, mergeMap, startWith, tap } from 'rxjs/operators';
+import { map, startWith} from 'rxjs/operators';
 import { ApiService } from '@app/services/api.services';
-import { pipe } from 'rxjs';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('interestInput') interestInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  //test
+  public userStatuses: string[] = ['At home', 'Travelling', 'Travel search'];
+  public userStatus: string = this.userStatuses[0];
+  public startDate: Date = new Date();
+  public minSearchDate: Date = new Date(this.startDate.setFullYear(new Date().getFullYear() -16));
+  public dateOfBirth: string;
   public visible = true;
   public selectable = true;
   public removable = true;
@@ -38,7 +41,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   public allInterests: string[] = INTERESTS_DATA[this.sharedService.language];
   public filteredInterests: Observable<string[]>;
   public choicedInterests: string[] = ['Yoga'];
-
   //test
   public user: IUserModel = null;
   public cardHeader = '/assets/images/account/account_card_head.jpg';
@@ -57,11 +59,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     private apiSvc: ApiService,) {
     this.filteredInterests = this.interestsForm.valueChanges.pipe(
       startWith(null),
-      map((interest: string | null) => {
-        console.log(interest);
-        return interest ? this.filterInterests(interest) : this.excludeSelectedInterest();
-      }));
-
+      map((interest: string | null) => interest ? this.filterInterests(interest) : this.excludeSelectedInterest()));
     this.mainForm = this.fb.group({
       emailInput: new FormControl('', Validators.compose([Validators.email])),
       firstNameInput: new FormControl('', Validators.required),
@@ -86,7 +84,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       if (user) {
         this.user = user;
         this.initMainForm();
-        this.changeUserAvatar();
+        console.log(this.user);
       }
       this.cdRef.detectChanges();
     });
@@ -104,7 +102,9 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public changeUserAvatar(): void {
-    this.cardUser = this.sharedService.getCorrectImg(this.user.avatarSrc);
+    if(this.user.avatarSrc.length > 1) {
+      this.cardUser = this.sharedService.getCorrectImg(this.user.avatarSrc);
+    };
   }
 
   public uploadAvatar(event: any) {
@@ -148,7 +148,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   };
 
   public onSubmitChangePassword(event: Event): void {
-    console.log(this.passwordForm.controls);
+
+  };
+
+  public onSubmitEditAboutMeData(event: Event): void {
 
   };
   ///////////////////////////////////////////////////////////
@@ -161,27 +164,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.filteredInterests = of(this.excludeSelectedInterest());
   }
 
-  // public addInterest(event: MatChipInputEvent): void {
-  //   const input = event.input;
-  //   const value = event.value;
-
-  //   // Add our fruit
-  //   if ((value || '').trim()) {
-  //     this.allInterests.push(value.trim());
-  //   }
-
-  //   // Reset the input value
-  //   if (input) {
-  //     input.value = '';
-  //   }
-
-  //   this.interestsForm.setValue(null);
-  // }
-
   public removeInterest(interest: string): void {
     const index = this.choicedInterests.indexOf(interest);
-    console.log(this.choicedInterests);
-    console.log(interest, index);
     if (index >= 0) {
       this.choicedInterests.splice(index, 1);
       this.filteredInterests = of(this.excludeSelectedInterest());
@@ -202,6 +186,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.mainForm.controls.firstNameInput.setValue(this.user.firstName);
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);
     this.mainForm.controls.emailInput.setValue(this.user.email);
+    this.changeUserAvatar();
   };
 
 }

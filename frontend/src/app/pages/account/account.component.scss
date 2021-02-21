@@ -140,6 +140,44 @@
 
             .main-about-container {
                 width: 100%;
+                .user-status {
+                    .example-radio-group {
+                        display: flex;
+                        flex-direction: row;
+                        margin: 5px 0;
+                      }
+                      
+                      .example-radio-button {
+                        margin: 10px;
+                      }
+                }
+                .user-birth  {
+                    display: flex;
+                    align-items: center;
+                    .user-old {
+                        padding-bottom: 1.34375em;
+                    }
+                    ::ng-deep  {
+                        &:hover {
+                            input {
+                                cursor: default;
+                            }
+                            .mat-form-field-suffix {
+                                background: $color-new-blue;
+                                border-radius: 50%;
+                            } 
+                        }
+                        .mat-form-field-underline {
+                            display: none;
+                        }
+                        .mat-form-field-flex {
+                            background: none;
+                        }
+                        .mat-form-field-infix {
+                            width: 90px
+                        }
+                    }
+                }
                 .description {
                     overflow: auto;
                     .mat-form-field {

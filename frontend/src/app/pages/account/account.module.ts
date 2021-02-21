@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserYearsOldPipe } from '@app/pipe/user-years-old';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -10,11 +11,15 @@ import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { UserEffects } from '@app/store/effects/user.effects';
 import { userReducer } from '@app/store/reducers/user.reduser';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
@@ -25,13 +30,20 @@ import { userReducer } from '@app/store/reducers/user.reduser';
     FormsModule,
     MatIconModule,
     MatChipsModule,
-    MatToolbarModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
     MatAutocompleteModule,
+    MatRadioModule,
+    MatToolbarModule,
+    MatDatepickerModule,
     StoreModule.forFeature('userInfo', userReducer),
     EffectsModule.forFeature([UserEffects])
   ],
-  declarations: [AccountComponent],
-  exports: [AccountComponent],
   providers: [],
+  declarations: [
+    AccountComponent,
+    UserYearsOldPipe,
+  ],
+  exports: [AccountComponent],
 })
 export class AccountModule { }

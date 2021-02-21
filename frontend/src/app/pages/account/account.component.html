@@ -94,6 +94,27 @@
       <h3 class="main-profile_title">About me</h3>
 
       <div class="main-about-container">
+        <p class="user-status">
+          <label id="example-radio-group-label">Pick your status</label>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="userStatus">
+            <mat-radio-button class="example-radio-button" *ngFor="let status of userStatuses" [value]="status">
+              {{status}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </p>
+
+        <p class="user-birth">
+          <mat-form-field appearance="fill">
+            <mat-label>Date of birth</mat-label>
+            <input readonly matInput [max]="minSearchDate" [matDatepicker]="dateOfBirthPiker" [(ngModel)]="dateOfBirth">
+            <mat-datepicker-toggle matSuffix [for]="dateOfBirthPiker"></mat-datepicker-toggle>
+            <mat-datepicker #dateOfBirthPiker startView="year" [startAt]="startDate"></mat-datepicker>
+          </mat-form-field>
+          <span class="user-old">{{dateOfBirth}}</span>
+        </p>
 
         <p class="description">
           <mat-form-field class="example-full-width">
@@ -106,12 +127,13 @@
 
         <p class="interest">
           <mat-form-field class="example-chip-list">
-            <mat-label>Interest</mat-label>
+            <mat-label>My interests</mat-label>
             <mat-chip-list #chipList aria-label="Interest selection">
               <mat-chip
                 *ngFor="let interest of choicedInterests"
                 [selectable]="selectable"
                 [removable]="removable"
+                color="accent"
                 (removed)="removeInterest(interest)">
                 {{interest}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -135,7 +157,12 @@
       </div>
 
 
-      <button mat-raised-button color="primary" class="main-profile_submit">Accent about</button>
+      <button mat-raised-button
+        color="primary"
+        (click)="onSubmitEditAboutMeData($event)"
+        class="main-profile_submit">
+        Accent about
+      </button>
     </div>
 
   </section>
