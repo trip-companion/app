@@ -2,6 +2,7 @@ package com.trip.companion.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trip.companion.error.dto.ErrorResponse;
+import com.trip.companion.error.exception.NoDataFoundException;
 import com.trip.companion.error.exception.client.ClientException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @ControllerAdvice
@@ -38,6 +40,11 @@ public class GenericExceptionHandler {
     public ResponseEntity<ErrorResponse> handleAuthException(AuthenticationException exc) {
         log.info("Unauthorized exception {}", exc.getMessage());
         return new ResponseEntity<>(responseFactory.getErrorResponse(exc.getMessage()), UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NoDataFoundException exc) {
+        return new ResponseEntity<>(responseFactory.getErrorResponse(exc.getMessage()), NOT_FOUND);
     }
 
     @ExceptionHandler
