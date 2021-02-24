@@ -1,6 +1,10 @@
 package com.trip.companion.domain.user;
 
+import com.trip.companion.domain.Gender;
 import com.trip.companion.domain.base.BaseEntity;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +23,17 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
+    private LocalDate birthDate;
+    private Gender gender;
+    private Status status;
     private String avatarId;
+    private String about;
+    private List<LanguageLevelItem> languages = new ArrayList<>();
+    private List<String> knownSkills = new ArrayList<>();
+    private List<String> interestedInSkills = new ArrayList<>();
+    private List<String> canTeachSkills = new ArrayList<>();
+    private List<String> interests = new ArrayList<>();
+    private List<String> features = new ArrayList<>();
 
     private String password;
     private String jwtRefreshToken;
@@ -55,5 +69,11 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Data
+    public static class LanguageLevelItem implements Serializable {
+        private String isoCode;
+        private LanguageLevel level;
     }
 }

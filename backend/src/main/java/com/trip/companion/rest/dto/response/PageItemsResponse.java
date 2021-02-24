@@ -1,4 +1,4 @@
-package com.trip.companion.rest.controller.dto.response;
+package com.trip.companion.rest.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.AllArgsConstructor;

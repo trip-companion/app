@@ -3,6 +3,7 @@ package com.trip.companion.error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trip.companion.error.dto.ErrorResponse;
 import com.trip.companion.error.exception.NoDataFoundException;
+import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.error.exception.client.ClientException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @ControllerAdvice
 @Slf4j
@@ -54,7 +56,12 @@ public class GenericExceptionHandler {
                 .orElse(new ObjectError(exc.getBindingResult().getObjectName(), "Validation error"))
                 .unwrap(ConstraintViolationImpl.class);
         String errorMessage = String.format("%s: %s", violation.getPropertyPath(), violation.getMessage());
-        return new ResponseEntity<>(responseFactory.getErrorResponse(errorMessage), HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(responseFactory.getErrorResponse(errorMessage), UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException exc) {
+        return new ResponseEntity<>(responseFactory.getErrorResponse(exc.getMessage()), UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler

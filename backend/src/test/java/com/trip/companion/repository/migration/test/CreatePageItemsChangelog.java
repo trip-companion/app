@@ -14,7 +14,7 @@ import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 import static com.trip.companion.domain.page.Page.WELCOME;
 
-@ChangeLog(order = "002")
+@ChangeLog(order = "001")
 public class CreatePageItemsChangelog {
     private static final String DESTINATION_CODE = "main.searchArea.destination";
     private static final String DATE_RANGE_CODE = "main.searchArea.dateRange";

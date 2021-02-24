@@ -1,4 +1,4 @@
-package com.trip.companion.rest.controller.dto.request;
+package com.trip.companion.rest.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Data;

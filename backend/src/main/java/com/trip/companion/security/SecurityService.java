@@ -2,9 +2,9 @@ package com.trip.companion.security;
 
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.auth.InvalidRefreshTokenException;
-import com.trip.companion.rest.controller.dto.request.LoginRequest;
-import com.trip.companion.rest.controller.dto.response.LoginResponse;
-import com.trip.companion.rest.controller.dto.response.AccessTokenRefreshRequest;
+import com.trip.companion.rest.dto.request.LoginRequest;
+import com.trip.companion.rest.dto.response.LoginResponse;
+import com.trip.companion.rest.dto.response.AccessTokenRefreshRequest;
 import com.trip.companion.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
