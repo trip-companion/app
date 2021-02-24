@@ -13,5 +13,5 @@ mongock:
 
 jwt:
   secret: dev-secret
-  refreshTokenExpirationInMs: 300000
-  accessTokenExpirationInMs: 60000
+  refreshTokenExpirationInMs: 1_209_600_000
+  accessTokenExpirationInMs: 900_000

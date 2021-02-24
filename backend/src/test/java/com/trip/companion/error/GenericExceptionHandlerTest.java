@@ -2,6 +2,7 @@ package com.trip.companion.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trip.companion.error.dto.ErrorResponse;
+import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.error.exception.client.ClientException;
 import com.trip.companion.service.error.ErrorMessageService;
 import java.io.IOException;
@@ -126,6 +127,20 @@ class GenericExceptionHandlerTest {
 
         assertTrue(Objects.nonNull(errorResponse));
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertNotNull(errorResponse.getTimeStamp());
+        assertEquals(exceptionMessage, errorResponse.getMessage());
+    }
+
+    @Test
+    void handleValidationExceptionTest() {
+        String exceptionMessage = "validationException";
+        ValidationException exception = new ValidationException(exceptionMessage);
+
+        ResponseEntity<ErrorResponse> responseEntity = genericExceptionHandler.handleValidationException(exception);
+        ErrorResponse errorResponse = responseEntity.getBody();
+
+        assertTrue(Objects.nonNull(errorResponse));
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertNotNull(errorResponse.getTimeStamp());
         assertEquals(exceptionMessage, errorResponse.getMessage());
     }

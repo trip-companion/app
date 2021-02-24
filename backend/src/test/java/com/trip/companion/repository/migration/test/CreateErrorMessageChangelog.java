@@ -13,20 +13,26 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "003")
+@ChangeLog(order = "002")
 public class CreateErrorMessageChangelog {
 
     private static final List<Document> DOCUMENTS = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "createErrorMessages", author = "skosinskyi")
     public void initWelcomePageItems(MongoDatabase db) {
-        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.USER_ALREADY_REGISTERED, "User with such email already registered"));
-        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.USER_ALREADY_REGISTERED, "Користувач з такою електронною адресою вже зареєстрований"));
-        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.USER_ALREADY_REGISTERED, "Пользователь с таким электронным адресом уже зарегистрирован"));
+        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.USER_ALREADY_REGISTERED,
+                "User with such email already registered"));
+        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.USER_ALREADY_REGISTERED,
+                "Користувач з такою електронною адресою вже зареєстрований"));
+        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.USER_ALREADY_REGISTERED,
+                "Пользователь с таким электронным адресом уже зарегистрирован"));
 
-        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.INTERNAL_SERVER_ERROR, "Something goes wrong. Please, try again later"));
-        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.INTERNAL_SERVER_ERROR, "Щось пішло не так. Будь ласка, спробуйте пізніше"));
-        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.INTERNAL_SERVER_ERROR, "Что-то пошло не так. Пожалуйста, повторите позже"));
+        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.INTERNAL_SERVER_ERROR,
+                "Something goes wrong. Please, try again later"));
+        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.INTERNAL_SERVER_ERROR,
+                "Щось пішло не так. Будь ласка, спробуйте пізніше"));
+        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.INTERNAL_SERVER_ERROR,
+                "Что-то пошло не так. Пожалуйста, повторите позже"));
 
         DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.AUTHENTICATION_ERROR, "Authorization error"));
         DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.AUTHENTICATION_ERROR, "Помилка аутентифікації"));

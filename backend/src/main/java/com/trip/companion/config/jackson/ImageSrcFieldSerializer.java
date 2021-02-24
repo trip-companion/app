@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 
 @Slf4j
-public class ImageSrcFieldSerializer extends JsonSerializer<String> {
+public class ImageSrcFieldSerializer extends JsonSerializer<Object> {
 
     public static final String FILES_ENDPOINT = "/api/public/files/";
 
     @Override
-    public void serialize(String fileItemId, JsonGenerator jsonGen, SerializerProvider provider) {
+    public void serialize(Object fileItemId, JsonGenerator jsonGen, SerializerProvider provider) {
         Optional.ofNullable(fileItemId).ifPresentOrElse(
                 id -> write(jsonGen, FILES_ENDPOINT + fileItemId),
                 () -> write(jsonGen, Strings.EMPTY));

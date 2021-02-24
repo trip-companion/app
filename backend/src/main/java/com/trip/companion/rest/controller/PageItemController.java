@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.trip.companion.domain.Language;
 import com.trip.companion.domain.page.Page;
 import com.trip.companion.domain.page.PageItem;
-import com.trip.companion.rest.controller.dto.response.PageItemsResponse;
+import com.trip.companion.rest.dto.response.PageItemsResponse;
 import com.trip.companion.service.PageItemService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

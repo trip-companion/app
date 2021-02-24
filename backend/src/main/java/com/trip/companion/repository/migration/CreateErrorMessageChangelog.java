@@ -13,7 +13,7 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "003")
+@ChangeLog(order = "002")
 public class CreateErrorMessageChangelog {
 
     private static final List<Document> DOCUMENTS = new ArrayList<>();
@@ -34,12 +34,9 @@ public class CreateErrorMessageChangelog {
         DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.INTERNAL_SERVER_ERROR,
                 "Что-то пошло не так. Пожалуйста, повторите позже"));
 
-        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.AUTHENTICATION_ERROR,
-                "Authorization error"));
-        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.AUTHENTICATION_ERROR,
-                "Помилка аутентифікації"));
-        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.AUTHENTICATION_ERROR,
-                "Ошибка аутентификации"));
+        DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.AUTHENTICATION_ERROR, "Authorization error"));
+        DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.AUTHENTICATION_ERROR, "Помилка аутентифікації"));
+        DOCUMENTS.add(createErrorMessageDoc(RUS, ErrorCode.AUTHENTICATION_ERROR, "Ошибка аутентификации"));
 
         db.getCollection("errorMessage").insertMany(DOCUMENTS);
     }

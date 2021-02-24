@@ -3,10 +3,12 @@ package com.trip.companion.service;
 import com.trip.companion.domain.file.FileItem;
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.NoDataFoundException;
+import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.error.exception.client.UserAlreadyRegisteredException;
 import com.trip.companion.repository.UserRepository;
 import com.trip.companion.security.JwtService;
 import com.trip.companion.service.file.FileItemService;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -27,14 +29,21 @@ public class UserService implements UserDetailsService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final FileItemService fileItemService;
+    private final SkillService skillService;
+    private final InterestService interestService;
+    private final FeatureService featureService;
 
     @Autowired
     public UserService(UserRepository repository, JwtService jwtService, PasswordEncoder passwordEncoder,
-                       FileItemService fileItemService) {
+                       FileItemService fileItemService, SkillService skillService, InterestService interestService,
+                       FeatureService featureService) {
         this.repository = repository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.fileItemService = fileItemService;
+        this.skillService = skillService;
+        this.interestService = interestService;
+        this.featureService = featureService;
     }
 
     @Override
@@ -100,6 +109,47 @@ public class UserService implements UserDetailsService {
             fileItemService.removeFileItemAsync(avatarId);
         });
         return updatedUser;
+    }
+
+    public User editUser(User editedUser) {
+        User user = getCurrentUser();
+        user.setFirstName(editedUser.getFirstName());
+        user.setLastName(editedUser.getLastName());
+        user.setLanguages(editedUser.getLanguages());
+        user.setBirthDate(editedUser.getBirthDate());
+        user.setGender(editedUser.getGender());
+        user.setStatus(editedUser.getStatus());
+        user.setAbout(editedUser.getAbout());
+        user.setKnownSkills(validateAndGetSkills(editedUser.getKnownSkills()));
+        user.setInterestedInSkills(validateAndGetSkills(editedUser.getInterestedInSkills()));
+        user.setCanTeachSkills(validateAndGetSkills(editedUser.getCanTeachSkills()));
+        user.setInterests(validateAndGetInterests(editedUser.getInterests()));
+        user.setFeatures(validateAndGetFeatures(editedUser.getFeatures()));
+        return repository.save(user);
+    }
+
+    private List<String> validateAndGetSkills(List<String> skillIdList) {
+        if (skillIdList.isEmpty() || skillService.existsAllByIdIn(skillIdList)) {
+            return skillIdList;
+        } else {
+            throw new ValidationException("Unknown skills");
+        }
+    }
+
+    private List<String> validateAndGetInterests(List<String> interestIdList) {
+        if (interestIdList.isEmpty() || interestService.existsAllByIdIn(interestIdList)) {
+            return interestIdList;
+        } else {
+            throw new ValidationException("Unknown interests");
+        }
+    }
+
+    private List<String> validateAndGetFeatures(List<String> featureIdList) {
+        if (featureIdList.isEmpty() || featureService.existsAllByIdIn(featureIdList)) {
+            return featureIdList;
+        } else {
+            throw new ValidationException("Unknown features");
+        }
     }
 }
 

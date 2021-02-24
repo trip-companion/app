@@ -1,8 +1,8 @@
 package com.trip.companion.rest.controller;
 
-import com.trip.companion.rest.controller.dto.request.LoginRequest;
-import com.trip.companion.rest.controller.dto.response.LoginResponse;
-import com.trip.companion.rest.controller.dto.response.AccessTokenRefreshRequest;
+import com.trip.companion.rest.dto.request.LoginRequest;
+import com.trip.companion.rest.dto.response.LoginResponse;
+import com.trip.companion.rest.dto.response.AccessTokenRefreshRequest;
 import com.trip.companion.security.SecurityService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
