@@ -113,6 +113,9 @@
             flex-direction: column;
             align-items: flex-start;
             width: 100%;
+            mat-divider {
+                margin: 10px 0px;
+            }
             &_title {
                 color: $title-color;
                 @include card_title;
@@ -155,7 +158,8 @@
                     display: flex;
                     align-items: center;
                     .user-old {
-                        padding-bottom: 1.34375em;
+                        // padding-bottom: 1.34375em;
+                        margin-top: 12px;
                     }
                     ::ng-deep  {
                         &:hover {
@@ -176,6 +180,133 @@
                         .mat-form-field-infix {
                             width: 90px
                         }
+                        .mat-form-field-wrapper {
+                            padding: 0px;
+                        }
+                    }
+                }
+                .languages {
+                    &-title {
+                        display: flex;
+                        width: 100%;
+                    }
+
+                    &-new {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        .lvl-radio-group {
+                            margin: 5px 0;
+                        }
+                        .example-radio-button {
+                            margin: 10px;
+                        }
+                        &_btn {
+                            margin-right: 10px;
+                        }
+                    }
+
+                    .languages-list {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        .delete-item {
+                            margin-left: 15px;
+                            width: 24px;
+                            height: 24px;
+                            display: flex;
+                            align-content: center;
+                            ::ng-deep {
+                                .mat-button-wrapper {
+                                    padding: 0px;
+                                    margin: 0px;
+                                    .material-icons {
+                                        font-size: 16px;
+                                        height: 20px;
+                                        width: 24px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .skills  {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    &-title {
+                        display: flex;
+                        width: 100%;
+                        @include medium_text;
+                    }
+                    &-new {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        // @include medium_text;
+                        &_btn {
+                            margin-right: 10px;
+                        }
+                        .lvl-radio-group {
+                            margin: 5px 0;
+                        }
+                        .example-radio-button {
+                            margin: 10px;
+                        }
+                    }
+
+                    .skills-list {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        &_category {
+                            display: flex;
+                            flex-wrap: wrap;
+                            padding-left: 10px;
+                            border-left: 2px solid #eee;
+                            margin: 15px 0px;
+                            .category-title {
+                                width: 100%;
+                                display: flex;
+                                @include default_text;
+                                color: $title-color;
+                            }
+                            .delete-item {
+                                margin-left: 15px;
+                                width: 24px;
+                                height: 24px;
+                                display: flex;
+                                align-content: center;
+                                ::ng-deep {
+                                    .mat-button-wrapper {
+                                        padding: 0px;
+                                        margin: 0px;
+                                        .material-icons {
+                                            font-size: 16px;
+                                            height: 20px;
+                                            width: 24px;
+                                        }
+                                    }
+                                }
+                            }
+                            .list-item {
+                                display: flex;
+                                flex-wrap: wrap;
+                                margin: 5px 0px 0px 5px;
+                                .mat-list-item {
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                    &-more {
+                        overflow: auto;
+                        display: flex;
+                        width: 100%;
+                        .mat-form-field {
+                            width: 100%;
+                        }
                     }
                 }
                 .description {
@@ -190,6 +321,14 @@
                         width: 100%;
                     }
                 }
+
+                .more {
+                    &-title {
+                        display: flex;
+                        width: 100%;
+                        @include medium_text;
+                    }
+                }
             }
         };
         
@@ -199,9 +338,18 @@
     //     background-size: 150%
     // }
 
-    // @media screen and (max-width: 850px) {
-    //     background-size: cover;
-    // }
+    @media screen and (max-width: 768px) {
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+            &-profile, &-about {
+                margin:  10px 0px;
+            }
+        }
+        
+    }
 
     // @media screen and (max-height: 520px) {
     //     height: 550px;

@@ -82,7 +82,11 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onOpenedChange(event: boolean): any {
     this.isMatSelectOpen = event;
-    if (this.isMatSelectOpen) { this.document.getElementsByClassName('cdk-overlay-pane')[0].classList.add('lang-overplay-pane'); }
+    if (this.isMatSelectOpen) {
+      this.document.getElementsByClassName('cdk-overlay-pane')[0].classList.add('lang-overplay-pane');
+    } else {
+      this.document.getElementsByClassName('cdk-overlay-pane')[0].classList.remove('lang-overplay-pane');
+    }
     this.cdRef.detectChanges();
   }
 

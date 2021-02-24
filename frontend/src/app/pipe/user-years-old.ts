@@ -1,14 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'user-years-old',
-  pure: false,
+  name: 'userYearsOld',
+  pure: true,
 })
 export class UserYearsOldPipe implements PipeTransform {
-
-  transform(args?: any): string {
-    console.log(args);
-    return '444';
+  transform(dateOfBirth: any): string | null {
+    return dateOfBirth? Math.abs(dateOfBirth.diff(new Date(), 'years')) + ' years old.' : null;
   }
 }
 

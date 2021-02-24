@@ -11,12 +11,9 @@ import { INTERESTS_DATA } from '@app/DATA/Interests-data';
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Event } from '@angular/router';
-import { of } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { SharedService } from '@app/services/shared.service';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
-import { map, startWith} from 'rxjs/operators';
 import { ApiService } from '@app/services/api.services';
 
 @Component({
@@ -27,28 +24,91 @@ import { ApiService } from '@app/services/api.services';
 export class AccountComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('interestInput') interestInput: ElementRef<HTMLInputElement>;
+  @ViewChild('skillInput') skillInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild('skillsAuto') matAutocompleteSkills: MatAutocomplete;
+
   public userStatuses: string[] = ['At home', 'Travelling', 'Travel search'];
   public userStatus: string = this.userStatuses[0];
   public startDate: Date = new Date();
   public minSearchDate: Date = new Date(this.startDate.setFullYear(new Date().getFullYear() -16));
-  public dateOfBirth: string;
+  public dateOfBirth: number;
   public visible = true;
   public selectable = true;
   public removable = true;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
-  public interestsForm = new FormControl();
   public allInterests: string[] = INTERESTS_DATA[this.sharedService.language];
-  public filteredInterests: Observable<string[]>;
-  public choicedInterests: string[] = ['Yoga'];
+  public filtredInterests: string[];
+  public choicesInterests: string[] = ['Yoga'];
+  public lvlOfKnowledgeLanguage = ['Elementary', 'Intermediate', 'Advanced', 'Fluent'];
+  public choicesLvlOfLang: string = this.lvlOfKnowledgeLanguage[0];
+  public languageName: string;
+  public userLanguageKnowledge: Array<{name: string; lvl: number}> = [
+    {
+      name: 'English',
+      lvl: 3
+    },
+    {
+      name: 'Ukraine',
+      lvl: 2
+    }
+  ];
+  public filtredSkills: string[];
+  public skillsArr: string[] = ['skill1', 'skill2', 'skill3', 'skill4',
+    'skill5', 'skill6', 'fskill7', 'fskill8', 'zzzskill9', 'gggskill10'];
+  public lvlOfKnowledgeSkill = ['Can teach', 'Some knowledge of', 'I want to learn'];
+  public choicesLvlOfSkill: string = this.lvlOfKnowledgeSkill[0];
+  public choicesSkills = [
+    {
+      name: 'Can teach',
+      list: [
+        'skill1'
+      ]
+    },
+    {
+      name: 'Some knowledge of',
+      list: [
+        'skill4',
+        'skill5'
+      ]
+    },
+    {
+      name: 'I want to learn',
+      list: [
+      ]
+    },
+  ];
+  public moreInfo = [
+    {
+      name:'Smoker',
+      status: false
+    },
+    {
+      name:'Driver`s licence',
+      status: true
+    },
+    {
+      name:'Travel with animal',
+      status: false
+    },
+    {
+      name:'Special dietary requirements',
+      status: false
+    }
+  ];
   //test
   public user: IUserModel = null;
   public cardHeader = '/assets/images/account/account_card_head.jpg';
   public cardUser = '/assets/images/account/avatar-exemple.png';
   public mainForm: FormGroup;
   public passwordForm: FormGroup;
+  public interestsForm = new FormControl();
+  public skillsForm = new FormControl('', Validators.compose([Validators.required]));
   public inputErrors: string[];
+
   private subsUserStore: Subscription = new Subscription();
+  private subsInterestInput: Subscription = new Subscription();
+  private subsSkillsInput: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private fb: FormBuilder,
@@ -57,9 +117,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     public sharedService: SharedService,
     private store: Store<AppState>,
     private apiSvc: ApiService,) {
-    this.filteredInterests = this.interestsForm.valueChanges.pipe(
-      startWith(null),
-      map((interest: string | null) => interest ? this.filterInterests(interest) : this.excludeSelectedInterest()));
     this.mainForm = this.fb.group({
       emailInput: new FormControl('', Validators.compose([Validators.email])),
       firstNameInput: new FormControl('', Validators.required),
@@ -72,26 +129,41 @@ export class AccountComponent implements OnInit, OnDestroy {
     }, {validators: this.checkPasswords});
   }
 
-  public ngOnInit(): void {
+  public ngOnInit() {
     this.store.dispatch(new GetUserAction());
     this.store.dispatch(new LoadGlobalEventAction());
+    this.filtredSkills = this.excludeSelectedSkill();
+    this.filtredInterests = this.excludeSelectedInterest();
 
     this.activeRoute.data.subscribe(data => {
       this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
+    });
+
+    this.subsInterestInput = this.interestsForm.valueChanges.subscribe(value => {
+      this.filtredInterests = value ? this.filterInterests(value) : this.excludeSelectedInterest();
+    });
+
+    this.subsSkillsInput = this.skillsForm.valueChanges.subscribe(value => {
+      this.filtredSkills = value ? this.filterSkills(value) : this.excludeSelectedSkill();
+      this.skillsForm.setErrors(this.checkSkill(value)? (null): {'invalid skill': true});
     });
 
     this.subsUserStore = this.store.select('userInfo').subscribe(({user, loading}): void => {
       if (user) {
         this.user = user;
         this.initMainForm();
-        console.log(this.user);
       }
-      this.cdRef.detectChanges();
     });
   }
 
   public ngOnDestroy(): void {
     this.subsUserStore.unsubscribe();
+    this.subsInterestInput.unsubscribe();
+    this.subsSkillsInput.unsubscribe();
+  }
+
+  public checkSkill(skillName: string): any {
+    return this.filtredSkills.find(skill => skill === skillName);
   }
 
   public checkPasswords(passwordForm: FormGroup): any | null {
@@ -156,20 +228,47 @@ export class AccountComponent implements OnInit, OnDestroy {
   };
   ///////////////////////////////////////////////////////////
 
+  public addNewUserSkill(event: Event): void {
+    this.choicesSkills.find(obj => {
+      if(obj.name === this.choicesLvlOfSkill) {obj.list.push(this.skillsForm.value);}
+    });
+    this.filtredSkills = this.excludeSelectedSkill();
+    this.skillInput.nativeElement.value = '';
+    this.skillInput.nativeElement.blur();
+    this.skillsForm.setValue(null);
+  }
+
+  public deleteCurrentSkill(categoryName: string, indexInCategory: number): void {
+    const indexInArr = this.choicesSkills.findIndex(category => category.name === categoryName);
+    this.choicesSkills[indexInArr].list.splice(indexInCategory, 1);
+    this.filtredSkills = this.excludeSelectedSkill();
+  }
+
+  public addNewUserLanguage(event: Event): void {
+    const findInArr = this.userLanguageKnowledge.find(lang => lang.name.toLocaleLowerCase() === this.languageName.toLocaleLowerCase());
+    if(!findInArr) {this.userLanguageKnowledge
+      .push({name: this.languageName,
+        lvl: this.lvlOfKnowledgeLanguage.findIndex(item => item === this.choicesLvlOfLang)
+      });}
+  }
+
+  public deleteCurrentLang(index: number): void {
+    this.userLanguageKnowledge.splice(index, 1);
+  }
+
   public selectedInterest(event: MatAutocompleteSelectedEvent): void {
-    this.choicedInterests.push(event.option.viewValue);
+    this.choicesInterests.push(event.option.viewValue);
     this.interestInput.nativeElement.value = '';
     this.interestsForm.setValue(null);
     this.interestInput.nativeElement.blur();
-    this.filteredInterests = of(this.excludeSelectedInterest());
+    this.filtredInterests = this.excludeSelectedInterest();;
   }
 
   public removeInterest(interest: string): void {
-    const index = this.choicedInterests.indexOf(interest);
+    const index = this.choicesInterests.indexOf(interest);
     if (index >= 0) {
-      this.choicedInterests.splice(index, 1);
-      this.filteredInterests = of(this.excludeSelectedInterest());
-      this.cdRef.detectChanges();
+      this.choicesInterests.splice(index, 1);
+      this.filtredInterests = this.excludeSelectedInterest();
     }
   }
 
@@ -178,8 +277,20 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.excludeSelectedInterest().filter(interest => interest.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  private filterSkills(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.excludeSelectedSkill().filter(skill => skill.toLowerCase().indexOf(filterValue) === 0);
+
+  }
+
+  private excludeSelectedSkill(): string[] {
+    const arrTmp: string[] = [];
+    this.choicesSkills.forEach(obj => obj.list.map(item => arrTmp.push(item)));
+    return this.skillsArr.filter(skill => arrTmp.indexOf(skill) === -1);
+  }
+
   private excludeSelectedInterest(): string[] {
-    return this.allInterests.filter(item => this.choicedInterests.indexOf(item) === -1);
+    return this.allInterests.filter(item => this.choicesInterests.indexOf(item) === -1);
   };
   ///////////////////////////////////////////////////////
   private initMainForm() {
@@ -187,6 +298,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);
     this.mainForm.controls.emailInput.setValue(this.user.email);
     this.changeUserAvatar();
+    this.cdRef.detectChanges();
   };
 
 }

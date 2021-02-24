@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserYearsOldPipe } from '@app/pipe/user-years-old';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -8,6 +7,7 @@ import { AccountComponent } from './account.component';
 import { MaterialModule } from '@app/modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -20,6 +20,7 @@ import { UserEffects } from '@app/store/effects/user.effects';
 import { userReducer } from '@app/store/reducers/user.reduser';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { UserYearsOldPipe } from '../../pipe/user-years-old';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatNativeDateModule,
     MatMomentDateModule,
     MatAutocompleteModule,
+    MatListModule,
     MatRadioModule,
     MatToolbarModule,
     MatDatepickerModule,
@@ -42,7 +44,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
   providers: [],
   declarations: [
     AccountComponent,
-    UserYearsOldPipe,
+    UserYearsOldPipe
   ],
   exports: [AccountComponent],
 })
