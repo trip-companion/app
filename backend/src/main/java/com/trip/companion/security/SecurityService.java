@@ -2,15 +2,14 @@ package com.trip.companion.security;
 
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.auth.InvalidRefreshTokenException;
-import com.trip.companion.rest.dto.request.LoginRequest;
-import com.trip.companion.rest.dto.response.LoginResponse;
-import com.trip.companion.rest.dto.response.AccessTokenRefreshRequest;
+import com.trip.companion.rest.dto.request.auth.LoginRequest;
+import com.trip.companion.rest.dto.response.auth.AccessTokenRefreshRequest;
+import com.trip.companion.rest.dto.response.auth.LoginResponse;
 import com.trip.companion.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -40,8 +39,8 @@ public class SecurityService {
         return getLoginResponse(user);
     }
 
-    private Authentication authenticateUser(String username, String password) {
-        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    private void authenticateUser(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
     private LoginResponse getLoginResponse(User userWithRefreshToken) {

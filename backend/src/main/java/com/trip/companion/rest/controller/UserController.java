@@ -1,11 +1,11 @@
 package com.trip.companion.rest.controller;
 
 import com.trip.companion.domain.user.User;
-import com.trip.companion.rest.dto.request.EditUserRequest;
-import com.trip.companion.rest.dto.request.RegisterUserRequest;
+import com.trip.companion.rest.dto.request.user.RegisterUserRequest;
+import com.trip.companion.rest.dto.request.user.UpdateUserPasswordRequest;
+import com.trip.companion.rest.dto.request.user.UpdateUserRequest;
 import com.trip.companion.rest.dto.response.UserResponse;
 import com.trip.companion.service.UserService;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +31,7 @@ public class UserController extends MappingController {
 
     @PostMapping("public/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@Valid @RequestBody RegisterUserRequest request) {
+    public void registerUser(@RequestBody RegisterUserRequest request) {
         userService.registerUser(request.getEmail(), request.getFirstName(), request.getLastName(),
                 request.getPassword());
     }
@@ -42,8 +42,14 @@ public class UserController extends MappingController {
     }
 
     @PutMapping("users/current")
-    public UserResponse editUser(@Valid @RequestBody EditUserRequest request) {
+    public UserResponse updateUser(@RequestBody UpdateUserRequest request) {
         return mapEntityToResponseDto(userService.editUser(modelMapper.map(request, User.class)), UserResponse.class);
+    }
+
+    @PutMapping("users/current/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateUserPassword(@RequestBody UpdateUserPasswordRequest request) {
+        userService.updatePassword(request.getPassword());
     }
 
     @PostMapping("users/current/avatar")

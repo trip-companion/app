@@ -14,21 +14,24 @@ import com.trip.companion.domain.user.Status;
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.dto.ErrorResponse;
 import com.trip.companion.repository.UserRepository;
-import com.trip.companion.rest.dto.request.EditUserRequest;
-import com.trip.companion.rest.dto.request.LanguageLevelItemRequest;
-import com.trip.companion.rest.dto.request.RegisterUserRequest;
+import com.trip.companion.rest.dto.request.user.RegisterUserRequest;
+import com.trip.companion.rest.dto.request.user.UpdateUserPasswordRequest;
+import com.trip.companion.rest.dto.request.user.UpdateUserRequest;
+import com.trip.companion.rest.dto.request.user.UpdateUserRequest.LanguageLevelItemRequest;
 import com.trip.companion.rest.dto.response.UserResponse;
 import com.trip.companion.security.JwtService;
+import com.trip.companion.security.SecurityConfig;
 import com.trip.companion.service.FeatureService;
 import com.trip.companion.service.InterestService;
 import com.trip.companion.service.SkillService;
 import com.trip.companion.service.UserService;
 import com.trip.companion.service.file.FileItemService;
+import com.trip.companion.utils.PasswordUtils;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.logging.log4j.util.Strings;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,14 +42,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.trip.companion.repository.migration.test.CreateUserChangelog.TEST_USER_EMAIL;
 import static com.trip.companion.repository.migration.test.CreateUserChangelog.TEST_USER_PASSWORD;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -80,6 +90,15 @@ class UserControllerTest {
     private InterestService interestService;
     @Autowired
     private FeatureService featureService;
+    @Autowired
+    private SecurityConfig securityConfig;
+
+    @BeforeEach
+    void resetPassword() {
+        User user = userService.getByEmail(TEST_USER_EMAIL);
+        user.setPassword(passwordEncoder.encode(TEST_USER_PASSWORD));
+        userRepository.save(user);
+    }
 
     @Test
     void verifyUserReturnedWithAuthHeader() throws Exception {
@@ -136,7 +155,7 @@ class UserControllerTest {
         String newUserEmail = "newUser@gmail.com";
         String newUserFirstName = "firstName";
         String newUserLastName = "lastName";
-        String password = "00000000";
+        String password = PasswordUtils.generatePassword();
 
         RegisterUserRequest request = new RegisterUserRequest();
         request.setEmail(newUserEmail);
@@ -167,7 +186,7 @@ class UserControllerTest {
         request.setEmail(TEST_USER_EMAIL);
         request.setFirstName("test");
         request.setLastName("test");
-        request.setPassword(TEST_USER_PASSWORD);
+        request.setPassword(PasswordUtils.generatePassword());
 
         MockHttpServletResponse response = mockMvc.perform(post("/api/public/users")
                 .content(objectMapper.writeValueAsBytes(request))
@@ -190,7 +209,7 @@ class UserControllerTest {
         request.setEmail(TEST_USER_EMAIL);
         request.setFirstName("test");
         request.setLastName("test");
-        request.setPassword(TEST_USER_PASSWORD);
+        request.setPassword(PasswordUtils.generatePassword());
 
         MockHttpServletResponse response = mockMvc.perform(post("/api/public/users")
                 .header("Language", Language.UKR)
@@ -212,7 +231,7 @@ class UserControllerTest {
         userRepository.save(user);
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpeg",
-                MediaType.IMAGE_JPEG_VALUE, new byte[] {0, 0, 0, 0});
+                MediaType.IMAGE_JPEG_VALUE, new byte[]{0, 0, 0, 0});
         MockHttpServletResponse response = mockMvc.perform(multipart("/api/users/current/avatar")
                 .file(file)
                 .header(HttpHeaders.AUTHORIZATION, testUtils.getJwtAccessToken())
@@ -236,7 +255,7 @@ class UserControllerTest {
         userRepository.save(user);
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpeg",
-                MediaType.IMAGE_JPEG_VALUE, new byte[] {0, 0, 0, 0});
+                MediaType.IMAGE_JPEG_VALUE, new byte[]{0, 0, 0, 0});
         MockHttpServletResponse response = mockMvc.perform(multipart("/api/users/current/avatar")
                 .file(file)
                 .header(HttpHeaders.AUTHORIZATION, testUtils.getJwtAccessToken())
@@ -257,7 +276,7 @@ class UserControllerTest {
     @Test
     void assertErrorOnWrongAvatarType() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt",
-                MediaType.TEXT_PLAIN_VALUE, new byte[] {0, 0, 0, 0});
+                MediaType.TEXT_PLAIN_VALUE, new byte[]{0, 0, 0, 0});
         String expectedErrorMessage = "File test.txt is not an image file, content-type: text/plain";
         MockHttpServletResponse response = mockMvc.perform(multipart("/api/users/current/avatar")
                 .file(file)
@@ -273,7 +292,7 @@ class UserControllerTest {
     @Test
     void verifyValidationFailedOnEmptyFirstName() throws Exception {
         String expectedErrorMessage = "firstName: must not be empty";
-        EditUserRequest request = new EditUserRequest();
+        UpdateUserRequest request = new UpdateUserRequest();
         request.setLastName("lastName");
 
         MockHttpServletResponse response = mockMvc.perform(put("/api/users/current")
@@ -291,7 +310,7 @@ class UserControllerTest {
     @Test
     void verifyValidationFailedOnEmptyLastName() throws Exception {
         String expectedErrorMessage = "lastName: must not be empty";
-        EditUserRequest request = new EditUserRequest();
+        UpdateUserRequest request = new UpdateUserRequest();
         request.setFirstName("firstName");
 
         MockHttpServletResponse response = mockMvc.perform(put("/api/users/current")
@@ -309,7 +328,7 @@ class UserControllerTest {
     @Test
     void verifyValidationFailedOnTooLongDescription() throws Exception {
         String expectedErrorMessage = "about: length must be between 0 and 2048";
-        EditUserRequest request = new EditUserRequest();
+        UpdateUserRequest request = new UpdateUserRequest();
         request.setFirstName("firstName");
         request.setLastName("lastName");
         request.setAbout(IntStream.rangeClosed(0, 3000).mapToObj(String::valueOf).collect(Collectors.joining("")));
@@ -329,7 +348,7 @@ class UserControllerTest {
     @Test
     void verifyValidationFailedOnWrongBirthDate() throws Exception {
         String expectedErrorMessage = "birthDate: must be a past date";
-        EditUserRequest request = new EditUserRequest();
+        UpdateUserRequest request = new UpdateUserRequest();
         request.setFirstName("firstName");
         request.setLastName("lastName");
         request.setBirthDate(LocalDate.now().plusDays(1));
@@ -361,19 +380,19 @@ class UserControllerTest {
         Interest interest = interestService.findAll().stream().findAny().orElseThrow();
         Feature feature = featureService.findAll().stream().findAny().orElseThrow();
 
-        EditUserRequest request = new EditUserRequest();
+        UpdateUserRequest request = new UpdateUserRequest();
         request.setFirstName(firstName);
         request.setLastName(lastName);
         request.setBirthDate(birthDate);
         request.setGender(Gender.FEMALE);
         request.setStatus(Status.AT_HOME);
         request.setAbout(about);
-        request.setLanguages(Collections.singletonList(levelItem));
-        request.setKnownSkills(Collections.singletonList(skill.getId()));
-        request.setInterestedInSkills(Collections.singletonList(skill.getId()));
-        request.setCanTeachSkills(Collections.singletonList(skill.getId()));
-        request.setInterests(Collections.singletonList(interest.getId()));
-        request.setFeatures(Collections.singletonList(feature.getId()));
+        request.setLanguages(singletonList(levelItem));
+        request.setKnownSkills(singletonList(skill.getId()));
+        request.setInterestedInSkills(singletonList(skill.getId()));
+        request.setCanTeachSkills(singletonList(skill.getId()));
+        request.setInterests(singletonList(interest.getId()));
+        request.setFeatures(singletonList(feature.getId()));
 
         MockHttpServletResponse response = mockMvc.perform(put("/api/users/current")
                 .header(HttpHeaders.AUTHORIZATION, testUtils.getJwtAccessToken(TEST_USER_EMAIL))
@@ -393,11 +412,54 @@ class UserControllerTest {
         assertEquals(1, updatedUser.getLanguages().size());
         assertEquals(levelItem.getIsoCode(), updatedUser.getLanguages().get(0).getIsoCode());
         assertEquals(levelItem.getLevel(), updatedUser.getLanguages().get(0).getLevel());
-        assertEquals(Collections.singletonList(skill.getId()), updatedUser.getKnownSkills());
-        assertEquals(Collections.singletonList(skill.getId()), updatedUser.getInterestedInSkills());
-        assertEquals(Collections.singletonList(skill.getId()), updatedUser.getCanTeachSkills());
-        assertEquals(Collections.singletonList(interest.getId()), updatedUser.getInterests());
-        assertEquals(Collections.singletonList(feature.getId()), updatedUser.getFeatures());
+        assertEquals(singletonList(skill.getId()), updatedUser.getKnownSkills());
+        assertEquals(singletonList(skill.getId()), updatedUser.getInterestedInSkills());
+        assertEquals(singletonList(skill.getId()), updatedUser.getCanTeachSkills());
+        assertEquals(singletonList(interest.getId()), updatedUser.getInterests());
+        assertEquals(singletonList(feature.getId()), updatedUser.getFeatures());
+    }
+
+    @Test
+    void assertPasswordUpdated() throws Exception {
+        String updatedPassword = PasswordUtils.generatePassword();
+
+        MockHttpServletResponse response = mockMvc.perform(put("/api/users/current/password")
+                .header(HttpHeaders.AUTHORIZATION, testUtils.getJwtAccessToken(TEST_USER_EMAIL))
+                .content(objectMapper.writeValueAsBytes(UpdateUserPasswordRequest.builder()
+                        .password(updatedPassword)
+                        .build()))
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse();
+
+        User user = userService.getByEmail(TEST_USER_EMAIL);
+
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+        assertNotEquals(updatedPassword, user.getPassword());
+        assertTrue(passwordEncoder.matches(updatedPassword, user.getPassword()));
+        assertDoesNotThrow(() -> securityConfig.authenticationManagerBean().authenticate(
+                new UsernamePasswordAuthenticationToken(TEST_USER_EMAIL, updatedPassword)));
+    }
+
+    @Test
+    void assertValidationErrorOnWrongPasswordUpdated() throws Exception {
+        String updatedPassword = "wrongPassword";
+        AuthenticationManager authenticationManager = securityConfig.authenticationManagerBean();
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(TEST_USER_EMAIL, updatedPassword);
+
+        MockHttpServletResponse response = mockMvc.perform(put("/api/users/current/password")
+                .header(HttpHeaders.AUTHORIZATION, testUtils.getJwtAccessToken(TEST_USER_EMAIL))
+                .content(objectMapper.writeValueAsBytes(UpdateUserPasswordRequest.builder()
+                        .password(updatedPassword)
+                        .build()))
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse();
+
+        User user = userService.getByEmail(TEST_USER_EMAIL);
+
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatus());
+        assertFalse(passwordEncoder.matches(updatedPassword, user.getPassword()));
+        assertThrows(BadCredentialsException.class, () -> authenticationManager.authenticate(authToken));
     }
 
 }

@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.springframework.util.StringUtils;
 
-public class LanguageIsoCodeConstraintValidator implements ConstraintValidator<LanguageIsoCodeConstraint, String> {
+public class LanguageIsoCodeConstraintValidator implements ConstraintValidator<LanguageIsoCode, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
