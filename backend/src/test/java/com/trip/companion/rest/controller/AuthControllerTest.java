@@ -6,9 +6,9 @@ import com.trip.companion.domain.user.User;
 import com.trip.companion.error.dto.ErrorResponse;
 import com.trip.companion.repository.UserRepository;
 import com.trip.companion.repository.migration.test.CreateUserChangelog;
-import com.trip.companion.rest.dto.request.LoginRequest;
-import com.trip.companion.rest.dto.response.AccessTokenRefreshRequest;
-import com.trip.companion.rest.dto.response.LoginResponse;
+import com.trip.companion.rest.dto.request.auth.LoginRequest;
+import com.trip.companion.rest.dto.response.auth.AccessTokenRefreshRequest;
+import com.trip.companion.rest.dto.response.auth.LoginResponse;
 import com.trip.companion.service.UserService;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
@@ -105,7 +105,7 @@ class AuthControllerTest {
 
     @Test
     void assertUnprocessableStatusOnInvalidRequest() throws Exception {
-        String expectedErrorMessage = "password: must not be blank";
+        String expectedErrorMessage = "password: must not be empty";
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(TEST_USER_EMAIL);

@@ -2,7 +2,6 @@ package com.trip.companion.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trip.companion.error.dto.ErrorResponse;
-import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.error.exception.client.ClientException;
 import com.trip.companion.service.error.ErrorMessageService;
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;

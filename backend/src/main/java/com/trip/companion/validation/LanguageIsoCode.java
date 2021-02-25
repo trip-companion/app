@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = LanguageIsoCodeConstraintValidator.class)
-public @interface LanguageIsoCodeConstraint {
+public @interface LanguageIsoCode {
     String message() default "Invalid language isoCode";
 
     Class<?>[] groups() default {};

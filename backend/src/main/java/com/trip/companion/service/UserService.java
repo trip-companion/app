@@ -3,7 +3,6 @@ package com.trip.companion.service;
 import com.trip.companion.domain.file.FileItem;
 import com.trip.companion.domain.user.User;
 import com.trip.companion.error.exception.NoDataFoundException;
-import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.error.exception.client.UserAlreadyRegisteredException;
 import com.trip.companion.repository.UserRepository;
 import com.trip.companion.security.JwtService;
@@ -11,6 +10,7 @@ import com.trip.companion.service.file.FileItemService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -79,7 +79,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new NoDataFoundException("User not found by email " + email));
     }
 
-    public User registerUser(String email, String firstName, String lastName, String password) {
+    public void registerUser(String email, String firstName, String lastName, String password) {
         if (repository.existsByEmail(email)) {
             throw new UserAlreadyRegisteredException(email);
         }
@@ -88,12 +88,13 @@ public class UserService implements UserDetailsService {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setPassword(passwordEncoder.encode(password));
-        return repository.save(user);
+        String userId = repository.save(user).getId();
+        log.info("Created user {} with email {}", userId, email);
     }
 
     public User uploadAvatar(MultipartFile file) {
         User currentUser = getCurrentUser();
-        log.info("Updating avatar for user with id {}", currentUser.getId());
+        log.info("Updating avatar for user {}", currentUser.getId());
         FileItem fileItem = fileItemService.uploadImage(file);
         User user = updateAvatar(fileItem, currentUser);
         log.info("Avatar id was updated to {} for user {}", user.getAvatarId(), user.getId());
@@ -125,6 +126,7 @@ public class UserService implements UserDetailsService {
         user.setCanTeachSkills(validateAndGetSkills(editedUser.getCanTeachSkills()));
         user.setInterests(validateAndGetInterests(editedUser.getInterests()));
         user.setFeatures(validateAndGetFeatures(editedUser.getFeatures()));
+        log.info("Updated user with id {} data", user.getId());
         return repository.save(user);
     }
 
@@ -150,6 +152,13 @@ public class UserService implements UserDetailsService {
         } else {
             throw new ValidationException("Unknown features");
         }
+    }
+
+    public void updatePassword(String password) {
+        User user = getCurrentUser();
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+        log.info("Password was changed for user {}", user.getId());
     }
 }
 

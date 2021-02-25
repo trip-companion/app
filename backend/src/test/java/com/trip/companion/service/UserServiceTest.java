@@ -1,11 +1,11 @@
 package com.trip.companion.service;
 
 import com.trip.companion.domain.user.User;
-import com.trip.companion.error.exception.ValidationException;
 import com.trip.companion.repository.UserRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -24,6 +24,7 @@ ext {
     gsonVersion = '2.8.6'
     janinoVersion = '3.0.7'
     tikaVersion = '1.25'
+    passayVersion = '1.6.0'
 }
 
 version = "0.0.1-${hash}"
@@ -38,6 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation "org.springdoc:springdoc-openapi-ui:${openApiUiVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
@@ -47,15 +49,11 @@ dependencies {
 
     implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
     implementation "com.google.code.gson:gson:${gsonVersion}"
-
-    implementation "org.springdoc:springdoc-openapi-ui:${openApiUiVersion}"
-
     implementation "io.jsonwebtoken:jjwt:${jsonWebTokenVersion}"
     implementation 'javax.xml.bind:jaxb-api:2.1'
-
     implementation "org.codehaus.janino:janino:${janinoVersion}"
-
     implementation "org.apache.tika:tika-core:${tikaVersion}"
+    implementation "org.passay:passay:${passayVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
