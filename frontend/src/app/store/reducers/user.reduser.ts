@@ -21,6 +21,12 @@ export const userReducer = (state = initialState, action: UserActions.UserAction
         loading: true
       };
 
+    case UserActions.USER_ACTION.UPDATE_USER_ACTION:
+      return {
+        ...state,
+        loading: true
+      };
+
     case UserActions.USER_ACTION.LOAD_USER_SUCCESS:
       return {
         ...state,

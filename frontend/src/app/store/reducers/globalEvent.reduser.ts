@@ -11,6 +11,7 @@ const initialState: State = {
 };
 
 export const globalEventReducer = (state = initialState, action: GlobalEventActions.GlobalEventActions): State => {
+
   switch (action.type) {
     case GlobalEventActions.GLOBAL_EVENT_ACTION.EVENT_ACTION:
       return {

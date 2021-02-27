@@ -1,27 +1,472 @@
+@import '../../../styles/typography';
+
 :host {
     display: flex;
-    background: url('/assets/images/app-root-bg.jpg') center no-repeat;
+    background: $account-bg;
     width: 100%;
-    background-size: 100%;
-    height: 100vh;
+    height: 100%;
     flex-direction: column;
-    align-items: center;
+    padding: 0px 0px;
+
+    .card {
+        position: relative;
+        margin-top: 58px;
+        height: 520px;
+        box-shadow: $boxShadow-container;
+        border-radius: 10px;
+
+       .user-profile-images {
+           position: relative;
+           height: 420px;
+           .user-header_img {
+               height: 420px;
+               width: 100%;
+           }
+           .user-face_img {
+                height: 140px;
+                width: 140px;
+                position: relative;
+                top: -70px;
+                left: 30px;
+                box-shadow: $boxShadow-card;
+                border-radius: 5px;
+                z-index: 11;
+                overflow: hidden;
+                background: white;
+                .avatar {
+                    height: 140px;
+                    width: 140px;
+                }
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 140px;
+                    width: 140px;
+                    content: '';
+                    opacity: 0;
+                    background-image: url("/assets/images/account/avatar-hover.png"), linear-gradient(to bottom, rgba(72,76,97,0) 0%, rgba(72,76,97,0.8) 0%);
+                    background-size: cover;
+                    transform: translate3d(0,50%,0);
+                    transition: all 0.5s;
+                }
+                #uploadFile {
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;    
+                    z-index: 9;
+                    opacity: 0;
+                    height: 100%;
+                    cursor: pointer;
+                    position: absolute;
+                };
+           }
+
+           .user-face_img:hover {
+                cursor: pointer;
+                &::before {
+                    opacity: 1;
+                    transform: translate3d(0,0,0);
+                }
+            }
+       };
+       .user-profile-text {
+            height: 0px;
+            position: relative;
+            top: -230px;
+            margin-left: 250px;
+            .title {
+                color: $color-white;
+                @include card_title;
+            }
+            .discription {
+                color: $color-white;
+                @include card_subtitle;
+            }
+       }
+
+       .card-content {
+           display: flex;
+           position: relative;
+           height: 100px;
+           padding-left: 200px;
+           align-items: center;
+           &_buttons  {
+               width: 300px;
+               display: flex;
+               justify-content: space-between;
+           }
+       };
+    };
+
+    .main {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        margin: 30px 20px 40px 20px;
+        grid-gap: 0px 30px;
+        
+        &-profile, &-about {
+            box-shadow: 5px 1px 50px 5px rgba(25,42,70,.11);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            mat-divider {
+                margin: 10px 0px;
+            }
+            &_title {
+                color: $title-color;
+                @include card_title;
+            }
+
+            &_params, &_password {
+                align-self: center;
+
+                .helper-password {
+                    color: transparent;
+                    &.error {
+                        color: $color-error;
+                    }
+                }
+            }
+
+            &_submit {
+                align-self: center;
+                margin-bottom: 30px
+            }
+
+            .password_submit {
+                align-self: center;
+            }
+
+            .main-about-container {
+                width: 100%;
+                .container-form {
+                    display: flex;
+                    flex-wrap: wrap;
+                    .form-firstname {
+                        margin-right: 20px;
+
+                    }
+                    .form-lastname  {
+                        margin-right: 20px;
+                    }
+
+                    .user-status {
+                        #user-status-label {
+                            position: relative;
+                            bottom: 10px;
+                            left: 10px;
+                        }
+                        .example-radio-group {
+                            display: flex;
+                            flex-wrap: wrap;
+                            flex-direction: row;
+                          }
+                          
+                          .example-radio-button {
+                            margin: 10px 10px;
+                          }
+                    }
+
+                    .user-personal  {
+                        width: 100%;
+                        display: flex;
+                        margin: 20px 0px;
+                        flex-wrap:  wrap;
+                        .user-birth  {
+                            display: block;
+                            align-items: center;
+                            .user-old {
+                                margin-top: 10px;
+                            }
+                            &:hover {
+                                ::ng-deep  {
+                                    input {
+                                        cursor: default;
+                                    }
+                                    .mat-form-field-suffix {
+                                        background: $color-new-blue;
+                                        border-radius: 50%;
+                                    } 
+                                }
+                            }
+                            ::ng-deep  {
+                                .mat-form-field-underline {
+                                    display: none;
+                                }
+                                .mat-form-field-flex {
+                                    background: none;
+                                }
+                                .mat-form-field-infix {
+                                    width: 90px
+                                }
+                                .mat-form-field-wrapper {
+                                    padding: 0px;
+                                }
+                            }
+                        }
+                        .user-gender  {
+                            margin: 0px 10px;
+                            #user-gender-label {
+                                position: relative;
+                                bottom: 10px;
+                                left: 10px;
+                            }
+                            .gender-radio-group {
+                                display: flex;
+                                flex-direction: row;
+                            }
+                            .gender-radio-button {
+                                margin: 0px 10px;
+                            }
+                        }
+
+                    }
+                    .description {
+                        margin-top: 10px;
+                        overflow: auto;
+                        width: 100%;
+                        .mat-form-field {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .languages {
+                    &-title {
+                        display:  flex;
+                        width: 100%;
+                    }
+
+                    &-new {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        .lvl-radio-group {
+                            margin: 5px 0;
+                        }
+                        .example-radio-button {
+                            margin: 10px;
+                        }
+                        .mat-form-field {
+                            width: 320px;
+                        }
+                        &_btn {
+                            margin-right: 10px;
+                        }
+                    }
+
+                    .languages-list {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        .delete-item {
+                            margin-left: 15px;
+                            width: 24px;
+                            height: 24px;
+                            display: flex;
+                            align-content: center;
+                            ::ng-deep {
+                                .mat-button-wrapper {
+                                    padding: 0px;
+                                    margin: 0px;
+                                    .material-icons {
+                                        font-size: 16px;
+                                        height: 20px;
+                                        width: 24px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .skills  {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    &-title {
+                        display: flex;
+                        width: 100%;
+                        @include medium_text;
+                    }
+                    &-new {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        // @include medium_text;
+                        .mat-form-field {
+                            width: 320px;
+                        }
+                        &_btn {
+                            margin-right: 10px;
+                        }
+                        .lvl-radio-group {
+                            margin: 5px 0;
+                        }
+                        .example-radio-button {
+                            margin: 10px;
+                        }
+                    }
+
+                    .skills-list {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        &_category {
+                            display: flex;
+                            flex-wrap: wrap;
+                            padding-left: 10px;
+                            border-left: 2px solid #eee;
+                            margin: 15px 0px;
+                            .category-title {
+                                width: 100%;
+                                display: flex;
+                                @include default_text;
+                                color: $title-color;
+                            }
+                            .delete-item {
+                                margin-left: 15px;
+                                width: 24px;
+                                height: 24px;
+                                display: flex;
+                                align-content: center;
+                                ::ng-deep {
+                                    .mat-button-wrapper {
+                                        padding: 0px;
+                                        margin: 0px;
+                                        .material-icons {
+                                            font-size: 16px;
+                                            height: 20px;
+                                            width: 24px;
+                                        }
+                                    }
+                                }
+                            }
+                            .list-item {
+                                display: flex;
+                                flex-wrap: wrap;
+                                margin: 5px 0px 0px 5px;
+                                .mat-list-item {
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                    &-more {
+                        overflow: auto;
+                        display: flex;
+                        width: 100%;
+                        .mat-form-field {
+                            width: 100%;
+                        }
+                    }
+                }
+                .interest {
+                    width: 100%;
+                    .mat-form-field {
+                        width: 100%;
+                    }
+                }
+
+                .more {
+                    &-title {
+                        display: flex;
+                        width: 100%;
+                        margin: 0px;
+                        padding: 0px;
+                        @include medium_text;
+                    }
+
+                    ::ng-deep {
+                        .mat-list-item-content {
+                            @include default_text;
+                        }
+                    }
+
+                    .mat-icon {
+                        margin-right: 10px;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        };
+        
+   };
 
     @media screen and (max-width: 1199px) {
-        background-size: 150%
+       .card {
+            margin-top: 54px;
+
+            &-content {
+                &_buttons {
+                    width: 100%;
+                    flex-wrap: wrap;
+                }
+            }   
+       }
     }
 
-    @media screen and (max-width: 850px) {
-        background-size: cover;
+    @media screen and (max-width: 768px) {
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            &-profile, &-about {
+                margin: 10px 0px;
+                .main-about-container {
+
+                    .languages {
+                        &-new {
+                            .mat-form-field {
+                                width: 290px;
+                            }
+                        }
+                    };
+
+                    .skills  {
+                        &-new {
+                            .mat-form-field {
+                                width: 100%;
+                                max-width: 290px;
+                            }
+                        }
+                    }
+                }
+            } 
+        } 
     }
 
-    @media screen and (max-height: 520px) {
-        height: 550px;
+    @media screen and (max-width: 560px) {
+        .card {
+            height: 450px;
+            .user-profile-images {
+                height: 320px;
+                .user-header_img {
+                    height: 300px;
+                }
+            }
+            .user-profile-text {
+                margin-left: 158px;
+            }
+            .card-content {
+                &_buttons {
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    button  {
+                        margin: 5px 0px;
+                    }
+                }
+            }
+        }
+        .main {
+            margin: 10px 5px;
+        }
     }
-}
-
-h1 {
-    color: red;
-    padding-top:  35vh;
-    font-size: 40px;
 }

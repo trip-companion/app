@@ -5,6 +5,7 @@
 /dist
 /tmp
 /out-tsc
+/backend/storage
 # Only exists if Bazel was run
 /bazel-out
 

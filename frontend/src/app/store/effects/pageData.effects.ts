@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { PAGE_DATA_ACTION, SetPageDataAction, LoadPageDataAction } from '@app/store/actions/pageData.action';
 import { ApiService } from '@app/services/api.services';
 import { catchError, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 import { LoadGlobalEventFailAction } from '../actions/globalEvent.action';
 import { SharedService } from '@app/services/shared.service';
 import { LANGUAGE_MODEL } from '@app/models/language.model';
@@ -17,7 +17,10 @@ export class PageDataEffects {
       switchMap(data => [
         new SetPageDataAction(data),
       ]),
-      catchError(error => of(new LoadGlobalEventFailAction(error)))
+      catchError(error => {
+        new LoadGlobalEventFailAction(error);
+        return throwError(error);
+      }),
     );
 
   constructor(private actions$: Actions,

@@ -1,7 +1,17 @@
 export default interface IUserModel {
-    email: string | null;
-    firstName: string | null;
-    lastName: string | null;
-    permissions?: string;
-    language?: string;
+    id?: string;
+    email?: string;
+    avatarSrc?: string;
+    firstName: string;
+    lastName: string;
+    status: string;
+    gender: string;
+    about: string;
+    birthDate: string;
+    languages: {isoCode: string; level: string}[];
+    knownSkills: string[];
+    interestedInSkills: string[];
+    canTeachSkills: string[];
+    interests: string[];
+    features: string[];
 };
