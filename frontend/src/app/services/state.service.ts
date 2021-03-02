@@ -25,8 +25,8 @@ export class StateService {
   public updateRouterData$ = this.updateRouterDataMessage.asObservable();
 
   private routerDataVaribale: Data = null;
-  // public isToggleSidebar:BehaviorSubject<boolean> = new BehaviorSubject(false);
-  // public toggleSidebarObservable = this.isToggleSidebar.asObservable()
+  public isToggleSidebar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public toggleSidebarObservable = this.isToggleSidebar.asObservable();
   // public isToggleClassForHeader:BehaviorSubject<boolean> = new BehaviorSubject(false);
   // public toggleClassForHeaderObservable = this.isToggleClassForHeader.asObservable()
 

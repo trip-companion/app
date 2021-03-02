@@ -104,6 +104,10 @@
         grid-template-columns: 1fr 4fr;
         margin: 30px 20px 40px 20px;
         grid-gap: 0px 30px;
+
+        &-profile {
+           height: 465px;
+        }
         
         &-profile, &-about {
             box-shadow: 5px 1px 50px 5px rgba(25,42,70,.11);
@@ -111,18 +115,18 @@
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             width: 100%;
             mat-divider {
                 margin: 10px 0px;
             }
             &_title {
                 color: $title-color;
-                @include card_title;
+                @include big_text;
             }
 
             &_params, &_password {
                 align-self: center;
+                height: auto!important;
 
                 .helper-password {
                     color: transparent;
@@ -145,20 +149,69 @@
                 width: 100%;
                 .container-form {
                     display: flex;
+                    flex-direction: column;
                     flex-wrap: wrap;
-                    .form-firstname {
-                        margin-right: 20px;
 
+                    .form-username, .user-status, .user-personal, .description {
+                        display: flex;
+                        flex-direction: column;
+                        position: relative;
+                        justify-content: center;
+                        padding-left: 60px;
+                        &::before {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            left: 30px;
+                            background: rgb(0,0,0,.42);
+                            height: 100%;
+                            width: 1px;
+                        }
+                        .left-icon {
+                            position: absolute;
+                            left: 0px;
+                            display: flex;
+                            width: 40px;
+                        }
                     }
-                    .form-lastname  {
-                        margin-right: 20px;
+
+                    .form-username {
+                        margin: 0px 0px 30px 0px;
+                        &_name {
+                            margin-bottom: 20px;
+                        }
+                        &::before {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            left: 30px;
+                            background: rgb(0,0,0,.42);
+                            height: 100%;
+                            width: 1px;
+                        }
+                        .left-icon {
+                            position: absolute;
+                            left: 0px;
+                            display: flex;
+                            width: 40px;
+                        }
+                        .mat-form-field {
+                            width: 280px;
+                        }
+                        ::ng-deep {
+                            .mat-form-field-wrapper {
+                                padding-bottom: 0em;
+                            }
+                        }
                     }
 
                     .user-status {
                         #user-status-label {
-                            position: relative;
                             bottom: 10px;
                             left: 10px;
+                            @include medium_text;
+                            color: $color-base3;
+                            font-weight: 500;
                         }
                         .example-radio-group {
                             display: flex;
@@ -172,18 +225,20 @@
                     }
 
                     .user-personal  {
-                        width: 100%;
-                        display: flex;
                         margin: 20px 0px;
-                        flex-wrap:  wrap;
                         .user-birth  {
-                            display: block;
-                            align-items: center;
+                            margin: 10px 0px 0px 0px;
+                            // align-items: center;
+                            // #user-birth-label {
+                            //     @include medium_text;
+                            //     color: $color-base3;
+                            //     font-weight: 500;
+                            // }
                             .user-old {
                                 margin-top: 10px;
                             }
                             &:hover {
-                                ::ng-deep  {
+                                ::ng-deep {
                                     input {
                                         cursor: default;
                                     }
@@ -193,7 +248,7 @@
                                     } 
                                 }
                             }
-                            ::ng-deep  {
+                            ::ng-deep {
                                 .mat-form-field-underline {
                                     display: none;
                                 }
@@ -209,11 +264,14 @@
                             }
                         }
                         .user-gender  {
-                            margin: 0px 10px;
+                            margin: 10px 0px;
                             #user-gender-label {
                                 position: relative;
                                 bottom: 10px;
                                 left: 10px;
+                                @include medium_text;
+                                color: $color-base3;
+                                font-weight: 500;
                             }
                             .gender-radio-group {
                                 display: flex;
@@ -226,19 +284,49 @@
 
                     }
                     .description {
-                        margin-top: 10px;
+                        margin: 10px 0px;
                         overflow: auto;
                         width: 100%;
                         .mat-form-field {
                             width: 100%;
                         }
+
+                        ::ng-deep  {
+                            .mat-form-field-wrapper {
+                                padding: 0px;
+                            }
+                        }
                     }
                 }
 
                 .languages {
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    justify-content: center;
+                    padding-left: 60px;
+                    margin:  10px 0px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        left: 30px;
+                        background: rgb(0,0,0,.42);
+                        height: 100%;
+                        width: 1px;
+                    }
+                    .left-icon {
+                        position: absolute;
+                        left: 0px;
+                        display: flex;
+                        width: 40px;
+                    }
                     &-title {
                         display:  flex;
                         width: 100%;
+                        @include medium_text;
+                        color: $color-base3;
+                        font-weight: 500;
                     }
 
                     &-new {
@@ -256,6 +344,7 @@
                         }
                         &_btn {
                             margin-right: 10px;
+                            margin-bottom: 10px;
                         }
                     }
 
@@ -285,13 +374,34 @@
                 }
 
                 .skills  {
-                    display: flex;
-                    flex-direction: row;
                     flex-wrap: wrap;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    justify-content: center;
+                    padding-left: 60px;
+                    margin: 20px 0px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        left: 30px;
+                        background: rgb(0,0,0,.42);
+                        height: 100%;
+                        width: 1px;
+                    }
+                    .left-icon {
+                        position: absolute;
+                        left: 0px;
+                        display: flex;
+                        width: 40px;
+                    }
                     &-title {
                         display: flex;
                         width: 100%;
                         @include medium_text;
+                        color: $color-base3;
+                        font-weight: 500;
                     }
                     &-new {
                         display: flex;
@@ -303,6 +413,7 @@
                         }
                         &_btn {
                             margin-right: 10px;
+                            margin-bottom: 10px;
                         }
                         .lvl-radio-group {
                             margin: 5px 0;
@@ -365,30 +476,92 @@
                         }
                     }
                 }
-                .interest {
-                    width: 100%;
+                .interests {
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    justify-content: center;
+                    padding-left: 60px;
+                    margin: 20px 0px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        left: 30px;
+                        background: rgb(0,0,0,.42);
+                        height: 100%;
+                        width: 1px;
+                    }
+                    .left-icon {
+                        position: absolute;
+                        left: 0px;
+                        display: flex;
+                        width: 40px;
+                    }
+                    &-title {
+                        display:  flex;
+                        width: 100%;
+                        @include medium_text;
+                        color: $color-base3;
+                        font-weight: 500;
+                    }
                     .mat-form-field {
                         width: 100%;
+                    }
+                    input {
+                        height: 30px;
+                    }
+
+                    ::ng-deep {
+                        .mat-form-field-underline {
+                           display: none;
+                        }
                     }
                 }
 
                 .more {
+                    flex-wrap: wrap;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    justify-content: center;
+                    padding-left: 60px;
+                    margin: 20px 0px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        left: 30px;
+                        background: rgb(0,0,0,.42);
+                        height: 100%;
+                        width: 1px;
+                    }
+                    .left-icon {
+                        position: absolute;
+                        left: 0px;
+                        display: flex;
+                        width: 40px;
+                    }
                     &-title {
                         display: flex;
                         width: 100%;
                         margin: 0px;
-                        padding: 0px;
                         @include medium_text;
+                        color: $color-base3;
+                        font-weight: 500;
                     }
 
                     ::ng-deep {
                         .mat-list-item-content {
                             @include default_text;
+                            padding: 0px;
+                            .mat-icon {
+                                margin-right: 10px;
+                            }
                         }
                     }
 
                     .mat-icon {
-                        margin-right: 10px;
                         &:hover {
                             cursor: pointer;
                         }
@@ -417,11 +590,37 @@
         .main {
             display: flex;
             flex-direction: column;
+            
             &-profile, &-about {
                 margin: 10px 0px;
+                padding: 15px;
                 .main-about-container {
+                    .container-form {
 
+                        .form-username, .user-status, .user-personal, .description {
+                            padding-left: 35px;
+                            &::before {
+                                left: 20px;
+                            }
+                            .left-icon {
+                                left: -7px;
+                            }
+                        }
+
+                        .form-username {
+                            .mat-form-field {
+                                width: 220px;
+                            }
+                        }
+                    }
                     .languages {
+                        padding-left: 35px;
+                        &::before {
+                            left: 20px;
+                        }
+                        .left-icon {
+                            left: -7px;
+                        }
                         &-new {
                             .mat-form-field {
                                 width: 290px;
@@ -429,12 +628,40 @@
                         }
                     };
 
+                    .interests {
+                        padding-left: 35px;
+                        &::before {
+                            left: 20px;
+                        }
+                        .left-icon {
+                            left: -7px;
+                        } 
+                    }
+
                     .skills  {
+                        padding-left: 35px;
+                        &::before {
+                            left: 20px;
+                        }
+                        .left-icon {
+                            left: -7px;
+                        }
                         &-new {
                             .mat-form-field {
                                 width: 100%;
                                 max-width: 290px;
                             }
+                        }
+                    }
+
+                    .more {
+                        padding-left: 35px;
+                        margin: 20px 0px 30px 0px;
+                        &::before {
+                            left: 20px;
+                        }
+                        .left-icon {
+                            left: -7px;
                         }
                     }
                 }
