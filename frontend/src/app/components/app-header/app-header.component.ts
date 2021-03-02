@@ -1,8 +1,8 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
-  Inject, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+  Inject, ChangeDetectorRef, AfterViewInit, OnDestroy, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { Router, Data, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 // services
 import { SharedService } from '../../services/shared.service';
 import { LocationService } from '../../services/location.service';
@@ -20,6 +20,10 @@ import IRouteConfig from '@app/interfaces/route-config';
   encapsulation : ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('hamburger', {static: false}) public hamburger: ElementRef;
+  @ViewChild('headerNav', {static: false}) public headerNav: ElementRef;
+  @ViewChild('overlay', {static: false}) public overlay: ElementRef;
+
   public accountLinkConfig: IRouteConfig[] = [];
   public mainLinkConfig: IRouteConfig[] = [];
   public homePath: string;
@@ -38,6 +42,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
               private authSvc: AuthenticationService,
               public locationService: LocationService,
               private stateService: StateService,
+              private renderer: Renderer2,
               private cdRef: ChangeDetectorRef,
               public sharedService: SharedService,) {
     this.linkConfigFilter(ROUTER_CONFIG, ACCOUNT_LINK_LIST);
@@ -67,12 +72,29 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
 
+    this.isViewInited = true;
+    this.stateService.toggleSidebar$.subscribe((condition) => {
+      this.toggleSidebar(condition);
+    });
   }
 
   public ngOnDestroy(): void {
     this.subsLoginStatus.unsubscribe();
     this.subsRouter.unsubscribe();
     this.subsChangeRouterData.unsubscribe();
+  }
+
+  public toggleSidebar(t: boolean): void {
+    const T = `${t ? `add` : `remove`}Class`;
+    this.renderer[T](this.hamburger.nativeElement, `open`);
+    this.renderer[T](this.headerNav.nativeElement, `open`);
+
+    this.renderer[T](this.overlay.nativeElement, `show-overlay`);
+
+    if (this.stateService.isBrowser) {
+      if(this.stateService.deviceInfo.browser === 'firefox' && this.stateService.deviceInfo.browserVersion >= 71) {return;}
+      this.renderer[T](this.document.body, `noscroll`);
+    };
   }
 
   public goHome(event: MouseEvent): void {
