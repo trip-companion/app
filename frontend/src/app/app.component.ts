@@ -4,6 +4,7 @@ import { filter, pairwise } from 'rxjs/operators';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { LocationService } from './services/location.service';
 import { SharedService } from './services/shared.service';
+import { StateService } from './services/state.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
               public sharedService: SharedService,
               private locationService: LocationService,
               private location: Location,
-              private router: Router,) {
+              private router: Router,
+              private stateService: StateService,) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     this.router.events
@@ -48,6 +50,7 @@ export class AppComponent implements OnInit {
             console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>> NavigationEnd`);
           }
         }
+        this.stateService.isToggleSidebar.next(false);
       }
     });
   }

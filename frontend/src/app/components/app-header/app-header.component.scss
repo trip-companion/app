@@ -7,7 +7,7 @@ app-header {
         z-index: 998;
         height: auto;
         padding: 7px 0px;
-        width: 100vw;
+        width: 100%;
         display: flex;
         background: $color-black02;
         left: 0;
@@ -18,11 +18,81 @@ app-header {
             width: 100%;
             padding: 0px 10px;
 
+            .toolbar-link {
+                display: none;
+                align-items: center;
+                height: 62px;
+                padding: 0;
+                user-select: none;
+                text-decoration: none;
+                cursor: pointer;
+                color: $color-white;
+                min-width: auto;
+                .hamburger {
+                    display: inline-block;
+                    margin: 0;
+                    padding: 18px 10px 10px;
+                    transition-timing-function: linear;
+                    transition-duration: .15s;
+                    transition-property: opacity, filter;
+                    overflow: hidden;
+                    .hamburger-box {
+                        position: relative;
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        .hamburger-inner {
+                            position: absolute;
+                            width: 20px;
+                            height: 2px;
+                            transition-timing-function: ease;
+                            transition-duration: .15s;
+                            transition-property: transform;
+                            top: 50%;
+                            display: block;
+                            margin-top: -2px;
+                            transition: background-color .125s ease-in .175s;
+                            background-color: $color-white;
+                            &::before  {
+                                position: absolute;
+                                width: 20px;
+                                height: 2px;
+                                transition-timing-function: ease;
+                                transition-duration: .15s;
+                                transition-property: transform;
+                                display: block;
+                                content: "";
+                                top: -6px;
+                                left: 0;
+                                transition: transform 125ms cubic-bezier(.6,.04,.98,.335),top 50ms linear 125ms,left 125ms ease-in 175ms;
+                                background-color: $color-white;
+                            }
+                            &::after {
+                                position: absolute;
+                                width: 20px;
+                                height: 2px;
+                                transition-timing-function: ease;
+                                transition-duration: .15s;
+                                transition-property: transform;
+                                display: block;
+                                content: "";
+                                bottom: -6px;
+                                top: 6px;
+                                right: 0;
+                                transition: transform 125ms cubic-bezier(.6,.04,.98,.335),top 50ms linear 125ms,right 125ms ease-in 175ms;
+                                background-color: $color-white;
+                            }
+                        }
+                    }
+                }
+            }
+
             .logo {
                 position: relative;
                 cursor: pointer;
                 height: 100%;
                 display: flex;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
                 &-top {
                     align-self: center;
@@ -35,8 +105,24 @@ app-header {
             .header-tab  {
                 display: flex;
                 padding: 0px 10px;
+                z-index: 5;
+                width: 100%;
+                // &.open {
+                //     left: 0px;
+                //     overflow: auto;
+                //     // justify-content: center;
+                //     @media screen and (max-height:500px) and (max-width: 600px) {
+                //         min-height: 320px;
+                //         // justify-content: space-around;
+                //     }
+                //     @media screen and (max-height:360px) and (max-width: 600px) {
+                //         min-height: 180px;
+                //     }
+                // }
                 .link-block  {
                     display: flex;
+                    list-style-type: none;
+                    flex: 1;
                     &_list {
                         margin: 0px 5px;
                         border-radius: 5px;
@@ -63,6 +149,91 @@ app-header {
                                 &:hover {
                                     background: $color-black07;
                                 }
+                            }
+                        }
+                    }
+                }
+
+                .auth-block {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                    &_list {
+                        border-radius: 5px;
+                        margin: 0px 5px;
+                        &:hover {
+                            background: $color-white;
+                            cursor: pointer;
+                        }
+                        .link {
+                            display: flex;
+                            align-content: center;
+                            width: 100%;
+                            height: 100%;
+                            padding: 10px 20px;
+                            align-self: center;
+                            @include list_item;
+                            color: $color-white;
+                            transition: all 0.3s ease-in-out;
+                            border-radius: 5px;
+                            &:hover {
+                                color: $color-black;
+                                opacity: 0.8;
+                            }
+                            &.is-active {
+                                color: $color-base-blue;
+                                &:hover {
+                                    background: $color-black07;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .lang-box {
+                    display: block;
+                    width: 30px;
+                    margin-right: 16px;
+                    align-self: center;
+                    &:hover {
+                        opacity: 0.8;
+                        color: $color-base-blue;
+                    }
+                    mat-form-field {
+                        width: 50px;
+                        .mat-form-field-wrapper {
+                            padding-bottom: 0;
+                            
+                            .mat-form-field-flex {
+                                .mat-form-field-infix {
+                                    border-top: 0;
+                                    width: 100%;
+                                    .mat-select-arrow-wrapper {
+                                        .mat-select-arrow {
+                                            color: $color-white;
+                                            &:hover {
+                                                opacity: 0.8;
+                                                color: $color-base-blue;
+                                            }
+                                        }
+                                    }
+                                    .mat-select-value {
+                                        color: $color-white;
+                                        text-transform: uppercase;
+                                        font-size: 16px;
+                                        transition: all 0.5s;
+                                        text-align: center;
+                                        &:hover {
+                                            opacity: 0.8;
+                                            color: $color-base-blue;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .mat-form-field-underline {
+                                display: none;
                             }
                         }
                     }
@@ -158,9 +329,105 @@ app-header {
                     }
                 }
             }
+
+            .overlay {
+                width: 100vw;
+                height: 100vh;
+                background: $color-black04;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                display: none;
+                &.show-overlay {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .header  {
+            padding: 0px;
+            .container {
+                justify-content: space-between;
+                .toolbar-link {
+                    display: flex;
+                    height: 54px;
+                }
+                .header-tab {
+                    position: absolute;
+                    flex-direction: column;
+                    height: 100vh;
+                    background: $color-main;
+                    top: 0;
+                    left: -1500px;
+                    width: calc(100% - 80px);
+                    max-width: 300px;
+                    transition: all 0.3s;
+                    &.open {
+                        left: 0px;
+                        overflow: auto;
+                        justify-content: center;
+                        .link-block, .auth-block, .lang-box {
+                            transition: all 0.7s;
+                            opacity: 1;
+                        }
+                        // @media screen and (max-height: 500px) and (max-width: 600px) {
+                        //     min-height: 320px;
+                        //     justify-content: space-around;
+                        // }
+                        // @media screen and (max-height: 360px) and (max-width: 600px) {
+                        //     min-height: 180px;
+                        // }
+                    }
+                    .link-block, .auth-block, .lang-box {
+                        opacity: 0;
+                        &_list {
+                            align-self: center;
+                            .link {
+                                outline: none;
+                                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                                &:focus {
+                                    outline: none;
+                                }
+                                &:hover {
+                                    color: $color-white;
+                                }
+                                &.is-active {
+                                    &:hover {
+                                        background: transparent;
+                                    }
+                                }
+                            }
+                            &:hover {
+                                background: transparent;
+                            }
+                        }
+                    }
+                    .link-block {
+                        flex-direction: column;
+                        width: 100%;
+                        border-bottom: 1px solid rgba(161, 199, 255, 0.2);
+                        width: 228px;
+                        align-self: center;
+                        flex: 0;
+                        margin-bottom: 20px;
+                    }
+                    .auth-block {
+                        height: auto;
+                        flex-direction: column;
+                        align-self: center;
+                        width: 228px;
+                        border-bottom: 1px solid rgba(161, 199, 255, 0.2);
+                        margin-bottom: 20px;
+                    }
+                }
+            }
         }
     }
 }
+
 
 .cdk-overlay-container {
     .cdk-overlay-connected-position-bounding-box {

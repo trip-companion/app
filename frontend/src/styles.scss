@@ -4,10 +4,6 @@
 @import 'styles/_typography.scss';
 @import 'styles/_variable.scss';
 
-html, body { 
-    height: 100%;
-}
-
 body {
     margin: 0;
 }
@@ -16,4 +12,18 @@ ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+}
+
+.noscroll {
+    position: relative;
+    overflow: hidden!important;
+    width: calc(100% + 0px);
+    left: 0px;
+}
+
+.noscroll-preloader {
+    position: relative;
+    overflow: hidden!important;
+    width: calc(100% + 0px);
+    left: 0px;
 }

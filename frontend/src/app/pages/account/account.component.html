@@ -34,10 +34,10 @@
       <h3 class="main-profile_title">Contact info</h3>
 
 				<p class="main-profile_params">
-					<mat-form-field class="example-full-width">
+					<mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Email</mat-label>
             <input type="text" 
               required matInput 
-              placeholder="Email" 
               autocomplete="off" 
               #emailInput
               [formControl]="emailForm"
@@ -56,16 +56,18 @@
 
       <div [formGroup]="passwordForm" class="main-profile_password">
         <p>
-					<mat-form-field class="example-full-width">
+					<mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Password</mat-label>
 						<input type="password" required matInput 
-						placeholder="Password" autocomplete="off" formControlName="passwordFirstInput">
+              autocomplete="off" formControlName="passwordFirstInput">
 						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
 				</p>
 				<p>
-					<mat-form-field class="example-full-width">
+					<mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Repeat password</mat-label>
 						<input type="password" required matInput
-						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
+						  autocomplete="off" formControlName="passwordSecondInput">
 						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
         </p>
@@ -80,26 +82,32 @@
     </div>
 
     <div class="main-about" *ngIf="userAbout">
-      <h3 class="main-profile_title">About me</h3>
+      <h3 class="main-profile_title">My details</h3>
       <div class="main-about-container">
 
         <div class="container-form" [formGroup]="mainForm">
 
-          <p class="form-firstname">
-            <mat-form-field class="example-full-width">
+          <div class="form-username">
+            <mat-icon class="left-icon"> 
+              accessibility_new
+            </mat-icon>
+            <mat-form-field appearance="outline" class="form-username_name">
+              <mat-label>First name</mat-label>
               <input type="text" formControlName="firstNameInput"
-              required matInput placeholder="First name" autocomplete="off" >
+              required matInput autocomplete="off" >
             </mat-form-field>
-          </p>
-    
-          <p class="form-lastname">
-            <mat-form-field class="example-full-width">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Last name</mat-label>
               <input type="text" formControlName="lastNameInput"
-              required matInput placeholder="Last name" autocomplete="off" >
+              required matInput autocomplete="off" >
             </mat-form-field>
-          </p>
+          </div>
 
           <div class="user-status">
+            <mat-icon class="left-icon"> 
+              cached
+            </mat-icon>
             <label id="user-status-label">Pick your status</label>
             <mat-radio-group
               required
@@ -114,16 +122,19 @@
           </div>
 
           <div class="user-personal">
+            <mat-icon class="left-icon"> 
+              perm_contact_calendar
+            </mat-icon>
             <div class="user-birth">
               <mat-form-field appearance="fill">
-                <mat-label>Date of birth</mat-label>
+                <!-- <mat-label id="user-birth-label">Date of birth</mat-label> -->
+                <mat-datepicker-toggle matSuffix [for]="dateOfBirthPiker"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfBirthPiker startView="year" [startAt]="startDate"></mat-datepicker>
                 <input readonly matInput
                   [max]="minSearchDate"
                   [matDatepicker]="dateOfBirthPiker"
                   formControlName="dateOfBirthInput"
                 >
-                <mat-datepicker-toggle matSuffix [for]="dateOfBirthPiker"></mat-datepicker-toggle>
-                <mat-datepicker #dateOfBirthPiker startView="year" [startAt]="startDate"></mat-datepicker>
               </mat-form-field>
               <span class="user-old">{{mainForm.controls.dateOfBirthInput.value | userYearsOld}}</span>
             </div>
@@ -131,9 +142,9 @@
             <div class="user-gender">
               <label id="user-gender-label">Gender</label>
               <mat-radio-group 
-              aria-label="user-gender"
-              formControlName="userGenderRadio"
-              class="gender-radio-group"
+                aria-label="user-gender"
+                formControlName="userGenderRadio"
+                class="gender-radio-group"
               >
                 <mat-radio-button
                   *ngFor="let gender of userGender"
@@ -146,8 +157,11 @@
           </div>
 
           <div class="description">
-            <mat-form-field class="example-full-width">
-              <mat-label>Description</mat-label>
+            <mat-icon class="left-icon"> 
+              description
+            </mat-icon>
+            <mat-form-field appearance="outline">
+              <mat-label id="user-description-label">Description</mat-label>
               <textarea
                 formControlName="descriptionTextarea"
                 cdkTextareaAutosize
@@ -161,9 +175,11 @@
 
         </div>
 
-        <div class="languages">
+        <div class="languages">        
+          <mat-icon class="left-icon"> 
+            translate
+          </mat-icon>
           <h4 class="languages-title">Languages</h4>
-
           <div class="languages-new">
 
             <button mat-mini-fab
@@ -220,11 +236,13 @@
           </div>
         </div>
 
-        <mat-divider></mat-divider>
+        <div class="interests">
+          <mat-icon class="left-icon"> 
+            emoji_events
+          </mat-icon>
 
-        <div class="interest">
           <mat-form-field class="example-chip-list">
-            <mat-label>My interests</mat-label>
+            <mat-label class="interests-title">My interests</mat-label>
             <mat-chip-list #chipListOfInterests aria-label="Interest selection">
               <mat-chip
                 *ngFor="let interest of userInterestsChoices"
@@ -252,6 +270,9 @@
         </div>
 
         <div class="skills">
+          <mat-icon class="left-icon">
+            handyman
+          </mat-icon>
           <h4 class="skills-title">My skills</h4>
           <div class="skills-new">
 
@@ -313,17 +334,22 @@
             </ng-container>
           </div>
 
-          <!-- <div class="skills-more">
-            <mat-form-field class="example-full-width">
+          <div class="skills-more">
+            <mat-form-field appearance="outline">
               <mat-label>More details about your skills</mat-label>
               <textarea cdkTextareaAutosize
               cdkAutosizeMinRows="5"
               cdkAutosizeMaxRows="40" matInput placeholder="More information"></textarea>
             </mat-form-field>
-          </div> -->
+          </div>
         </div>
 
         <div class="more">
+          
+          <mat-icon class="left-icon">
+            dining
+          </mat-icon>
+
           <h4 class="more-title">Some more information</h4>
           <mat-list role="list" class="list-item">
             <mat-list-item role="listitem" *ngFor="let feature of accountFeatures">
