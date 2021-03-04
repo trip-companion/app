@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { UpdateUserAction } from '@app/store/actions/user.action';
@@ -110,7 +110,16 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
 
     this.passwordForm = this.fb.group({
-      passwordFirstInput: new FormControl('', Validators.required),
+      passwordFirstInput: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern(/[A-Z]/),
+        Validators.pattern(/[a-z]/),
+        Validators.pattern(/\d/),
+        Validators.minLength(8),
+        Validators.maxLength(16),
+        Validators.pattern(/^(\S*\s){0,0}\S*$/),
+        Validators.pattern(/[!#$%&'"()*+,-./:;<=>?@_`{|}~\[\]]/),
+      ])),
       passwordSecondInput: new FormControl('', Validators.required),
     }, {validators: this.checkPasswords});
   }
@@ -181,7 +190,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public onSubmitMainData(event: Event): void {
     const userForSend = new UserModel();
-    console.log(this.mainForm.controls.userGenderRadio.value);
     userForSend.firstName = this.mainForm.controls.firstNameInput.value;
     userForSend.lastName = this.mainForm.controls.lastNameInput.value;
     userForSend.birthDate = this.mainForm.controls.dateOfBirthInput.value.format('YYYY-MM-DD');
@@ -195,11 +203,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     userForSend.features = this.currentUserFeatures;
     userForSend.interests = this.userInterestsChoices;
     userForSend.languages = this.userLanguageKnowledge;
-
     this.userSkillsKnowladgeList.forEach(skillObj => {
       userForSend[skillObj.category] = skillObj.list.map(obj => obj.id);
     });
-    console.log(userForSend);
     this.store.dispatch(new LoadGlobalEventAction());
     this.store.dispatch(new UpdateUserAction(userForSend));
   };

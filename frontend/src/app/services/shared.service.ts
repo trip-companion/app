@@ -15,8 +15,8 @@ const MATHING_CONTETNT_LANG: {[key: string]: string} = {
 
 @Injectable()
 export class SharedService {
-  public languages: string[] = [`en`, `ru`, `ua`];
-  public language = 'en';											// en|ru|ua
+  public languages: string[] = ['en', 'ru', 'ua'];
+  public language = 'en'; // en|ru|ua
   public globalPrevRout: string;
   public globalEventSubject = new Subject<{message: string; type: string}>();
   public $globalEventSubject = this.globalEventSubject.asObservable();

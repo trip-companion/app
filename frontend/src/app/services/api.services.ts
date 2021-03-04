@@ -6,20 +6,21 @@ import { environment } from '@environments/environment';
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
 import { Observable } from 'rxjs';
+import IPageDataModel from '@app/interfaces/store.models/pageData.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl: string = environment.apiUrl;
+  public apiUrl: string = environment.apiUrl;
   constructor(private http: HttpClient) {}
   //get
   public getCurrentUser(): Observable<IUserModel> {
-    return this.http.get<IUserModel>(`${this.apiUrl}users/current/`, {});
+    return this.http.get<IUserModel>(`${this.apiUrl}users/current`, {});
   }
 
-  public getCurrentPageData(pageId: string, language: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}public/page/${pageId}/${language}`, {});
+  public getCurrentPageData(pageId: string, language: string): Observable<IPageDataModel > {
+    return this.http.get<IPageDataModel>(`${this.apiUrl}public/pages/${pageId}/${language}`, {});
   }
 
   public getAllUserFeatures(): Observable<IAcountUserData['features']> {
@@ -37,7 +38,6 @@ export class ApiService {
   public getAllUserInterests(): Observable<IAcountUserData['interests']> {
     return this.http.get<IAcountUserData['interests']>(`${this.apiUrl}public/interests`, {});
   }
-
   //post
   public postUserAvatar(imgFile: File): Observable<IUserModel> {
     const formData: any = new FormData();

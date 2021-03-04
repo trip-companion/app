@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) { return; }
     this.loading = true;
     this.authenticationService.login(this.getLoginFormControls.loginInput.value, this.getLoginFormControls.passwordInput.value)
-      .subscribe(() => {
-        this.router.navigate([this.returnUrl]);
+      .subscribe((res) => {
+        if(res) {this.router.navigate([this.returnUrl]);}
       },
       error => {
         this.error = error.statusText;
