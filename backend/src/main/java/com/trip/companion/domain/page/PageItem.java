@@ -19,7 +19,6 @@ public class PageItem extends BaseEntity {
     @Data
     public static class Content {
         private String text;
-        private String placeholder;
     }
 
 }
