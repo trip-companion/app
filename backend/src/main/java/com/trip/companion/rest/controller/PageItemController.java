@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/public/page")
+@RequestMapping("api/public/pages")
 public class PageItemController {
 
     private final PageItemService service;
@@ -41,7 +41,6 @@ public class PageItemController {
                 currentNode = (JsonObject) currentNode.get(nodeName);
             }
             currentNode.addProperty("text", pageItem.getContent().getText());
-            currentNode.addProperty("placeholder", pageItem.getContent().getPlaceholder());
         });
         return new PageItemsResponse(new Gson().toJson(result));
     }
