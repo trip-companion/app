@@ -8,7 +8,10 @@ export default interface IUserModel {
     gender: string;
     about: string;
     birthDate: string;
-    languages: {isoCode: string; level: string}[];
+    languages: {
+        isoCode: string;
+        level: string;
+    }[];
     knownSkills: string[];
     interestedInSkills: string[];
     canTeachSkills: string[];

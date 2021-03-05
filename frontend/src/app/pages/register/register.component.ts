@@ -43,8 +43,17 @@ export class RegisterComponent implements OnInit {
       emailInput: new FormControl('123@ukr.net', Validators.compose([Validators.email, Validators.required])),
       firstNameInput: new FormControl('Lalala', Validators.required),
       lastNameInput: new FormControl('GGGG333', Validators.required),
-      passwordFirstInput: new FormControl('1235', Validators.compose([Validators.required])),
-      passwordSecondInput: new FormControl('1235', Validators.compose([Validators.required])),
+      passwordFirstInput: new FormControl('1235', Validators.compose([
+        Validators.required,
+        Validators.pattern(/[A-Z]/),
+        Validators.pattern(/[a-z]/),
+        Validators.pattern(/\d/),
+        Validators.minLength(8),
+        Validators.maxLength(16),
+        Validators.pattern(/^(\S*\s){0,0}\S*$/),
+        Validators.pattern(/[!#$%&'"()*+,-./:;<=>?@_`{|}~\[\]]/),
+      ])),
+      passwordSecondInput: new FormControl('1235', Validators.required),
     }, { validators: this.checkPasswords });
     if (this.authenticationService.tokenValue) {
       this.router.navigate([this.homePath]);

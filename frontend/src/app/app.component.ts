@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
         if (event instanceof NavigationEnd) {
           if (this.isBrowser) {
             this.setAdvString();
-            // window.document.querySelector('#wrapper').scrollIntoView(true); //this work in FF70+
+            window.document.querySelector('#wrapper').scrollIntoView(true); //this work in FF70+
             console.groupCollapsed(`%c>>>>>>>>>>>>>>>>>>>>>>>>>>>> NavigationEnd`, 'color:#fb5258;font-size:12px;');
             console.groupEnd();
           } else {

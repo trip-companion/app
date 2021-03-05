@@ -1,7 +1,8 @@
+import IPageDataModel from '@app/interfaces/store.models/pageData.model';
 import * as Actions from '../actions/pageData.action';
 
 export interface State {
-  page: any;
+  page: IPageDataModel;
   loading: boolean;
 }
 

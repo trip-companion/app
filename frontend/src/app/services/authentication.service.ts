@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   public token: Observable<string>;
-  private apiUrl: string = environment.apiUrl;
+  public apiUrl: string = environment.apiUrl;
   private isBrowser: boolean;
   private tokenSubject: BehaviorSubject<string>;
 
@@ -43,11 +43,12 @@ export class AuthenticationService {
         if (this.isBrowser) {
           this.tokenSubject.next(res.jwtAccessToken);
         }
+        return res;
       }));
   }
 
   public singUp(email: string, firstName: string, lastName: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}public/user`, { email, firstName, lastName, password });
+    return this.http.post<any>(`${this.apiUrl}public/users`, { email, firstName, lastName, password });
   }
 
   public romeveLocalStore(): void {
