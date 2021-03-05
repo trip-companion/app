@@ -92,9 +92,12 @@
            padding-left: 200px;
            align-items: center;
            &_buttons  {
-               width: 300px;
+               width: auto;
                display: flex;
                justify-content: space-between;
+               button {
+                   margin: 0px 10px;
+               }
            }
        };
     };
@@ -669,7 +672,7 @@
         } 
     }
 
-    @media screen and (max-width: 560px) {
+    @media screen and (max-width: 620px) {
         .card {
             height: 450px;
             .user-profile-images {

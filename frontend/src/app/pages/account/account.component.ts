@@ -11,6 +11,7 @@ import { FORM_VALIDATORS } from '@app/DATA/errors-message';
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { UserModel } from '@app/models/edit-user.model';
 import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
+import IPageDataModel from '@app/interfaces/store.models/pageData.model';
 
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -39,7 +40,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public user: IUserModel = null;
   public userAbout: IAcountUserData = null;
-
+  public accountStaticData: IPageDataModel = null;
   public userStatuses: string[] = [];
 
   public lvlOfKnowledgeLanguage: string[] = [];
@@ -85,6 +86,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private subsInterestInput: Subscription = new Subscription();
   private subsSkillsInput: Subscription = new Subscription();
   private subsLanguagesInput: Subscription = new Subscription();
+  private subsPageData: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private fb: FormBuilder,
@@ -122,27 +124,29 @@ export class AccountComponent implements OnInit, OnDestroy {
       ])),
       passwordSecondInput: new FormControl('', Validators.required),
     }, {validators: this.checkPasswords});
+
+    this.inputErrors = FORM_VALIDATORS.find(obj => 'account/' === obj.url)[this.sharedService.language];
   }
 
   public ngOnInit() {
-    this.store.dispatch(new LoadGlobalEventAction());
-    this.store.dispatch(new LoadAccountUserDataAction());
+
+    this.subsPageData = this.activeRoute.data.subscribe(data => {
+      if(data.pageContent.page) {
+        this.accountStaticData = data.pageContent.page;
+        this.store.dispatch(new LoadGlobalEventAction());
+        this.store.dispatch(new LoadAccountUserDataAction());
+      }
+    });
 
     this.subsAccountUserStore = combineLatest([
       this.store.pipe(select('userInfo', 'user')),
       this.store.pipe(select('accountAboutData', 'data')),
     ]).subscribe((store)=> {
       if(store[0] && store[1]) {
-        // console.log(store[0])
-        // console.log(store[1])
         this.user = store[0];
         this.userAbout = store[1];
         this.initMainUserData(this.sharedService.language);
       }
-    });
-
-    this.activeRoute.data.subscribe(data => {
-      this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
     });
 
     this.subsInterestInput = this.interestsForm.valueChanges.subscribe(value => {
@@ -175,6 +179,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.subsPageData.unsubscribe();
     this.subsInterestInput.unsubscribe();
     this.subsSkillsInput.unsubscribe();
     this.subsLanguagesInput.unsubscribe();
@@ -407,14 +412,18 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);
     this.mainForm.controls.dateOfBirthInput.setValue(moment(this.user.birthDate));
     this.mainForm.controls.descriptionTextarea.setValue(this.user.about);
+    // accountStaticData.mappings.personalInfo.detailsInfo.gender
     this.mainForm.controls.userGenderRadio.setValue(ENUM_USER_GENDER[this.user.gender][lang]);
+    // accountStaticData.mappings.personalInfo.detailsInfo.status
     this.mainForm.controls.userStatusRadio.setValue(ENUM_USER_STATUS[this.user.status][lang]);
     this.emailForm.setValue(this.user.email);
     //lang
+    // accountStaticData.mappings.personalInfo.detailsInfo.languages
     this.userLanguageKnowledge = this.user.languages.slice();
     this.availableLanguages = this.userAbout.languages;
     this.setAvailableLanguagesForUser();
     //skills
+    // accountStaticData.mappings.personalInfo.detailsInfo.skills.
     this.availableSkills = this.userAbout.skills;
     this.setKnowledgeUserSkills();
     this.setAvailableSkillsForUser();

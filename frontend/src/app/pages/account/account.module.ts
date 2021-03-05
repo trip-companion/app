@@ -19,6 +19,7 @@ import { UserEffects } from '@app/store/effects/user.effects';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { AccountUserDataEffects } from '@app/store/effects/accountUserAboutData.effects';
+import { PageDataEffects } from '@app/store/effects/pageData.effects';
 
 import { UserYearsOldPipe } from '@app/pipe/user-years-old';
 import { UserLanguageLvlPipe } from '@app/pipe/language-lvl-ui';
@@ -42,7 +43,7 @@ import { UserCheckFeaturesPipe } from '@app/pipe/account-check-features';
     MatRadioModule,
     MatToolbarModule,
     MatDatepickerModule,
-    EffectsModule.forFeature([UserEffects, AccountUserDataEffects])
+    EffectsModule.forFeature([UserEffects, AccountUserDataEffects, PageDataEffects])
   ],
   providers: [],
   declarations: [

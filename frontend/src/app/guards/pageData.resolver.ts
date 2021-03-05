@@ -24,7 +24,6 @@ export class PageDataResolver implements Resolve<any> {
     const pageName = route.data.page;
     this.store.dispatch(new LoadGlobalEventAction());
     this.store.dispatch(new LoadPageDataAction(pageName));
-
     return this.store.pipe(
       select('pageData'),
       tap((pageData) => {

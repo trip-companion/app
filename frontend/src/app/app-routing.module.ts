@@ -16,7 +16,8 @@ const PAGES_ROUTES: Routes = [
     loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule)
   },
   { path: 'account',
-    canActivate: [AuthGuard], resolve: {pageResolved: PageResolver}, data: { page: `account/` },
+    canActivate: [AuthGuard], resolve: {pageResolved: PageResolver, pageContent: PageDataResolver},
+    data: {page: `USER_ACCOUNT`},
     loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule)
   },
   { path: 'login',
@@ -28,7 +29,8 @@ const PAGES_ROUTES: Routes = [
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule)
   },
   { path: '',
-    resolve: {pageResolved: PageResolver, pageContent: PageDataResolver}, data: {page: `WELCOME`},
+    resolve: {pageResolved: PageResolver, pageContent: PageDataResolver},
+    data: {page: `WELCOME`},
     loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule)
   },
   { path: '**', component: Redirect301Component },

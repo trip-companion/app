@@ -21,9 +21,9 @@
     </div>
     <div class="card-content">
       <div class="card-content_buttons">
-        <button mat-raised-button color="accent">Chat</button>
-        <button mat-raised-button color="accent">My post</button>
-        <button mat-raised-button color="accent">Feedback</button>
+        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonChat.text}}</button>
+        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonFeedback.text}}</button>
+        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonMyPosts.text}}</button>
       </div>
     </div>
   </section>
@@ -31,11 +31,10 @@
   <section class="main">
 
     <div class="main-profile">
-      <h3 class="main-profile_title">Contact info</h3>
-
+      <!-- <h3 class="main-profile_title">{{accountStaticData.mappings.personalInfo.securityTitle.text}}</h3> -->
 				<p class="main-profile_params">
 					<mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Email</mat-label>
+            <mat-label>{{accountStaticData.mappings.personalInfo.email.emailInput.text}}</mat-label>
             <input type="text" 
               required matInput 
               autocomplete="off" 
@@ -51,13 +50,13 @@
         (click)="onSubmitEditEmail($event)"
         [disabled]="emailForm.invalid"
         class="main-profile_submit">
-        Edit email
+        {{accountStaticData.mappings.personalInfo.email.button.text}}
       </button>
 
       <div [formGroup]="passwordForm" class="main-profile_password">
         <p>
 					<mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Password</mat-label>
+            <mat-label>{{accountStaticData.mappings.personalInfo.password.passwordInput.text}}</mat-label>
 						<input type="password" required matInput 
               autocomplete="off" formControlName="passwordFirstInput">
 						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
@@ -65,7 +64,7 @@
 				</p>
 				<p>
 					<mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Repeat password</mat-label>
+            <mat-label>{{accountStaticData.mappings.personalInfo.password.repeatPasswordInput.text}}</mat-label>
 						<input type="password" required matInput
 						  autocomplete="off" formControlName="passwordSecondInput">
 						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
@@ -77,12 +76,12 @@
         (click)="onSubmitChangePassword($event)"
         [disabled]="passwordForm.invalid"
         class="password_submit">
-        Change password
+        {{accountStaticData.mappings.personalInfo.password.button.text}}
       </button>
     </div>
 
     <div class="main-about" *ngIf="userAbout">
-      <h3 class="main-profile_title">My details</h3>
+      <!-- <h3 class="main-profile_title">{{accountStaticData.mappings.personalInfo.detailsTitle.text}}</h3> -->
       <div class="main-about-container">
 
         <div class="container-form" [formGroup]="mainForm">
@@ -92,13 +91,13 @@
               accessibility_new
             </mat-icon>
             <mat-form-field appearance="outline" class="form-username_name">
-              <mat-label>First name</mat-label>
+              <mat-label>{{accountStaticData.mappings.personalInfo.detailsInfo.nameInput.text}}</mat-label>
               <input type="text" formControlName="firstNameInput"
               required matInput autocomplete="off" >
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-              <mat-label>Last name</mat-label>
+              <mat-label>{{accountStaticData.mappings.personalInfo.detailsInfo.lastNameInput.text}}</mat-label>
               <input type="text" formControlName="lastNameInput"
               required matInput autocomplete="off" >
             </mat-form-field>
@@ -108,7 +107,7 @@
             <mat-icon class="left-icon"> 
               cached
             </mat-icon>
-            <label id="user-status-label">Pick your status</label>
+            <label id="user-status-label">{{accountStaticData.mappings.personalInfo.detailsInfo.status.text}}</label>
             <mat-radio-group
               required
               aria-labelledby="user-status-label"
@@ -127,7 +126,6 @@
             </mat-icon>
             <div class="user-birth">
               <mat-form-field appearance="fill">
-                <!-- <mat-label id="user-birth-label">Date of birth</mat-label> -->
                 <mat-datepicker-toggle matSuffix [for]="dateOfBirthPiker"></mat-datepicker-toggle>
                 <mat-datepicker #dateOfBirthPiker startView="year" [startAt]="startDate"></mat-datepicker>
                 <input readonly matInput
@@ -136,11 +134,13 @@
                   formControlName="dateOfBirthInput"
                 >
               </mat-form-field>
-              <span class="user-old">{{mainForm.controls.dateOfBirthInput.value | userYearsOld}}</span>
+              <span class="user-old">
+                {{mainForm.controls.dateOfBirthInput.value | userYearsOld:accountStaticData.mappings.personalInfo.detailsInfo.yearsOld.text}}
+              </span>
             </div>
 
             <div class="user-gender">
-              <label id="user-gender-label">Gender</label>
+              <label id="user-gender-label">{{accountStaticData.mappings.personalInfo.detailsInfo.gender.text}}</label>
               <mat-radio-group 
                 aria-label="user-gender"
                 formControlName="userGenderRadio"
@@ -161,13 +161,13 @@
               description
             </mat-icon>
             <mat-form-field appearance="outline">
-              <mat-label id="user-description-label">Description</mat-label>
+              <mat-label id="user-description-label">{{accountStaticData.mappings.personalInfo.detailsInfo.description.text}}</mat-label>
               <textarea
                 formControlName="descriptionTextarea"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="5"
                 cdkAutosizeMaxRows="10" 
-                matInput placeholder="About me">
+                matInput placeholder="{{accountStaticData.mappings.personalInfo.detailsInfo.description.placeholder.text}}">
                 {{user.about}}
               </textarea>
             </mat-form-field>
@@ -179,7 +179,7 @@
           <mat-icon class="left-icon"> 
             translate
           </mat-icon>
-          <h4 class="languages-title">Languages</h4>
+          <h4 class="languages-title">{{accountStaticData.mappings.personalInfo.detailsInfo.languages.text}}</h4>
           <div class="languages-new">
 
             <button mat-mini-fab
@@ -192,7 +192,7 @@
             </button>
 
             <mat-form-field class="example-full-width">
-              <mat-label>Languages</mat-label>
+              <mat-label>{{accountStaticData.mappings.personalInfo.detailsInfo.languages.input.text}}</mat-label>
               <input type="text"
                     aria-label="languages"
                     matInput
@@ -242,7 +242,9 @@
           </mat-icon>
 
           <mat-form-field class="example-chip-list">
-            <mat-label class="interests-title">My interests</mat-label>
+            <mat-label class="interests-title">
+              {{accountStaticData.mappings.personalInfo.detailsInfo.interests.text}}
+            </mat-label>
             <mat-chip-list #chipListOfInterests aria-label="Interest selection">
               <mat-chip
                 *ngFor="let interest of userInterestsChoices"
@@ -254,7 +256,7 @@
                 <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
               </mat-chip>
               <input
-                placeholder="New Interest..."
+                placeholder="{{accountStaticData.mappings.personalInfo.detailsInfo.interests.placeholder.text}}"
                 #interestInput
                 [formControl]="interestsForm"
                 [matAutocomplete]="auto"
@@ -273,9 +275,10 @@
           <mat-icon class="left-icon">
             handyman
           </mat-icon>
-          <h4 class="skills-title">My skills</h4>
+          <h4 class="skills-title">
+            {{accountStaticData.mappings.personalInfo.detailsInfo.skills.text}}
+          </h4>
           <div class="skills-new">
-
               <button mat-mini-fab
                 color="accent"
                 class="skills-new_btn"
@@ -286,7 +289,7 @@
               </button>
 
               <mat-form-field class="example-full-width">
-                <mat-label>Choose skills</mat-label>
+                <mat-label>{{accountStaticData.mappings.personalInfo.detailsInfo.skills.input.text}}</mat-label>
                 <input type="text"
                       aria-label="skills"
                       matInput
@@ -336,21 +339,22 @@
 
           <div class="skills-more">
             <mat-form-field appearance="outline">
-              <mat-label>More details about your skills</mat-label>
+              <mat-label>{{accountStaticData.mappings.personalInfo.detailsInfo.skills.description.text}}</mat-label>
               <textarea cdkTextareaAutosize
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="40" matInput placeholder="More information"></textarea>
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="40" matInput 
+                placeholder="{{accountStaticData.mappings.personalInfo.detailsInfo.skills.description.placeholder.text}}">
+              </textarea>
             </mat-form-field>
           </div>
         </div>
 
         <div class="more">
-          
           <mat-icon class="left-icon">
             dining
           </mat-icon>
 
-          <h4 class="more-title">Some more information</h4>
+          <h4 class="more-title">{{accountStaticData.mappings.personalInfo.detailsInfo.more.text}}</h4>
           <mat-list role="list" class="list-item">
             <mat-list-item role="listitem" *ngFor="let feature of accountFeatures">
               <mat-icon *ngIf="feature | userCheckFeatures: currentUserFeatures;else elseDescSplit"
@@ -362,7 +366,6 @@
             </mat-list-item>
           </mat-list>
         </div>
-
       </div>
 
       <button mat-raised-button
@@ -370,7 +373,7 @@
         color="primary"
         (click)="onSubmitMainData($event)"
         class="main-profile_submit">
-        Edit main data
+        {{accountStaticData.mappings.personalInfo.detailsInfo.submitBtn.text}}
       </button>
     </div>
 
