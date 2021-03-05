@@ -11,6 +11,7 @@ import { FORM_VALIDATORS } from '@app/DATA/errors-message';
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { UserModel } from '@app/models/edit-user.model';
 import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
+import IPageDataModel from '@app/interfaces/store.models/pageData.model';
 
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +22,7 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
 import { ApiService } from '@app/services/api.services';
 import { LoadAccountUserDataAction } from '@app/store/actions/accountUserAboutData.action';
 //data
-import { ENUM_USER_GENDER, ENUM_USER_STATUS, ENUM_USER_LANGUAGE, ENUM_USER_SKILL} from '@app/DATA/account-data';
+import { ENUM_USER_SKILL, STATUS_LIST, LANGUAGE_LVL_LIST, GENDER_LIST} from '@app/DATA/account-data';
 import { IUserSkillsKnowladgeList } from '@app/interfaces/account-page';
 
 @Component({
@@ -39,7 +40,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public user: IUserModel = null;
   public userAbout: IAcountUserData = null;
-
+  public accountStaticData: IPageDataModel = null;
   public userStatuses: string[] = [];
 
   public lvlOfKnowledgeLanguage: string[] = [];
@@ -49,7 +50,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public choicesLvlOfLang: string;
   public languageName: string;
 
-  public userGender: string[] = [];
+  public userGender: string[] = [];;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   public lvlOfKnowledgeSkill = [];
   public choicesLvlOfSkill: string;
@@ -85,6 +86,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private subsInterestInput: Subscription = new Subscription();
   private subsSkillsInput: Subscription = new Subscription();
   private subsLanguagesInput: Subscription = new Subscription();
+  private subsPageData: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private fb: FormBuilder,
@@ -92,13 +94,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     public sharedService: SharedService,
     private store: Store<AppState>,
-    private apiSvc: ApiService,) {
-    this.setOptionFromEnumData(this.sharedService.language, this.userStatuses, ENUM_USER_STATUS);
-    this.setOptionFromEnumData(this.sharedService.language, this.lvlOfKnowledgeLanguage, ENUM_USER_LANGUAGE);
-    this.setOptionFromEnumData(this.sharedService.language, this.userGender, ENUM_USER_GENDER);
-    this.setOptionFromEnumData(this.sharedService.language, this.lvlOfKnowledgeSkill, ENUM_USER_SKILL);
-    this.choicesLvlOfLang = this.lvlOfKnowledgeLanguage[0];
-    this.choicesLvlOfSkill = this.lvlOfKnowledgeSkill[0];
+    private apiSvc: ApiService) {
 
     this.mainForm = this.fb.group({
       firstNameInput: new FormControl('', Validators.required),
@@ -122,27 +118,45 @@ export class AccountComponent implements OnInit, OnDestroy {
       ])),
       passwordSecondInput: new FormControl('', Validators.required),
     }, {validators: this.checkPasswords});
+
+    this.inputErrors = FORM_VALIDATORS.find(obj => 'account/' === obj.url)[this.sharedService.language];
   }
 
   public ngOnInit() {
-    this.store.dispatch(new LoadGlobalEventAction());
-    this.store.dispatch(new LoadAccountUserDataAction());
+
+    this.subsPageData = this.activeRoute.data.subscribe(data => {
+      if(data.pageContent.page) {
+        this.accountStaticData = data.pageContent.page;
+        this.store.dispatch(new LoadGlobalEventAction());
+        this.store.dispatch(new LoadAccountUserDataAction());
+
+        this.setOptionListFromArr(STATUS_LIST,
+          this.accountStaticData.mappings.personalInfo.detailsInfo.status,
+          this.userStatuses);
+
+        this.setOptionListFromArr(GENDER_LIST,
+          this.accountStaticData.mappings.personalInfo.detailsInfo.gender,
+          this.userGender);
+
+        this.setOptionFromEnumData(this.sharedService.language, this.lvlOfKnowledgeSkill, ENUM_USER_SKILL);
+        this.choicesLvlOfSkill = this.lvlOfKnowledgeSkill[0];
+
+        this.setOptionListFromArr(LANGUAGE_LVL_LIST,
+          this.accountStaticData.mappings.personalInfo.detailsInfo.languages,
+          this.lvlOfKnowledgeLanguage);
+        this.choicesLvlOfLang = this.lvlOfKnowledgeLanguage[0];
+      };
+    });
 
     this.subsAccountUserStore = combineLatest([
       this.store.pipe(select('userInfo', 'user')),
       this.store.pipe(select('accountAboutData', 'data')),
     ]).subscribe((store)=> {
       if(store[0] && store[1]) {
-        // console.log(store[0])
-        // console.log(store[1])
         this.user = store[0];
         this.userAbout = store[1];
         this.initMainUserData(this.sharedService.language);
       }
-    });
-
-    this.activeRoute.data.subscribe(data => {
-      this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
     });
 
     this.subsInterestInput = this.interestsForm.valueChanges.subscribe(value => {
@@ -175,6 +189,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.subsPageData.unsubscribe();
     this.subsInterestInput.unsubscribe();
     this.subsSkillsInput.unsubscribe();
     this.subsLanguagesInput.unsubscribe();
@@ -194,12 +209,12 @@ export class AccountComponent implements OnInit, OnDestroy {
     userForSend.lastName = this.mainForm.controls.lastNameInput.value;
     userForSend.birthDate = this.mainForm.controls.dateOfBirthInput.value.format('YYYY-MM-DD');
     userForSend.about = this.mainForm.controls.descriptionTextarea.value;
-    userForSend.status = this.returnNameObjectByValue(this.sharedService.language,
+    userForSend.status = this.returnNameObjectByValue(
       this.mainForm.controls.userStatusRadio.value,
-      ENUM_USER_STATUS);
-    userForSend.gender = this.returnNameObjectByValue(this.sharedService.language,
+      this.accountStaticData.mappings.personalInfo.detailsInfo.status);
+    userForSend.gender = this.returnNameObjectByValue(
       this.mainForm.controls.userGenderRadio.value,
-      ENUM_USER_GENDER);
+      this.accountStaticData.mappings.personalInfo.detailsInfo.gender);
     userForSend.features = this.currentUserFeatures;
     userForSend.interests = this.userInterestsChoices;
     userForSend.languages = this.userLanguageKnowledge;
@@ -338,12 +353,11 @@ export class AccountComponent implements OnInit, OnDestroy {
     const inputvalue = this.languageInput.nativeElement.value;
     const findInArr = this.availableLanguagesForUser.find(lang => lang.displayName.toLocaleLowerCase() === inputvalue.toLocaleLowerCase());
     const lvlIndex = this.lvlOfKnowledgeLanguage.findIndex(item => item === this.choicesLvlOfLang);
-
     if(findInArr) {
       this.userLanguageKnowledge
         .push({
           isoCode: findInArr.isoCode,
-          level: Object.keys(ENUM_USER_LANGUAGE)[lvlIndex],
+          level: LANGUAGE_LVL_LIST[lvlIndex],
         });
       this.languageInput.nativeElement.value = '';
       this.languageForm.setValue(null);
@@ -407,14 +421,18 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);
     this.mainForm.controls.dateOfBirthInput.setValue(moment(this.user.birthDate));
     this.mainForm.controls.descriptionTextarea.setValue(this.user.about);
-    this.mainForm.controls.userGenderRadio.setValue(ENUM_USER_GENDER[this.user.gender][lang]);
-    this.mainForm.controls.userStatusRadio.setValue(ENUM_USER_STATUS[this.user.status][lang]);
+    // accountStaticData.mappings.personalInfo.detailsInfo.gender
+    this.mainForm.controls.userGenderRadio.setValue(this.accountStaticData.mappings.personalInfo.detailsInfo.gender[this.user.gender].text);
+    // accountStaticData.mappings.personalInfo.detailsInfo.status
+    this.mainForm.controls.userStatusRadio.setValue(this.accountStaticData.mappings.personalInfo.detailsInfo.status[this.user.status].text);
     this.emailForm.setValue(this.user.email);
     //lang
+    // accountStaticData.mappings.personalInfo.detailsInfo.languages
     this.userLanguageKnowledge = this.user.languages.slice();
     this.availableLanguages = this.userAbout.languages;
     this.setAvailableLanguagesForUser();
     //skills
+    // accountStaticData.mappings.personalInfo.detailsInfo.skills.
     this.availableSkills = this.userAbout.skills;
     this.setKnowledgeUserSkills();
     this.setAvailableSkillsForUser();
@@ -437,9 +455,15 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
   };
 
-  private returnNameObjectByValue(lang: string, value: string, enumObj: any): string {
+  private setOptionListFromArr(listOfVaribales: string[], objectFromBackEnd: any, arrForUi: string[]): void {
+    listOfVaribales.forEach(item => {
+      arrForUi.push(objectFromBackEnd[item].text);
+    });
+  };
+
+  private returnNameObjectByValue(value: string, enumObj: any): string {
     for (const props in enumObj) {
-      if(enumObj[props][lang] === value) {return props;}
+      if(enumObj[props].text === value) {return props;}
     }
-  }
+  };
 }

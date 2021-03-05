@@ -80,9 +80,10 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, feedbackButton, "Обратная связь"));
 
         String emailInput = "personalInfo.email.emailInput";
-        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, emailInput, "Email"));
-        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, emailInput, "Email"));
-        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, emailInput, "Email"));
+        String email = "Email";
+        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, emailInput, email));
+        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, emailInput, email));
+        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, emailInput, email));
 
         String emailButton = "personalInfo.email.button";
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, emailButton, "Change email"));
@@ -119,17 +120,17 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, status, "Виберіть Ваш статус"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, status, "Выберите Ваш статус"));
 
-        String statusAtHome = "personalInfo.detailsInfo.status." + Status.AT_HOME;
+        String statusAtHome = status + "." + Status.AT_HOME;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, statusAtHome, "At home"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, statusAtHome, "Дома"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, statusAtHome, "Дома"));
 
-        String statusLookingForTravel = "personalInfo.detailsInfo.status." + Status.LOOKING_FOR_TRAVEL;
+        String statusLookingForTravel = status + "." + Status.LOOKING_FOR_TRAVEL;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, statusLookingForTravel, "Looking for travel"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, statusLookingForTravel, "Шукаю подорож"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, statusLookingForTravel, "В поисках путешествия"));
 
-        String statusTravelling = "personalInfo.detailsInfo.status." + Status.TRAVELLING;
+        String statusTravelling = status + "." + Status.TRAVELLING;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, statusTravelling, "Travelling"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, statusTravelling, "Подорожую"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, statusTravelling, "Путешествую"));
@@ -174,22 +175,22 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, languagesInput, "Мови"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, languagesInput, "Языки"));
 
-        String languagesBeginner = "personalInfo.detailsInfo.languages." + LanguageLevel.BEGINNER;
+        String languagesBeginner = languages + "." + LanguageLevel.BEGINNER;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, languagesBeginner, "Beginner"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, languagesBeginner, "Початківець"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, languagesBeginner, "Начинающий"));
 
-        String languagesIntermediate = "personalInfo.detailsInfo.languages." + LanguageLevel.INTERMEDIATE;
+        String languagesIntermediate = languages + "." + LanguageLevel.INTERMEDIATE;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, languagesIntermediate, "Intermediate"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, languagesIntermediate, "Середній"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, languagesIntermediate, "Средний"));
 
-        String languagesAdvanced = "personalInfo.detailsInfo.languages." + LanguageLevel.ADVANCED;
+        String languagesAdvanced = languages + "." + LanguageLevel.ADVANCED;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, languagesAdvanced, "Advanced"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, languagesAdvanced, "Продвинутий"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, languagesAdvanced, "Продвинутий"));
 
-        String languagesNative = "personalInfo.detailsInfo.languages." + LanguageLevel.NATIVE;
+        String languagesNative = languages + "." + LanguageLevel.NATIVE;
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, languagesNative, "Native"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, languagesNative, "Рідний"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, languagesNative, "Родной"));
@@ -248,6 +249,16 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, submitButton, "Submit"));
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, submitButton, "Зберегти"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, submitButton, "Сохранить"));
+
+        String securityTitle = "personalInfo.securityTitle";
+        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, securityTitle, "Security data"));
+        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, securityTitle, "Дані безпеки"));
+        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, securityTitle, "Данные безопасности"));
+
+        String detailsTitle = "personalInfo.detailsTitle";
+        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, detailsTitle, "Personal data"));
+        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, detailsTitle, "Персональні дані"));
+        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, detailsTitle, "Личные данные"));
 
         db.getCollection("pageItem").insertMany(DOCUMENTS);
     }

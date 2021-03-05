@@ -50,7 +50,9 @@
         ],
         "indent": ["error", 2, {
           "FunctionDeclaration": {"parameters": "first"},
-          "SwitchCase": 1
+          "SwitchCase": 1,
+          "ArrayExpression": "first",
+          "ImportDeclaration": "first"
           }
         ],
         "no-trailing-spaces": [
