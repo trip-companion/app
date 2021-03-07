@@ -250,6 +250,16 @@ public class CreatePageItemsChangelog {
         DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, submitButton, "Зберегти"));
         DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, submitButton, "Сохранить"));
 
+        String securityTitle = "personalInfo.securityTitle";
+        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, securityTitle, "Security data"));
+        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, securityTitle, "Дані безпеки"));
+        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, securityTitle, "Данные безопасности"));
+
+        String detailsTitle = "personalInfo.detailsTitle";
+        DOCUMENTS.add(createPageItemDoc(ENG, USER_ACCOUNT, detailsTitle, "Personal data"));
+        DOCUMENTS.add(createPageItemDoc(UKR, USER_ACCOUNT, detailsTitle, "Персональні дані"));
+        DOCUMENTS.add(createPageItemDoc(RUS, USER_ACCOUNT, detailsTitle, "Личные данные"));
+
         db.getCollection("pageItem").insertMany(DOCUMENTS);
     }
 

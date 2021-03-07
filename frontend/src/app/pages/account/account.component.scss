@@ -92,9 +92,12 @@
            padding-left: 200px;
            align-items: center;
            &_buttons  {
-               width: 300px;
+               width: auto;
                display: flex;
                justify-content: space-between;
+               button {
+                   margin: 0px 10px;
+               }
            }
        };
     };
@@ -228,6 +231,10 @@
                         margin: 20px 0px;
                         .user-birth  {
                             margin: 10px 0px 0px 0px;
+                            width: auto;
+                            // flex-direction: column;
+                            // align-items: flex-start;
+                            // align-content: flex-start;
                             // align-items: center;
                             // #user-birth-label {
                             //     @include medium_text;
@@ -237,15 +244,17 @@
                             .user-old {
                                 margin-top: 10px;
                             }
-                            &:hover {
-                                ::ng-deep {
-                                    input {
-                                        cursor: default;
+                            mat-form-field {
+                                &:hover {
+                                    ::ng-deep {
+                                        input {
+                                            cursor: default;
+                                        }
+                                        .mat-form-field-suffix {
+                                            background: $color-new-blue;
+                                            border-radius: 50%;
+                                        } 
                                     }
-                                    .mat-form-field-suffix {
-                                        background: $color-new-blue;
-                                        border-radius: 50%;
-                                    } 
                                 }
                             }
                             ::ng-deep {
@@ -669,7 +678,7 @@
         } 
     }
 
-    @media screen and (max-width: 560px) {
+    @media screen and (max-width: 620px) {
         .card {
             height: 450px;
             .user-profile-images {

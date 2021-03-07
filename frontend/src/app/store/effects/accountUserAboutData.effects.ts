@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ACCOUNT_MORE_DATA_ACTION,
-  LoadAccountUserDataAction,
-  SetAccountUserAboutDataAction
+         LoadAccountUserDataAction,
+         SetAccountUserAboutDataAction
 } from '@app/store/actions/accountUserAboutData.action';
 import { ApiService } from '@app/services/api.services';
 import { catchError, switchMap } from 'rxjs/operators';

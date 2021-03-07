@@ -1,8 +1,8 @@
-import {Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
-  Inject, ChangeDetectorRef, AfterViewInit, OnDestroy, Renderer2, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
+         Inject, ChangeDetectorRef, AfterViewInit, OnDestroy, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { Router, Data, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs';
 // services
 import { SharedService } from '../../services/shared.service';
 import { LocationService } from '../../services/location.service';
@@ -38,13 +38,13 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   private subsLoginStatus: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-              private router: Router,
-              private authSvc: AuthenticationService,
-              public locationService: LocationService,
-              private stateService: StateService,
-              private renderer: Renderer2,
-              private cdRef: ChangeDetectorRef,
-              public sharedService: SharedService,) {
+    private router: Router,
+    private authSvc: AuthenticationService,
+    public locationService: LocationService,
+    private stateService: StateService,
+    private renderer: Renderer2,
+    private cdRef: ChangeDetectorRef,
+    public sharedService: SharedService,) {
     this.linkConfigFilter(ROUTER_CONFIG, ACCOUNT_LINK_LIST);
     this.logoutName = LOGOUT_NAME[this.sharedService.language];
   }

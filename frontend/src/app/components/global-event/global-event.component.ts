@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
-  Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
+         Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 // services

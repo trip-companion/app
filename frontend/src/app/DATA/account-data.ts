@@ -1,57 +1,3 @@
-export const ENUM_USER_GENDER = {
-  MALE: {
-    ua: 'Чоловік',
-    ru: 'Мужчина',
-    en: 'Male'
-  },
-  FEMALE: {
-    ua: 'Жінка',
-    ru: 'Женщина',
-    en: 'Female'
-  },
-};
-
-export const ENUM_USER_STATUS = {
-  AT_HOME: {
-    ua: 'Дома',
-    ru: 'Дома',
-    en: 'At home'
-  },
-  TRAVELLING: {
-    ua: 'Подорожую',
-    ru: 'Путишествую',
-    en: 'Travelling'
-  },
-  LOOKING_FOR_TRAVEL:  {
-    ua: 'Шукаю подорож',
-    ru: 'В поисках путишествия',
-    en: 'Looking for travel'
-  },
-};
-
-export const ENUM_USER_LANGUAGE = {
-  BEGINNER: {
-    ua: 'Початківець',
-    ru: 'Начинающий',
-    en: 'Beginner'
-  },
-  INTERMEDIATE: {
-    ua: 'Посередній',
-    ru: 'Посредний',
-    en: 'Intermediate'
-  },
-  ADVANCED: {
-    ua: 'Продвинутий',
-    ru: 'Продвинутий',
-    en: 'Advanced'
-  },
-  NATIVE: {
-    ua: 'Рідний',
-    ru: 'Родной',
-    en: 'Native'
-  },
-};
-
 export const ENUM_USER_SKILL = {
   canTeachSkills: {
     ua: 'Можу навчити',
@@ -68,5 +14,28 @@ export const ENUM_USER_SKILL = {
     ru: 'Хочу выучить',
     en: 'Interested to learn'
   },
-
 };
+
+export const SKILL_LVL_LIST = [
+  'canTeachSkills',
+  'knownSkills',
+  'interestedInSkills',
+];
+
+export const STATUS_LIST = [
+  'AT_HOME',
+  'TRAVELLING',
+  'LOOKING_FOR_TRAVEL',
+];
+
+export const LANGUAGE_LVL_LIST = [
+  'BEGINNER',
+  'INTERMEDIATE',
+  'ADVANCED',
+  'NATIVE'
+];
+
+export const GENDER_LIST = [
+  'MALE',
+  'FEMALE',
+];

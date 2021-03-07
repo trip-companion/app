@@ -24,6 +24,6 @@ export class PageDataEffects {
     );
 
   constructor(private actions$: Actions,
-              private api: ApiService,
-              public sharedService: SharedService) {}
+    private api: ApiService,
+    public sharedService: SharedService) {}
 }

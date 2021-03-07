@@ -1,7 +1,7 @@
 export default interface IPageDataModel {
    mappings: {
-       main: {
-        searchArea: any;
-       };
+       main?: any;
+       header?: any;
+       personalInfo?: any;
    };
 };
