@@ -3,5 +3,7 @@ export default interface IPageDataModel {
        main?: any;
        header?: any;
        personalInfo?: any;
+       noAuth?: any;
+       okAuth?: any;
    };
 };

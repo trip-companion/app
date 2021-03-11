@@ -232,21 +232,16 @@
                         .user-birth  {
                             margin: 10px 0px 0px 0px;
                             width: auto;
-                            // flex-direction: column;
-                            // align-items: flex-start;
-                            // align-content: flex-start;
-                            // align-items: center;
-                            // #user-birth-label {
-                            //     @include medium_text;
-                            //     color: $color-base3;
-                            //     font-weight: 500;
-                            // }
                             .user-old {
                                 margin-top: 10px;
+                                margin-left: 5px;
                             }
-                            mat-form-field {
-                                &:hover {
-                                    ::ng-deep {
+                            ::ng-deep {
+                                mat-form-field {
+                                    .mat-form-field-suffix  {
+                                        transition: 1s;
+                                    }
+                                    &:hover {
                                         input {
                                             cursor: default;
                                         }
@@ -256,13 +251,16 @@
                                         } 
                                     }
                                 }
-                            }
-                            ::ng-deep {
                                 .mat-form-field-underline {
                                     display: none;
                                 }
                                 .mat-form-field-flex {
                                     background: none;
+                                    display: flex;
+                                    padding: 0px;
+                                    justify-content: center;
+                                    margin: 0px;
+                                    align-items: center;
                                 }
                                 .mat-form-field-infix {
                                     width: 90px
@@ -594,7 +592,7 @@
        }
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
 
         .main {
             display: flex;

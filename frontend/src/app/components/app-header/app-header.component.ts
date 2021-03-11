@@ -124,7 +124,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public linkConfigFilter(routerConfig: IRouteConfig[], accoutnLink: string[]): any {
     this.mainLinkConfig = routerConfig.filter(rout => {
       const findAccountRout = accoutnLink.find(pageUrl => rout.url === pageUrl);
-      return !findAccountRout ? true : !this.accountLinkConfig.push(rout);
+      return !findAccountRout ? rout.mainMenu?true:false : !this.accountLinkConfig.push(rout);
     });
   }
 

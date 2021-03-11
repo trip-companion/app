@@ -9,7 +9,6 @@ import { AuthGuard } from '@app/guards/auth.guards';
 // Components
 import { Redirect301Component } from './components/redirect301/redirect301.component';
 
-
 const PAGES_ROUTES: Routes = [
   { path: 'faq',
     resolve: {pageResolved: PageResolver}, data: { page: `faq/`},
@@ -27,6 +26,10 @@ const PAGES_ROUTES: Routes = [
   { path: 'sign-up',
     resolve: {pageResolved: PageResolver}, data: { page: `sign-up/`},
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule)
+  },
+  { path: 'create-travel',
+    resolve: {pageResolved: PageResolver}, data: {page: `CREATE_TRAVEL`},
+    loadChildren: () => import('./pages/create-travel/create-travel.module').then(m => m.CreateTravelModule)
   },
   { path: '',
     resolve: {pageResolved: PageResolver, pageContent: PageDataResolver},

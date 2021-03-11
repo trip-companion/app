@@ -1,7 +1,7 @@
 
 import { isPlatformBrowser } from '@angular/common';
-import { InjectionToken } from '@angular/core';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { InjectionToken , Inject, Injectable, PLATFORM_ID } from '@angular/core';
+
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import { AuthenticationService } from '@app/services/authentication.service';

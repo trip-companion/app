@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Inject, PLATFORM_ID, APP_ID, isDevMode } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { DOCUMENT } from '@angular/common';
+import { isPlatformBrowser , DOCUMENT } from '@angular/common';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,6 +16,7 @@ import { SharedService } from './services/shared.service';
 import { LocationService } from './services/location.service';
 import { SsrRedirectService } from '@app/services/SsrRedirect.service';
 import { StateService } from './services/state.service';
+import { SeoService } from './services/seo.service';
 // global  module
 import { GlobalPreloaderModule } from './components/global-preloader/global-preloader.module';
 import { GlobalEventModule } from './components/global-event/global-event.module';
@@ -56,6 +57,7 @@ import { SetHeaderInterceptor } from '@app/helpers/header.inerceptor';
   ],
   providers: [
     SharedService,
+    SeoService,
     StateService,
     LanguageResolver,
     LocationService,

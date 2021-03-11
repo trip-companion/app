@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || this.homePath;
   }
 
-
   get getLoginFormControls(): {[key: string]: any} | null { return this.loginForm.controls; }
 
   public onSubmitLogin(event: Event): any {

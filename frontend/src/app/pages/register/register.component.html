@@ -13,7 +13,7 @@
 				<p>
 					<mat-form-field class="example-full-width">
 						<input type="text" required matInput placeholder="Email" autocomplete="off" formControlName="emailInput">
-						<mat-error *ngIf="true">{{inputErrors[0]}}</mat-error>
+						<mat-error>{{inputErrors[0]}}</mat-error>
 					</mat-form-field>
 				</p>
 
@@ -41,7 +41,7 @@
 					<mat-form-field class="example-full-width">
 						<input type="password" required matInput
 						placeholder="Repeat password" autocomplete="off" formControlName="passwordSecondInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': registerForm.errors}">{{inputErrors[1]}}</mat-hint>
+						<mat-hint class="helper-password" [ngClass]="{'error':  registerForm.errors}">{{inputErrors[1]}}</mat-hint>
 					</mat-form-field>
 				</p>
 				

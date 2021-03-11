@@ -1,0 +1,189 @@
+@import '../../../styles/visual_mixin';
+@import '../../../styles/typography';
+
+:host {
+    display: flex;
+    // background-color: $color-white087;
+    background: $color-white;
+    width: 100%;
+    height: 100%;
+    // height: auto;
+    // flex-direction: column;
+    // align-content: center;
+    // justify-content: center;
+    overflow: auto;
+    position: relative;
+    .auth, .notauth {
+        margin-top: 70px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        margin-bottom: 20px;
+        justify-content: center;
+        position: relative;
+        &-title {
+            @include mat_h3;
+            color: $color-base4;
+            text-align: left;
+        }
+    }
+    .auth {
+        .container {
+            padding-top: 40px;
+            padding-bottom: 20px;
+            @include container_box;      
+            box-shadow: $boxShadow-card;
+            background: $color-white;
+            display: flex;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+        &-category, &-description, &-destination, &-datepicker, &-info, &-count {
+            &_helper {
+                @include default_text;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                .help-icon  {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        &-category {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+        &-description {
+            width: 100%;
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+        &-destination {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        &-datepicker {
+            ::ng-deep {
+                .mat-date-range-input-container {
+                    justify-content: space-between;
+                }
+                .mat-form-field-flex {
+                    background: transparent!important;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .mat-form-field-wrapper {
+                    .mat-form-field-underline {
+                        display: none;
+                    }
+                }
+                .mat-form-field-infix {
+                    margin: 0px;
+                    border: 0px;
+                    padding: 0px;
+                    width: 250px;
+                }
+
+                mat-form-field {
+                    .mat-form-field-suffix  {
+                        transition: 1s;
+                    }
+                    &:hover {
+                        input {
+                            cursor: default;
+                        }
+                        .mat-form-field-suffix {
+                            background: $color-new-blue;
+                            border-radius: 50%;
+                        } 
+                    }
+                }
+            }
+        }
+        &-count {
+            &_number {
+                ::ng-deep{
+                    .mat-form-field-infix{
+                        input {
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+        &-info {
+            display: flex;
+            // align-content: center;
+        }
+        &_submit {
+            width: 180px;
+            margin: 20px 0px;
+            align-self: center;
+        }
+
+    }
+
+    .notauth {
+        min-height: 100vh;
+        height: 100%;
+        margin-top: 0px;
+        .container {
+            padding-top: 40px;
+            padding-bottom: 20px;
+            @include container_box;      
+            box-shadow: $boxShadow-card;
+            background: $color-white;
+            display: flex;
+            border-radius: 10px;
+            flex-direction: column;
+            align-self: center
+        }
+        &-discription {
+            // align-self: flex-end;
+            // width: 50%;
+            .text {
+                @include medium_text;
+                color: $color-base6;
+            }
+        }
+        &-links {
+            margin: 40px 0px 20px 0px;
+            align-self: center;
+            &_item {
+                &:first-child{
+                    margin-right: 10px;
+                }
+                &:nth-child(2) {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1199px) {
+
+    }
+
+    @media screen and (max-width: 767px) {
+        .notauth {
+            margin: 0px;
+            .container {
+                padding-top: 58px;
+            }
+        }
+    } 
+}
+
+h1 {
+    color: blue;
+    padding-top:  20vh;
+    font-size: 40px;
+}

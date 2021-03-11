@@ -32,22 +32,31 @@
           "error",
           {
             "types": {
-              // add a custom message to help explain why not to use it
-              "Foo": "Don't use Foo because it is unsafe",
-              "object": false,
-              // add a custom message, AND tell the plugin how to fix it
-              "String": {
-                "message": "Use string instead",
-                "fixWith": "string"
+              "Object": {
+                "message": "Avoid using the `Object` type. Did you mean `object`?"
               },
-      
-              "{}": {
-                "message": "Use object instead",
-                "fixWith": "object"
+              "Function": {
+                "message": "Avoid using the `Function` type. Prefer a specific function type, like `() => void`."
+              },
+              "Boolean": {
+                "message": "Avoid using the `Boolean` type. Did you mean `boolean`?"
+              },
+              "Number": {
+                "message": "Avoid using the `Number` type. Did you mean `number`?"
+              },
+              "String": {
+                "message": "Avoid using the `String` type. Did you mean `string`?"
+              },
+              "Symbol": {
+                "message": "Avoid using the `Symbol` type. Did you mean `symbol`?"
               }
             }
           }
         ],
+        "sort-imports": "off",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error",
         "indent": ["error", 2, {
           "FunctionDeclaration": {"parameters": "first"},
           "SwitchCase": 1,
@@ -90,7 +99,9 @@
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],
-      "rules": {}
+      "rules": {
+        
+      }
     }
   ]
 }

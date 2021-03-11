@@ -65,6 +65,9 @@ export class RegisterComponent implements OnInit {
       this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
     });
     this.returnUrl = this.sharedService.globalPrevRout || this.homePath;
+    // this.registerForm.valueChanges.subscribe(data => {
+    //   console.log(this.registerForm.controls.passwordFirstInput.errors.pattern)
+    // })
   }
 
   public checkPasswords(registerForm: FormGroup): any | null {
