@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -6,8 +6,9 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { SharedService } from '@app/services/shared.service';
 import { LocationService } from '@app/services/location.service';
 
-import { FORM_VALIDATORS } from '@app/DATA/errors-message';
-import ILocalizationText from '../../interfaces/localization-text';
+import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
+import { GLOBAL_ERROR_MESSAGE } from '@app/DATA/errors-message';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -16,24 +17,21 @@ import ILocalizationText from '../../interfaces/localization-text';
   encapsulation : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
   public returnUrl: string;
   public error = '';
   public registerForm: FormGroup;
-  public inputErrors: string[];
+  public globalEventError: string[];
+  public globalEventSuccess: string[];
   public homePath = this.locationService.extractBasePATH();
-  public successMessage: ILocalizationText = {
-    ru: 'Регистрация успешна, залогиньтесь.',
-    ua: 'Реєстрація успішна, залогіньтесь.',
-    en: 'Registration successful, please login.'
-  };
+  public passwordErrorStr: string;
+  private subsPasswordFirstInput: Subscription = new Subscription();
 
   constructor(private fb: FormBuilder,
   public cdr: ChangeDetectorRef,
   private activeRoute: ActivatedRoute,
-  private route: ActivatedRoute,
   public locationService: LocationService,
   private router: Router,
   public sharedService: SharedService,
@@ -44,14 +42,14 @@ export class RegisterComponent implements OnInit {
       firstNameInput: new FormControl('Lalala', Validators.required),
       lastNameInput: new FormControl('GGGG333', Validators.required),
       passwordFirstInput: new FormControl('1235', Validators.compose([
-        Validators.required,
         Validators.pattern(/[A-Z]/),
         Validators.pattern(/[a-z]/),
         Validators.pattern(/\d/),
         Validators.minLength(8),
         Validators.maxLength(16),
         Validators.pattern(/^(\S*\s){0,0}\S*$/),
-        Validators.pattern(/[!#$%&'"()*+,-./:;<=>?@_`{|}~\[\]]/),
+        Validators.pattern(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/),
+        Validators.pattern(/^[^а-яёіїєґ]+$/i),
       ])),
       passwordSecondInput: new FormControl('1235', Validators.required),
     }, { validators: this.checkPasswords });
@@ -62,12 +60,25 @@ export class RegisterComponent implements OnInit {
 
   public ngOnInit(): void {
     this.activeRoute.data.subscribe(data => {
-      this.inputErrors = FORM_VALIDATORS.find(obj => data.page === obj.url)[data.lang];
+      this.globalEventError = GLOBAL_ERROR_MESSAGE.find(obj => 'sign-up/' === obj.url)[data.lang];
+      this.globalEventSuccess = GLOBAL_SUCCESS_MESSAGE.find(obj => 'sign-up/' === obj.url)[data.lang];
     });
     this.returnUrl = this.sharedService.globalPrevRout || this.homePath;
-    // this.registerForm.valueChanges.subscribe(data => {
-    //   console.log(this.registerForm.controls.passwordFirstInput.errors.pattern)
-    // })
+
+    this.subsPasswordFirstInput = this.registerForm.controls.passwordFirstInput.valueChanges
+      .subscribe(() => {
+        if(this.registerForm.controls.passwordFirstInput.errors) {
+          this.passwordErrorStr = this.sharedService.getPasswordErrorMessage(
+            this.registerForm.controls.passwordFirstInput.errors,
+            this.globalEventError);
+        } else {
+          this.passwordErrorStr = null;
+        };
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.subsPasswordFirstInput.unsubscribe();
   }
 
   public checkPasswords(registerForm: FormGroup): any | null {
@@ -88,7 +99,7 @@ export class RegisterComponent implements OnInit {
       this.getReginsterFormControls.lastNameInput.value,
       this.getReginsterFormControls.passwordFirstInput.value)
       .subscribe(() => {
-        this.sharedService.setGlobalEventData(this.successMessage[this.sharedService.language], 'success-window');
+        this.sharedService.setGlobalEventData(this.globalEventSuccess[0], 'success-window');
         this.router.navigate([this.homePath + 'login/']);
       },
       error => {

@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { AuthenticationService } from '@app/services/authentication.service';
@@ -18,6 +18,8 @@ export class CreateTravelComponent implements OnInit {
   @ViewChild('categoryInput') categoryInput: ElementRef<HTMLInputElement>;
   @ViewChild('autoCategory') matAutocomplete: MatAutocomplete;
 
+  public peopleMin = 1;
+  public peopleMax = 50;
   public userAuth = false;
   public minSearchDate: Date = new Date();
   public homePath = this.locationService.extractBasePATH();
@@ -130,9 +132,15 @@ export class CreateTravelComponent implements OnInit {
       id: 'ssadsa1211'
     },
   ];
-
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public categoriesForm = new FormControl();
+  public createTravelForm = new FormGroup({
+    peoplesCountInput: new FormControl(1, Validators.required),
+    startTravelDateInput: new FormControl('', Validators.required),
+    endTravelDateInput: new FormControl('', Validators.required),
+    destinationInput: new FormControl('', Validators.required),
+    descriptionInput: new FormControl('', Validators.required),
+  });
 
   constructor(@Inject(DOCUMENT) private document: Document,
   private authenticationService: AuthenticationService,
@@ -142,11 +150,9 @@ export class CreateTravelComponent implements OnInit {
     if (this.authenticationService.tokenValue) {
       this.userAuth = true;
     }
-
   }
 
   public ngOnInit(): void {
-    console.log('in on init create trave page', this.userAuth);
 
     this.categoriesForm.valueChanges.subscribe(value => {
       console.log(value);
@@ -167,7 +173,26 @@ export class CreateTravelComponent implements OnInit {
   };
 
   public createNewTravel(): void {
-
+    console.log(this.createTravelForm.controls);
   }
 
+  public incrementValueOfPeoples(step: number = 1): void {
+    this.setPeoplesCountField = this.getPeoplesCountField + step;
+  }
+
+  public shouldDisableDecrement(inputValue: number): boolean {
+    return inputValue <= this.peopleMin;
+  }
+
+  public shouldDisableIncrement(inputValue: number): boolean {
+    return inputValue >= this.peopleMax;
+  }
+
+  private get getPeoplesCountField(): any {
+    return this.createTravelForm.get('peoplesCountInput').value;
+  }
+
+  private set setPeoplesCountField(value) {
+    this.createTravelForm.get('peoplesCountInput').setValue(value);
+  }
 }

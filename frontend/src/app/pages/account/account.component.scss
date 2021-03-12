@@ -109,7 +109,8 @@
         grid-gap: 0px 30px;
 
         &-profile {
-           height: 465px;
+            height: auto;
+            max-height: 500px;
         }
         
         &-profile, &-about {
@@ -130,6 +131,9 @@
             &_params, &_password {
                 align-self: center;
                 height: auto!important;
+                mat-error {
+                    font-size: 9px;
+                }
 
                 .helper-password {
                     color: transparent;
@@ -360,7 +364,7 @@
                         flex-direction: column;
                         width: 100%;
                         .delete-item {
-                            margin-left: 15px;
+                            margin-left: 10px;
                             width: 24px;
                             height: 24px;
                             display: flex;
@@ -447,7 +451,7 @@
                                 color: $title-color;
                             }
                             .delete-item {
-                                margin-left: 15px;
+                                margin-left: 10px;
                                 width: 24px;
                                 height: 24px;
                                 display: flex;
@@ -685,10 +689,16 @@
                     height: 300px;
                 }
             }
+            .user-profile-images {
+                .user-face_img {
+                    left: 10px;
+                }
+            }
             .user-profile-text {
                 margin-left: 158px;
             }
             .card-content {
+                padding-left: 165px;
                 &_buttons {
                     flex-direction: column;
                     justify-content: center;

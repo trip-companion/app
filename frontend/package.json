@@ -7,9 +7,10 @@
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "update-sitemap": "node sitemap-update.js",
     "dev:ssr": "ng run angular-starter:serve-ssr",
     "serve:ssr": "node dist/server/main.js",
-    "build:ssr": "npm run test && ng build --prod && ng run angular-starter:server:production",
+    "build:ssr": "npm run test && npm run update-sitemap && ng build --prod && ng run angular-starter:server:production",
     "prerender": "ng run angular-starter:prerender"
   },
   "license": "ISC",
@@ -36,6 +37,7 @@
     "ngx-device-detector": "^2.0.5",
     "rxjs": "6.6.3",
     "tslib": "2.0.3",
+    "xml-js": "^1.6.11",
     "zone.js": "0.11.3"
   },
   "devDependencies": {
@@ -45,7 +47,7 @@
     "@angular-eslint/eslint-plugin-template": "1.2.0",
     "@angular-eslint/schematics": "1.2.0",
     "@angular-eslint/template-parser": "1.2.0",
-    "@angular/cli": "11.0.3",
+    "@angular/cli": "^11.2.4",
     "@angular/compiler-cli": "11.0.3",
     "@nguniversal/builders": "11.0.1",
     "@types/express": "4.17.9",

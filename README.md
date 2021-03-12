@@ -66,6 +66,7 @@ npm run serve:ssr
     "ngx-device-detector": "^2.0.5",
     "rxjs": "6.6.3",
     "tslib": "2.0.3",
+    "xml-js": "^1.6.11",
     "zone.js": "0.11.3"
 ```
 ### Package in dev front(Angular): 
@@ -76,7 +77,7 @@ npm run serve:ssr
     "@angular-eslint/eslint-plugin-template": "1.2.0",
     "@angular-eslint/schematics": "1.2.0",
     "@angular-eslint/template-parser": "1.2.0",
-    "@angular/cli": "11.0.3",
+    "@angular/cli": "^11.2.4",
     "@angular/compiler-cli": "11.0.3",
     "@nguniversal/builders": "11.0.1",
     "@types/express": "4.17.9",
@@ -113,12 +114,14 @@ dist/
  |    ├─ polyfills.###.js       
  |    ├─ main.###.js
  |    ├─ styles.###.css
+ |    ├─ robots.txt
+ |    ├─ sitemap.xml
  |    |
  |    └─ favicon.ico
  |
  ├── server/
  |     └─  main.js
- |     └─  **.module.js         *front module file for node ssr
+ |     └─  **-module.js         *front module file for node ssr
 ```
 
 ### schema URL
@@ -131,6 +134,28 @@ dist/
     EN       "/"
     UA       "ua/"
     RU       "ru/"   
+
+```
+
+### sitemap script update
+
+```bash
+# command: "npm run update-sitemap" (run auto when use "npm run build:ssr")
+# script which updates the sitemap site.
+
+#   need set all url in site. The core of site need set default in sitemap.xml.
+    appUrls = [
+        'create-travel/',
+        'faq/',
+        'login/',
+        'sign-up/',
+        'create-travel/',
+    ];
+#   need set all available language in front. The base language doesn't need to be specified.
+    availableLanguages = [
+        'ua',
+        'ru'
+    ];
 
 ```
 

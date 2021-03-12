@@ -33,6 +33,11 @@ export const userReducer = (state = initialState, action: UserActions.UserAction
         user: action.payload,
         loading: false,
       };
+    case UserActions.USER_ACTION.UPDATE_USER_LOCAL_ACTION:
+      return {
+        ...state,
+        user: action.payload
+      };
 
     default:
       return {...state};

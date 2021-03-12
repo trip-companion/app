@@ -4,9 +4,10 @@ import { combineLatest, Subscription } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
-import { UpdateUserAction } from '@app/store/actions/user.action';
+import { UpdateUserAction, UpdateUserLocalAction } from '@app/store/actions/user.action';
 import { LoadGlobalEventAction } from '@app/store/actions/globalEvent.action';
-import { FORM_VALIDATORS } from '@app/DATA/errors-message';
+import { GLOBAL_ERROR_MESSAGE } from '@app/DATA/errors-message';
+import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
 
 import IUserModel from '@app/interfaces/store.models/user.model';
 import { UserModel } from '@app/models/edit-user.model';
@@ -80,7 +81,9 @@ export class AccountComponent implements OnInit, OnDestroy {
   public skillsForm = new FormControl('', Validators.compose([Validators.required]));
   public languageForm = new FormControl('', Validators.compose([Validators.required]));
   public emailForm = new FormControl('', Validators.compose([Validators.email]));
-  public inputErrors: string[];
+  public globalEventError: string[];
+  public globalEventSuccess: string[];
+  public passwordErrorStr: string;
 
   private subsAccountUserStore: Subscription = new Subscription();
   private subsInterestInput: Subscription = new Subscription();
@@ -107,23 +110,23 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     this.passwordForm = this.fb.group({
       passwordFirstInput: new FormControl('', Validators.compose([
-        Validators.required,
         Validators.pattern(/[A-Z]/),
         Validators.pattern(/[a-z]/),
         Validators.pattern(/\d/),
         Validators.minLength(8),
         Validators.maxLength(16),
         Validators.pattern(/^(\S*\s){0,0}\S*$/),
-        Validators.pattern(/[!#$%&'"()*+,-./:;<=>?@_`{|}~\[\]]/),
+        Validators.pattern(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/),
+        Validators.pattern(/^[^а-яёіїєґ]+$/i),
       ])),
       passwordSecondInput: new FormControl('', Validators.required),
     }, {validators: this.checkPasswords});
 
-    this.inputErrors = FORM_VALIDATORS.find(obj => 'account/' === obj.url)[this.sharedService.language];
+    this.globalEventError = GLOBAL_ERROR_MESSAGE.find(obj => 'account/' === obj.url)[this.sharedService.language];
+    this.globalEventSuccess = GLOBAL_SUCCESS_MESSAGE.find(obj => 'account/' === obj.url)[this.sharedService.language];
   }
 
   public ngOnInit() {
-
     this.subsPageData = this.activeRoute.data.subscribe(data => {
       if(data.pageContent.page) {
         this.accountStaticData = data.pageContent.page;
@@ -146,6 +149,17 @@ export class AccountComponent implements OnInit, OnDestroy {
           this.lvlOfKnowledgeLanguage);
         this.choicesLvlOfLang = this.lvlOfKnowledgeLanguage[0];
       };
+
+      this.passwordForm.controls.passwordFirstInput.valueChanges
+        .subscribe(() => {
+          if(this.passwordForm.controls.passwordFirstInput.errors) {
+            this.passwordErrorStr = this.sharedService.getPasswordErrorMessage(
+              this.passwordForm.controls.passwordFirstInput.errors,
+              this.globalEventError);
+          } else {
+            this.passwordErrorStr = null;
+          };
+        });
     });
 
     this.subsAccountUserStore = combineLatest([
@@ -254,25 +268,26 @@ export class AccountComponent implements OnInit, OnDestroy {
           const width = rs.path[0].naturalWidth;
 
           if (height > 750 || width > 750) {
-            this.sharedService.setGlobalEventData(this.inputErrors[2], 'error-window');
+            this.sharedService.setGlobalEventData(this.globalEventError[9], 'error-window');
             this.fileInput.nativeElement.value = '';
             return false;
           };
           this.apiSvc.postUserAvatar(imgFile.files[0])
             .subscribe((updatedUser: IUserModel) => {
-              this.user = updatedUser;
+              this.store.dispatch(new UpdateUserLocalAction(updatedUser));
               this.changeUserAvatar();
+              this.sharedService.setGlobalEventData(this.globalEventSuccess[0], 'success-window');
             }, error => console.log(error));
         };
         image.onerror = () => {
-          this.sharedService.setGlobalEventData(this.inputErrors[3], 'error-window');
+          this.sharedService.setGlobalEventData(this.globalEventError[10], 'error-window');
           this.fileInput.nativeElement.value = '';
           return false;
         };
       };
       reader.readAsDataURL(imgFile.files[0]);
     } else {
-      this.sharedService.setGlobalEventData(this.inputErrors[4], 'error-window');
+      this.sharedService.setGlobalEventData(this.globalEventError[11], 'error-window');
     };
   };
   //img avatar end

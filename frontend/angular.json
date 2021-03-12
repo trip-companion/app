@@ -21,7 +21,17 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "robots.txt",
+                "input": "./",
+                "output": "./"
+              },
+              {
+                "glob": "sitemap.xml",
+                "input": "./",
+                "output": "./"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

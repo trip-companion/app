@@ -1,4 +1,4 @@
-export default interface IErrorMessage {
+export default interface IGlobalEventMessage {
     url: string;
     en: string[];
     ua: string[];

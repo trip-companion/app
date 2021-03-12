@@ -79,7 +79,7 @@ export class SeoService {
 	  this.meta.addTag({httpEquiv: 'Content-Language', content: this.sharedService.contentLang});
 
 	  // <meta name="robots" content="...">
-	  this.meta.addTag({name: 'robots', content: `noindex,follow`});
+	  this.meta.addTag({name: 'robots', content: `index,follow`});
 
 	  // <link hreflang="..." rel="alternate" href="...">
 	  this.sharedService.languages.forEach((lang: string) => {
