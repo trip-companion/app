@@ -5,11 +5,12 @@ app-register {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: $color-black04;
-    overflow: hidden;
+    background: $color-white087;
+    overflow: auto;
     .register-form {
         align-self: center;
         padding: 50px;
+        box-shadow: $boxShadow-container;
         .helper-password {
             color: transparent;
             &.error {
@@ -22,7 +23,7 @@ app-register {
             align-items: center;
 
             .register-btn {
-                background-color: #4CAF50;
+                background-color: $success-background;
                 border: none;
                 color: white;
                 padding: 3px 30px;
@@ -35,7 +36,12 @@ app-register {
                     cursor: default;
                 }
             }
-
+        }
+    }
+    @media screen and (max-height: 620px) {
+        height: 620px;
+        .register-form  {
+            margin-top: 20px;
         }
     }
 }

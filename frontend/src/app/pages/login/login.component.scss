@@ -5,18 +5,19 @@ app-login {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: $color-black04;
-    overflow: hidden;
+    background: $color-white087;
+    overflow: auto;
     .login-form {
         align-self: center;
         padding: 50px;
+        box-shadow: $boxShadow-container;
         .buttons {
             display: flex;
             justify-content: space-between;
             align-items: center;
 
             .login-btn {
-                background-color: #4CAF50;
+                background-color: $success-background;
                 border: none;
                 color: white;
                 padding: 3px 30px;
@@ -39,5 +40,9 @@ app-login {
                 }
             }   
         }
+    }
+
+    @media screen and (max-height: 500px) {
+        height: 500px;
     }
 }

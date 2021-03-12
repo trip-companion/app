@@ -1,6 +1,6 @@
 
-import { Injectable, Inject} from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+
 import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';

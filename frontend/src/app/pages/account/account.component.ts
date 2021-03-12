@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit , ViewChild } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
-import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { UpdateUserAction } from '@app/store/actions/user.action';
@@ -16,7 +16,7 @@ import IPageDataModel from '@app/interfaces/store.models/pageData.model';
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Event } from '@angular/router';
-import { ViewChild } from '@angular/core';
+
 import { SharedService } from '@app/services/shared.service';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { ApiService } from '@app/services/api.services';
@@ -50,7 +50,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public choicesLvlOfLang: string;
   public languageName: string;
 
-  public userGender: string[] = [];;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  public userGender: string[] = [];
 
   public lvlOfKnowledgeSkill = [];
   public choicesLvlOfSkill: string;

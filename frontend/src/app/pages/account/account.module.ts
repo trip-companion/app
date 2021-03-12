@@ -5,8 +5,8 @@ import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
 
 import { MaterialModule } from '@app/modules/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule , FormsModule } from '@angular/forms';
+
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';

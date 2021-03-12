@@ -4,7 +4,7 @@ import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@a
 import { ResolverService } from '@app/services/resolver.service';
 import { LocationService } from '@app/services/location.service';
 import { SsrRedirectService } from '@app/services/SsrRedirect.service';
-// import { SeoService } from '@app/services/seo.service';
+import { SeoService } from '@app/services/seo.service';
 import { StateService } from '@app/services/state.service';
 // Interfaces
 import IRouteConfig from '@app/interfaces/route-config';
@@ -22,7 +22,8 @@ export class PageResolver implements Resolve<string|null> {
               private locationService: LocationService,
               private ssrRedirectService: SsrRedirectService,
               private resolverService: ResolverService,
-              private stateService: StateService,) {
+              private stateService: StateService,
+              public seoService: SeoService,) {
     this.pushRoute(ROUTER_CONFIG);
   }
 
@@ -32,7 +33,7 @@ export class PageResolver implements Resolve<string|null> {
     const CATEGORY_URL: string = this.resolverService.getCategoryUrl(URL_SEGMENTS, route.data.lang);
     const PAGE_NAME = `${route.data.page}${!!route.data.subpage ? `${route.data.subpage}` : ``}`;
     const X = this.isRedirectRoute(CATEGORY_URL, true);
-    const REDIRECT_URL: string|null = !!X ? this.locationService.joinWithLangRoutePath(X) : null;
+    const REDIRECT_URL: string | null = !!X ? this.locationService.joinWithLangRoutePath(X) : null;
 
     if (this.stateService.isBrowser) {
       console.groupCollapsed(`%c PageResolver ${REDIRECT_URL ? `: redirect 301` : ``}`, 'color:#00E2FF;font-size:12px;');
@@ -55,8 +56,7 @@ export class PageResolver implements Resolve<string|null> {
 
     this.stateService.routerData = route.data;
 
-    // когда появится сео
-    // this.seoService.updateMeta(PAGE_NAME, CATEGORY_URL);
+    this.seoService.updateMeta(PAGE_NAME, CATEGORY_URL);
     return of(CATEGORY_URL);
   }
 

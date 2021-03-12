@@ -12,7 +12,7 @@ export class UserModel {
     public interests: string[];
     public features: string[];
 
-    constructor(values: object = {}) {
-      Object.assign(this, values);
+    constructor(...arg) {
+      Object.assign(this, ...arg);
     };
 };

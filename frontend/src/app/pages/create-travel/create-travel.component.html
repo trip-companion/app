@@ -1,0 +1,186 @@
+<!-- <app-create-travel> -->
+  
+  <section class="auth" *ngIf="userAuth;else notAuthView">
+    <div class="container">
+
+      <h3 class="auth-title">{{createTravelStaticData.mappings.okAuth.title.text}}</h3>
+      <div class="auth-category">
+        <span class="auth-category_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.category.helper.text}}
+        </span>
+        <mat-form-field appearance="outline">
+          <mat-label class="auth-category_label">
+            {{createTravelStaticData.mappings.okAuth.category.input.text}}
+          </mat-label>
+          <mat-chip-list #chipListOfCategory>
+            <mat-chip
+              *ngFor="let category of userCategoriesChoices"
+              [selectable]="true"
+              [removable]="true"
+              color="accent"
+              (removed)="removeTripCategory(category)">
+              {{category.displayName}}
+              <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="{{createTravelStaticData.mappings.okAuth.category.input.placeholder.text}}"
+              [formControl]="categoriesForm"
+              #categoryInput
+              [matAutocomplete]="autoCategory"
+              [matChipInputFor]="chipListOfCategory"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+          </mat-chip-list>
+          <mat-autocomplete #autoCategory="matAutocomplete"
+            (optionSelected)="selectedTripCategory($event)">
+            <mat-option 
+              *ngFor="let category of availableCategoryForUser"
+              [value]="category.displayName">
+              {{category.displayName}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="auth-description">
+        <span class="auth-description_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.description.helper.text}}
+        </span>
+        <mat-form-field appearance="outline">
+          <mat-label>{{createTravelStaticData.mappings.okAuth.description.input.text}}</mat-label>
+          <textarea
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="10" 
+            matInput 
+            placeholder="{{createTravelStaticData.mappings.okAuth.description.input.placeholder.text}}">{{'Text'}}</textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="auth-destination">
+        <span class="auth-destination_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.destination.helper.text}}
+        </span>
+        <mat-form-field appearance="outline" class="auth-destination_name">
+          <mat-label>{{createTravelStaticData.mappings.okAuth.destination.input.text}}</mat-label>
+          <input
+            type="text"
+            required
+            matInput
+            autocomplete="off" >
+        </mat-form-field>
+      </div>
+
+      <div class="auth-datepicker">
+        <span class="auth-datepicker_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.datepicker.helper.text}}
+        </span>
+
+        <mat-form-field appearance="fill">
+          <mat-date-range-input 
+            [rangePicker]="picker"
+            [min]="minSearchDate">
+            <input matStartDate
+              placeholder="{{createTravelStaticData.mappings.okAuth.datepicker.inputs.start.text}}"
+              readonly
+            >
+            <input matEndDate
+              placeholder="{{createTravelStaticData.mappings.okAuth.datepicker.inputs.end.text}}"
+              readonly
+            >
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <div class="auth-count">
+        <span class="auth-destination_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.count.helper.text}}
+        </span>
+        <mat-form-field appearance="outline" class="auth-count_number">
+          <mat-label>{{createTravelStaticData.mappings.okAuth.count.input.text}}</mat-label>
+          <input
+            type="number"
+            value="1"
+            min="1"
+            max="50"
+            matInput
+            autocomplete="off" >
+        </mat-form-field>
+      </div>
+      
+      <div class="auth-info">
+        <span class="auth-destination_helper">
+          <mat-icon class="help-icon"> 
+            notification_important
+          </mat-icon>
+          {{createTravelStaticData.mappings.okAuth.info.text}}
+        </span>
+      </div>
+
+      <button mat-raised-button
+        [disabled]="false"
+        color="primary"
+        (click)="createNewTravel()"
+        class="auth_submit">
+        {{createTravelStaticData.mappings.okAuth.button.text}}
+      </button>
+
+    </div>
+  </section>
+
+  <ng-template #notAuthView>
+    
+    <section class="notauth">
+      <div class="container">
+        <h3 class="notauth-title">Вітаємо! Для цього крока вам потрібно увійти в систему.</h3>
+        <div class="notauth-discription">
+          <span class="text">
+            Для створення нових подорожей потрібно пройти реєстрацію, якщо Ви ще не зареєстровані. 
+          </span>
+          <span class="text">
+            З особистим кабінетом користувача ви зможете заповнити особисту інформацію яку будуть бачити користувачі зацікавлені подорожами по вашому напрямку.
+            Таким чином ви зможете зрозуміти чи співпадають ваші інтереси та погляди.
+            А також Ви зможете спілкуватись з іншими користувачами через чат, відслідковувати статистику і залишати відгуки про ваші подорожі та супутників.
+          </span>
+        </div>
+        <div class="notauth-links">
+          <a class="notauth-links_item"
+            [routerLink]="locationService.joinWithLangRoutePath('/login/')">
+            <button
+              mat-raised-button
+              color="accent">
+              {{'login'}}
+            </button>
+        </a>
+
+        <a class="notauth-links_item"
+          [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')">
+          <button
+            mat-raised-button
+            color="accent">
+            {{'Register new user'}}
+          </button>
+        </a>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+
+  <!-- <section class="footer"></section> -->
+  
+<!-- </app-create-travel> -->

@@ -23,8 +23,20 @@
           <mat-form-field appearance="fill">
             <mat-label>{{pageDataContent.searchArea.dateRange.text}}</mat-label>
             <mat-date-range-input [formGroup]="searchForm" [rangePicker]="picker" [min]="minSearchDate">
-              <input matStartDate formControlName="start" autocomplete="off" placeholder="MM/DD/YYYY">
-              <input matEndDate formControlName="end" autocomplete="off" placeholder="MM/DD/YYYY">
+              <input
+                matStartDate
+                formControlName="start"
+                autocomplete="off"
+                readonly
+                placeholder=""
+              >
+              <input
+                matEndDate
+                formControlName="end"
+                autocomplete="off"
+                readonly
+                placeholder=""
+              >
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
@@ -80,7 +92,14 @@
       </div>
 
       <div class="welcome-create">
-        <button class="welcome-create_btn" mat-raised-button color="warn">Create new trip</button>
+        <a class="welcome-create_btn"
+          [routerLink]="locationService.joinWithLangRoutePath('/create-travel/')">
+          <button class="welcome-create_btn"
+            mat-raised-button
+            color="warn">
+            Create new trip
+          </button>
+        </a>
       </div>
       <!-- <span>{{pageData.searchArea.dateRange.text}}</span> -->
     </div>
