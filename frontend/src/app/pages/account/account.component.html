@@ -40,7 +40,7 @@
               #emailInput
               [formControl]="emailForm"
             >
-						<mat-error *ngIf="true">{{inputErrors[0]}}</mat-error>
+						<mat-error *ngIf="true">{{globalEventError[0]}}</mat-error>
 					</mat-form-field>
 				</p>
 
@@ -58,7 +58,8 @@
             <mat-label>{{accountStaticData.mappings.personalInfo.password.passwordInput.text}}</mat-label>
 						<input type="password" required matInput 
               autocomplete="off" formControlName="passwordFirstInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
+              <mat-error>{{passwordErrorStr}}</mat-error>
+						<!-- <mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{globalEventError[1]}}</mat-hint> -->
 					</mat-form-field>
 				</p>
 				<p>
@@ -66,7 +67,7 @@
             <mat-label>{{accountStaticData.mappings.personalInfo.password.repeatPasswordInput.text}}</mat-label>
 						<input type="password" required matInput
 						  autocomplete="off" formControlName="passwordSecondInput">
-						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{inputErrors[1]}}</mat-hint>
+						<mat-hint class="helper-password" [ngClass]="{'error': passwordForm.errors}">{{globalEventError[1]}}</mat-hint>
 					</mat-form-field>
         </p>
       </div>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { environment } from '@environments/environment';
+import { ValidationErrors } from '@angular/forms';
 
 const MATHING_CONTETNT_LANG: {[key: string]: string} = {
   en: `en-US`,
@@ -50,5 +51,28 @@ export class SharedService {
 
   public getCorrectImg(apiSrc: string): string {
     return this.host + apiSrc;
+  }
+
+  public getPasswordErrorMessage(err: ValidationErrors | null, arrOfErr: string[]): string {
+    if(err.pattern) {
+      switch (err.pattern.requiredPattern) {
+        case `${/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/}`:
+          return arrOfErr[2];
+        case '/[a-z]/':
+          return arrOfErr[3];
+        case '/[A-Z]/':
+          return arrOfErr[4];
+        case '/\d/':
+          return arrOfErr[5];
+        case '/^(\S*\s){0,0}\S*$/':
+          return arrOfErr[5];
+        case '/^[^а-яёіїєґ]+$/i':
+          return arrOfErr[8];
+        default:
+          return arrOfErr[7];
+      }
+    } else {
+      return arrOfErr[7];
+    }
   }
 }

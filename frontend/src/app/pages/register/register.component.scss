@@ -17,6 +17,9 @@ app-register {
                 color: $color-error;
             }
         }
+        mat-error {
+            font-size: 9px;
+        }
         .buttons {
             display: flex;
             justify-content: space-between;

@@ -5,6 +5,7 @@ export enum USER_ACTION {
     UPDATE_USER_ACTION = 'UPDATE_USER_ACTION',
     LOAD_USER_ACTION = 'LOAD_USER_ACTION',
     LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS',
+    UPDATE_USER_LOCAL_ACTION = 'UPDATE_USER_LOCAL_ACTION',
 }
 
 export class GetUserAction implements Action {
@@ -21,4 +22,9 @@ export class UpdateUserAction implements Action {
     constructor(public user: IUserModel) {}
 };
 
-export type UserActions = GetUserAction | UserLoadAction | UpdateUserAction;
+export class UpdateUserLocalAction implements Action {
+    readonly type = USER_ACTION.UPDATE_USER_LOCAL_ACTION;
+    constructor(public payload: IUserModel) {}
+}
+
+export type UserActions = GetUserAction | UserLoadAction | UpdateUserAction | UpdateUserLocalAction;

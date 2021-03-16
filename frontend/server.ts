@@ -31,7 +31,7 @@ function getParsedFullUrl(req: express.Request): Url {
 
 function checkProtocol(protocol: string, host: string): string {
   const REG_IP: RegExp = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
-  const REG_DEV: RegExp = /lanetpro\.lanet\.ua/;
+  const REG_DEV: RegExp = /dev\.site\.domen/;
   const REG_LOCALHOST: RegExp = /localhost:/;
   return REG_IP.test(host) || REG_DEV.test(host) || REG_LOCALHOST.test(host) ? `${protocol}:`.replace(/:{2,}/g, `:`) : `https:`;
 }
@@ -54,6 +54,10 @@ export function app(): express.Express {
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
+  
+  server.get('*/null$', (req: express.Request, res: express.Response) => res.end());
+  server.use('*/robots.txt', express.static(`dist/browser/robots.txt`));
+  server.use('*/sitemap.xml', express.static(`dist/browser/sitemap.xml`));
 
   server.get(/.*/, (req: express.Request, res: express.Response, next: any) => {
 
