@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { environment } from '@environments/environment';
 // Interfaces
 // import { ISeoData } from '../interfaces/seo-data';
 // Services
@@ -32,6 +33,7 @@ export class SeoService {
 	private hrefOrigin: string;
 	private image: string;
 	private imageHead: string;
+	private checkNoIndex: boolean;
 
 	constructor(@Inject(DOCUMENT) private document,
 				//@Optional() @Inject('TARGET_ORIGIN') protected targetOrigin: string,       // added to providers in server.ts
@@ -41,6 +43,7 @@ export class SeoService {
 				private sharedService: SharedService) {
 	  this.hrefOrigin = this.stateService.isBrowser ? this.document.location.origin : `https://prod.domen`;
 	  this.image = `${this.hrefOrigin}/assets/images/main_logo.jpg`;
+	  this.checkNoIndex = environment.checkNoIndex;
 	  this.imageHead = `${this.hrefOrigin}/assets/images/main_logo.jpg`;
 	}
 
@@ -80,6 +83,15 @@ export class SeoService {
 
 	  // <meta name="robots" content="...">
 	  this.meta.addTag({name: 'robots', content: `index,follow`});
+
+	  if (this.checkNoIndex) {
+	    // seo.isNoindex
+	    //? this.meta.addTag({name: 'robots',  content: `noindex,follow`})
+	    //: this.meta.addTag({name: 'robots',  content: `index,follow`});
+	    this.meta.addTag({name: 'robots', content: `index,follow`});
+	  } else {
+	    this.meta.addTag({name: 'robots', content: `noindex,follow`});
+	  };
 
 	  // <link hreflang="..." rel="alternate" href="...">
 	  this.sharedService.languages.forEach((lang: string) => {

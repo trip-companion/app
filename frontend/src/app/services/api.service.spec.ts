@@ -133,7 +133,7 @@ describe('ApiService', () => {
   });
 
 
-  describe('#Log in test user ', () => {
+  describe('#LogIn test user ', () => {
 
     it('should return tokens data', () => {
       authSrv.login(sendRegForm.email, sendRegForm.password).subscribe(res => {
@@ -153,6 +153,24 @@ describe('ApiService', () => {
   
       const req = httpMock.expectOne(`${authSrv.apiUrl}users/current`)
       expect(req.request.method).toBe('GET');
+      req.flush(fakeUser);
+    });
+  });
+
+  describe('#Edit current user',  () => {
+
+    it('#putUserCurrent return user data', () => {
+      const sendUser = JSON.parse(JSON.stringify(fakeUser));
+      delete sendUser.id;
+      delete sendUser.avatarSrc;
+      delete sendUser.email;
+      apiSrv.putUserCurrent(sendUser).subscribe(res => {
+        expect(res).toBe(fakeUser);
+      });
+      
+      const req = httpMock.expectOne(`${authSrv.apiUrl}users/current`)
+      expect(req.request.method).toBe('PUT');
+      expect(req.request.body).toEqual(sendUser);
       req.flush(fakeUser);
     });
   });

@@ -10,7 +10,7 @@
     "update-sitemap": "node sitemap-update.js",
     "dev:ssr": "ng run angular-starter:serve-ssr",
     "serve:ssr": "node dist/server/main.js",
-    "build:ssr": "npm run test && npm run update-sitemap && ng build --prod && ng run angular-starter:server:production",
+    "build:ssr": "ng build --prod && ng run angular-starter:server:production",
     "prerender": "ng run angular-starter:prerender"
   },
   "license": "ISC",

@@ -40,9 +40,6 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.apiUrl}public/auth`, { email, password })
       .pipe(map(res => {
         this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-        if (this.isBrowser) {
-          this.tokenSubject.next(res.jwtAccessToken);
-        }
         return res;
       }));
   }
@@ -56,8 +53,8 @@ export class AuthenticationService {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('refreshTokenExpDate');
-      this.tokenSubject.next(null);
     }
+    this.tokenSubject.next(null);
   }
 
   public logout(): void {
@@ -73,10 +70,23 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
       .pipe(map(res => {
         this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
-        if (this.isBrowser) { this.tokenSubject.next(res.jwtAccessToken); }
         return true;
       }), catchError((error: HttpErrorResponse | HttpResponse<any>): Observable<boolean> => of(false))
       );
+  }
+
+  public checkAccessExpHelper(token: string): boolean {
+    if (!token) { return true; }
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor(new Date().getTime() / 1000)) >= expiry;
+  }
+
+  public checkRefreshExpHelper(): boolean {
+    if (this.isBrowser) {
+      const timeNow = new Date().valueOf();
+      const expiry = Number(localStorage.getItem('refreshTokenExpDate'));
+      return ((expiry === null || !expiry) || timeNow >= expiry);
+    }
   }
 
   private setLocalStorage(access: string, refresh: string, dateExp: string): void {
@@ -85,6 +95,6 @@ export class AuthenticationService {
       localStorage.setItem('refreshToken', refresh);
       localStorage.setItem('refreshTokenExpDate', dateExp);
     }
+    this.tokenSubject.next(access);
   }
-
 }
