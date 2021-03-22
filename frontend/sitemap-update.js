@@ -7,9 +7,6 @@ const fs = require('fs'),
     appUrls = [
         'create-travel/',
         'faq/',
-        'login/',
-        'sign-up/',
-        'create-travel/',
     ],
     availableLanguages = [
         '/',
@@ -31,9 +28,11 @@ const fs = require('fs'),
             if (data) {
                 const existingSitemapList = JSON.parse(convert.xml2json(data, options));
                 existingSitemapList.urlset.url = [];
-                setMainUrl(existingSitemapList.urlset.url);  
+                setMainUrl(existingSitemapList.urlset.url);
+                
+                const unicUrlsList = untrackedUrlsList.reverse().filter((e, i, untrackedUrlsList) => untrackedUrlsList.indexOf(e, i+1) === -1).reverse();
 
-                untrackedUrlsList.forEach(ele => {
+                unicUrlsList.forEach(ele => {
                     existingSitemapList.urlset.url.push({
                         loc: {
                             _text: ele,
