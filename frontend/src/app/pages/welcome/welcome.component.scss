@@ -75,6 +75,19 @@
                     visibility: visible;
                 }
             }
+            ::ng-deep {
+                .mat-form-field-suffix  {
+                    button {
+                        margin: 0px;
+                    }
+                }
+                mat-form-field {
+                    width: 250px;
+                }
+                .mat-form-field-infix {
+                    width: 100%;
+                }
+            }
         }
 
         .date {

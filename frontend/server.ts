@@ -8,7 +8,6 @@ import { Url } from 'url';
 const URL = require('url');
 
 import { AppServerModule } from './src/main.server';
-import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
@@ -55,47 +54,48 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
   
-  server.get('*/null$', (req: express.Request, res: express.Response) => res.end());
   server.use('*/robots.txt', express.static(`dist/browser/robots.txt`));
   server.use('*/sitemap.xml', express.static(`dist/browser/sitemap.xml`));
+  server.get('*/null$', (req: express.Request, res: express.Response) => res.end());
+  server.get('*/wp-content/*', (req: express.Request, res: express.Response) => res.status(404).send('Not Found'));
+
+  server.get('*.*', express.static(distFolder));
 
   server.get(/.*/, (req: express.Request, res: express.Response, next: any) => {
-
     const pURL: Url = getParsedFullUrl(req);
-    // console.log(pURL);
     if (/\.|assets*/g.test(pURL.pathname)) {
-        next();
-        return;
+      next();
+      return;
     }
 
     if (/%/g.test(pURL.path)) {
-        // retrieval % on ''
-        const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(pURL.protocol, pURL.host)}//${pURL.host}${pURL.path.replace(/%/g, '')}`);
-        console.log(`301 Redirect:[retrieval %]: ${REDIRECT_URL}`);
-        res.redirect(301, REDIRECT_URL);
+      // retrieval % on ''
+      const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(pURL.protocol, pURL.host)}//${pURL.host}${pURL.path.replace(/%/g, '')}`);
+      console.log(`301 Redirect:[retrieval %]: ${REDIRECT_URL}`);
+      res.redirect(301, REDIRECT_URL);
 
     } else if (pURL.path !== `/` && !/\/$|\.|\?\w+=/.test(pURL.path)) {
-        // stripTrailingSlash
-        const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(req.protocol, pURL.host)}//${pURL.host}${pURL.path}`);
-        console.log(`301 Redirect:[add strip trailing slash]`);
-        res.redirect(301, REDIRECT_URL);
+      // stripTrailingSlash
+      const REDIRECT_URL: string = normalizeUrl(`${checkProtocol(req.protocol, pURL.host)}//${pURL.host}${pURL.path}`);
+      console.log(`301 Redirect:[add strip trailing slash]`);
+      res.redirect(301, REDIRECT_URL);
 
     } else {
-        next();
+      next();
     }
   });
-
+  // All regular routes use the Universal engine
   server.get('*', (req: express.Request, res: express.Response, next: any) => {
 
     const pURL: Url = getParsedFullUrl(req);
+    const RC = {config: {need: false, code: null, url: null}};
 
     if (!/\?\w+=/.test(pURL.path) && /\.|assets*/g.test(pURL.path)) {
       console.log(`404 Not Found :: ${pURL.path}`);
       res.status(404).send('Not Found');
       return;
     }
-    console.log(`Universal engine * ${getFullUrl(req)}`);
-
+    console.log(`Universal engine * ${pURL.path}`);
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 
     res.render(indexHtml, {
@@ -105,14 +105,9 @@ export function app(): express.Express {
         { provide: REQUEST, useValue: req } as ValueProvider,
         { provide: RESPONSE, useValue: res } as ValueProvider,
         { provide: `REQUEST_MODE`, useValue: `USER-REQUEST` } as ValueProvider,
-        { provide: `REDIRECT_CONFIG`, useValue: null } as ValueProvider
+        { provide: `REDIRECT_CONFIG`, useValue: RC } as ValueProvider
       ],
     });
-  });
-
-  // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
   return server;

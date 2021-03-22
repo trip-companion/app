@@ -72,7 +72,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  //test
   public cardHeader = '/assets/images/account/account_card_head.jpg';
   public cardUser = '/assets/images/account/avatar-hover.png';
   public passwordForm: FormGroup;
@@ -246,8 +245,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public onSubmitEditEmail(event: Event): void {
 
   }
-  ///////////////////////////////////////////////////////////
-  //img avatar  start
+
   public changeUserAvatar(): void {
     if(this.user.avatarSrc && this.user.avatarSrc.length > 1) {
       this.cardUser = this.sharedService.getCorrectImg(this.user.avatarSrc);
@@ -290,8 +288,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.sharedService.setGlobalEventData(this.globalEventError[11], 'error-window');
     };
   };
-  //img avatar end
-  //features start
+
   public changeFeatures(id: string, status: boolean): void {
     if(status) {
       this.currentUserFeatures = this.currentUserFeatures.filter(name => name !== id);
@@ -300,8 +297,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
     this.cdRef.detectChanges();
   }
-  //features end
-  //skill start
+
   public setKnowledgeUserSkills(): void {
     this.userSkillsKnowladgeList = [];
     for (const property in ENUM_USER_SKILL) {
@@ -337,10 +333,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     const findInArr = this.availableSkillsForUser.find(skill => skill.displayName.toLocaleLowerCase() === inputvalue.toLocaleLowerCase());
     const lvlIndex = this.lvlOfKnowledgeSkill.findIndex(item => item === this.choicesLvlOfSkill);
     this.userSkillsKnowladgeList[lvlIndex].list.push(findInArr);
+    this.skillsForm.reset();
     this.setAvailableSkillsForUser();
-    this.skillInput.nativeElement.value = '';
-    this.skillInput.nativeElement.blur();
-    this.skillsForm.setValue(null);
   }
 
   public deleteCurrentSkill(categoryIndex: number, indexInList: number): void {
@@ -352,8 +346,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     const filterValue = value.toLowerCase();
     return this.availableSkillsForUser.filter(skill => skill.displayName.toLowerCase().indexOf(filterValue) === 0);
   }
-  //skill end
-  //lang start
+
   public filterLanguages(value: string): any {
     const filterValue = value.toLowerCase();
     return this.availableLanguagesForUser.filter(lang => lang.displayName.toLowerCase().indexOf(filterValue) === 0);
@@ -374,9 +367,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           isoCode: findInArr.isoCode,
           level: LANGUAGE_LVL_LIST[lvlIndex],
         });
-      this.languageInput.nativeElement.value = '';
-      this.languageForm.setValue(null);
-      this.languageInput.nativeElement.blur();
+      this.languageForm.reset();
     };
     this.setAvailableLanguagesForUser();
   }
@@ -392,9 +383,9 @@ export class AccountComponent implements OnInit, OnDestroy {
       : this.availableLanguages.filter(({ isoCode: id1 }) => !this.userLanguageKnowledge.find(({ isoCode: id2 }) => id2 === id1));
 
     this.availableLanguagesForUser = newArr;
+
   }
-  //lang end
-  //interests start
+
   public setAvailableInterestsForUser(): void {
     const newArr = this.userInterestsChoices.length === 0
       ? this.availableInterests
@@ -428,34 +419,32 @@ export class AccountComponent implements OnInit, OnDestroy {
     const filterValue = value.toLowerCase();
     return this.availableInterestsForUser.filter(interest => interest.displayName.toLowerCase().indexOf(filterValue) === 0);
   }
-  //interests end
+
   private initMainUserData(lang: string) {
     this.changeUserAvatar();
-    //form
+
     this.mainForm.controls.firstNameInput.setValue(this.user.firstName);
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);
     this.mainForm.controls.dateOfBirthInput.setValue(moment(this.user.birthDate));
     this.mainForm.controls.descriptionTextarea.setValue(this.user.about);
-    // accountStaticData.mappings.personalInfo.detailsInfo.gender
+
     this.mainForm.controls.userGenderRadio.setValue(this.accountStaticData.mappings.personalInfo.detailsInfo.gender[this.user.gender].text);
-    // accountStaticData.mappings.personalInfo.detailsInfo.status
+
     this.mainForm.controls.userStatusRadio.setValue(this.accountStaticData.mappings.personalInfo.detailsInfo.status[this.user.status].text);
     this.emailForm.setValue(this.user.email);
-    //lang
-    // accountStaticData.mappings.personalInfo.detailsInfo.languages
+
     this.userLanguageKnowledge = this.user.languages.slice();
     this.availableLanguages = this.userAbout.languages;
     this.setAvailableLanguagesForUser();
-    //skills
-    // accountStaticData.mappings.personalInfo.detailsInfo.skills.
+
     this.availableSkills = this.userAbout.skills;
     this.setKnowledgeUserSkills();
     this.setAvailableSkillsForUser();
-    //interests
+
     this.availableInterests = this.userAbout.interests;
     this.userInterestsChoices = this.user.interests.slice();
     this.setAvailableInterestsForUser();
-    //features
+
     this.accountFeatures = this.userAbout.features;
     this.currentUserFeatures = this.user.features.slice();
 

@@ -8,62 +8,50 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { SharedService } from '@app/services/shared.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ILocalizationText from '../interfaces/localization-text';
+
+import IGlobalEventMessage from '@app/interfaces/global-message-validator';
+import { GLOBAL_WARNING_MESSAGE } from '@app/DATA/warning-message';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
+  public warningMessage: IGlobalEventMessage;
   private isBrowser: boolean;
-  private actionName: ILocalizationText = {
-    ru: 'Ваша сессия завершена. Перезайдите в систему.',
-    ua: 'Ваша сесія завершена. Перезайдіть в систему.',
-    en: 'Your session has ended. Log back into the system.'
-  };
 
   constructor(@Inject(PLATFORM_ID) private platformId: InjectionToken<any>,
               private router: Router,
-              private authenticationService: AuthenticationService,
+              private authSrv: AuthenticationService,
               public sharedService: SharedService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.warningMessage = GLOBAL_WARNING_MESSAGE.find(obj => 'auth-guard' === obj.url)[this.sharedService.language];
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
-    const accessToken = this.authenticationService.tokenValue;
-    const tokenExp = this.checkAccessExpHelper(accessToken);
+    const accessToken = this.authSrv.tokenValue;
+    const tokenExp = this.authSrv.checkAccessExpHelper(accessToken);
+
     if (accessToken && !tokenExp) {
       return true;
-    } else {
-      const refreshAlife = this.checkRefreshExpHelper();
-      if (!refreshAlife && this.isBrowser) {
-        return this.authenticationService.refreshToken()
+    } else if(this.isBrowser) {
+      if (!this.authSrv.checkRefreshExpHelper()) {
+        return this.authSrv.refreshToken()
           .pipe(map(status => {
             if (status) { return true; }
             this.redirectToLogin(route, state);
           }));
       }
       this.redirectToLogin(route, state);
-    }
-  }
-
-  private checkAccessExpHelper(token: string): boolean {
-    if (!token) { return true; }
-    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return (Math.floor(new Date().getTime() / 1000)) >= expiry;
-  }
-
-  private checkRefreshExpHelper(): boolean {
-    if (this.isBrowser) {
-      const timeNow = new Date().valueOf();
-      const expiry = Number(localStorage.getItem('refreshTokenExpDate'));
-      return ((expiry === null || !expiry) || timeNow >= expiry);
+    } else {
+      //for ssr in node
+      return true;
     }
   }
 
   private redirectToLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.sharedService.setGlobalEventData(this.actionName[this.sharedService.language], 'warning-window');
+    this.sharedService.setGlobalEventData(this.warningMessage[0], 'warning-window');
     const langRout = route.data.lang === 'en' ? '/' : route.data.lang;
     this.router.navigate([langRout + '/login/'], { queryParams: { returnUrl: state.url } });
-    this.authenticationService.romeveLocalStore();
+    this.authSrv.romeveLocalStore();
     return false;
   }
 }

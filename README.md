@@ -141,9 +141,10 @@ dist/
 
 ```bash
 # command: "npm run update-sitemap" (run auto when use "npm run build:ssr")
-# script which updates the sitemap site.
-
-#   need set all url in site. The core of site need set default in sitemap.xml.
+# script which updates the sitemap.xml.
+#   set host site
+    hostFront = https://mysite.com
+#   need set all url in site. Without core.
     appUrls = [
         'create-travel/',
         'faq/',
@@ -151,10 +152,11 @@ dist/
         'sign-up/',
         'create-travel/',
     ];
-#   need set all available language in front. The base language doesn't need to be specified.
+#   need set all available language rout in front.
     availableLanguages = [
-        'ua',
-        'ru'
+        '/',
+        '/ua/',
+        '/ru/'
     ];
 
 ```

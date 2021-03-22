@@ -17,12 +17,15 @@ export const GLOBAL_SUCCESS_MESSAGE: IGlobalEventMessage[] = [
     url: 'account/',
     en: [
       'Avatar successfully uploaded',
+      'Data successfully edited',
     ],
     ru: [
       'Аватар успешно загружен',
+      'Данные успешно отредактированы',
     ],
     ua: [
       'Аватар успішно завантажено',
+      'Дані успішно відредаговані',
     ]
   },
 ];

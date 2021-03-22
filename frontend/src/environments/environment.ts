@@ -7,6 +7,7 @@ export const environment = {
   disableConsole: false,
   apiUrl: 'http://localhost:9000/api/', // java port for api
   host:  'http://localhost:9000',
+  checkNoIndex: false,
 };
 
 /*

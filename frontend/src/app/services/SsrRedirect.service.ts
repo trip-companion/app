@@ -27,7 +27,6 @@ export class SsrRedirectService {
         RES.statusCode = code;
         RES.statusMessage = message;
       }
-      console.log('REQUEST_MODE', this.REQUEST_MODE);
 
       this.REDIRECT_CONFIG.config = {
         need: true,
