@@ -11,7 +11,7 @@ import { Redirect301Component } from './components/redirect301/redirect301.compo
 
 const PAGES_ROUTES: Routes = [
   { path: 'faq',
-    resolve: {pageResolved: PageResolver}, data: { page: `faq/`},
+    resolve: {pageResolved: PageResolver}, data: { page: `FAQ`},
     loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule)
   },
   { path: 'account',
@@ -20,11 +20,11 @@ const PAGES_ROUTES: Routes = [
     loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule)
   },
   { path: 'login',
-    resolve: {pageResolved: PageResolver}, data: { page: `login/`},
+    resolve: {pageResolved: PageResolver}, data: { page: `LOG_IN`},
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
   { path: 'sign-up',
-    resolve: {pageResolved: PageResolver}, data: { page: `sign-up/`},
+    resolve: {pageResolved: PageResolver}, data: { page: `SING_UP`},
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule)
   },
   { path: 'create-travel',

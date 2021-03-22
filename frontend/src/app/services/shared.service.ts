@@ -1,7 +1,7 @@
 
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 
-import { isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -25,7 +25,6 @@ export class SharedService {
   private host: string = environment.host;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any,
-    @Inject(DOCUMENT) private document: Document,
     public router: Router) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
