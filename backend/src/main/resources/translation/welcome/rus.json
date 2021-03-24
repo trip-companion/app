@@ -1,0 +1,29 @@
+{
+  "mappings": {
+    "main": {
+      "searchArea": {
+        "destination": {
+          "text": "Пункт назначения",
+          "placeholder": {
+            "text": "Выберите направление"
+          }
+        },
+        "dateRange": {
+          "text": "Даты",
+          "placeholder": {
+            "text": "Выберите даты отправления и прибытия"
+          }
+        },
+        "peopleCount": {
+          "text": "Количество людей"
+        },
+        "submitButton": {
+          "text": "Искать"
+        },
+        "createButton": {
+          "text": "Создать новое путешествие"
+        }
+      }
+    }
+  }
+}

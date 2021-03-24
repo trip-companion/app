@@ -12,7 +12,7 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "003")
+@ChangeLog(order = "002")
 public class CreateInterestsChangelog {
 
     private static final List<Document> INTERESTS = new ArrayList<>();

@@ -23,4 +23,8 @@ public class TestUtils {
         return JwtService.TOKEN_TYPE + jwtService.generateAccessToken(userService.getByEmail(email));
     }
 
+    public static String removeWhitespaces(String str) {
+        return str.replaceAll("\\s+", "");
+    }
+
 }

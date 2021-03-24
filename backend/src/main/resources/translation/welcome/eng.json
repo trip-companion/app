@@ -1,0 +1,29 @@
+{
+  "mappings": {
+    "main": {
+      "searchArea": {
+        "destination": {
+          "text": "Destination",
+          "placeholder": {
+            "text": "Choose a destination"
+          }
+        },
+        "dateRange": {
+          "text": "Date range",
+          "placeholder": {
+            "text": "Choose departure and arrival dates"
+          }
+        },
+        "peopleCount": {
+          "text": "People count"
+        },
+        "submitButton": {
+          "text": "Submit"
+        },
+        "createButton": {
+          "text": "Create new trip"
+        }
+      }
+    }
+  }
+}
