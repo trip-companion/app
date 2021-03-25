@@ -25,6 +25,7 @@ ext {
     janinoVersion = '3.0.7'
     tikaVersion = '1.25'
     passayVersion = '1.6.0'
+    hamcrestVersion = '1.3'
 }
 
 version = "0.0.1-${hash}"

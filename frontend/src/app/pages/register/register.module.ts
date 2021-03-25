@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule , FormsModule } from '@angular/forms';
-
-
 import { RegisterComponent } from './register.component';
-
 import { MaterialModule } from '@app/modules/material.module';
 import { RegisterRoutingModule } from './register-routing.module';
 

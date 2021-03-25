@@ -1,0 +1,133 @@
+{
+  "mappings": {
+    "header": {
+      "buttons": {
+        "buttonChat": {
+          "text": "Чат"
+        },
+        "buttonMyPosts": {
+          "text": "Мои обьявления"
+        },
+        "buttonFeedback": {
+          "text": "Обратная связь"
+        }
+      }
+    },
+    "personalInfo": {
+      "email": {
+        "emailInput": {
+          "text": "Email"
+        },
+        "button": {
+          "text": "Изменить email"
+        }
+      },
+      "password": {
+        "passwordInput": {
+          "text": "Пароль"
+        },
+        "repeatPasswordInput": {
+          "text": "Повторите пароль"
+        },
+        "button": {
+          "text": "Изменить пароль"
+        }
+      },
+      "detailsInfo": {
+        "nameInput": {
+          "text": "Имя"
+        },
+        "lastNameInput": {
+          "text": "Фамилия"
+        },
+        "status": {
+          "text": "Выберите Ваш статус",
+          "AT_HOME": {
+            "text": "Дома"
+          },
+          "LOOKING_FOR_TRAVEL": {
+            "text": "В поисках путешествия"
+          },
+          "TRAVELLING": {
+            "text": "Путешествую"
+          }
+        },
+        "yearsOld": {
+          "text": "лет"
+        },
+        "gender": {
+          "text": "Пол",
+          "MALE": {
+            "text": "Мужчина"
+          },
+          "FEMALE": {
+            "text": "Женщина"
+          }
+        },
+        "description": {
+          "text": "Описание",
+          "placeholder": {
+            "text": "О Вас"
+          }
+        },
+        "languages": {
+          "text": "Языки",
+          "input": {
+            "text": "Языки"
+          },
+          "BEGINNER": {
+            "text": "Начинающий"
+          },
+          "INTERMEDIATE": {
+            "text": "Средний"
+          },
+          "ADVANCED": {
+            "text": "Продвинутий"
+          },
+          "NATIVE": {
+            "text": "Родной"
+          }
+        },
+        "interests": {
+          "text": "Мои интересы",
+          "placeholder": {
+            "text": "Новый интерес..."
+          }
+        },
+        "skills": {
+          "text": "Мои навыки",
+          "input": {
+            "text": "Выберите навыки"
+          },
+          "description": {
+            "text": "Больше деталей о Ваших навыках",
+            "placeholder": {
+              "text": "Больше информации"
+            }
+          },
+          "canTeach": {
+            "text": "Могу научить"
+          },
+          "known": {
+            "text": "Имею некоторые знания"
+          },
+          "interestedIn": {
+            "text": "Хочу выучить"
+          }
+        },
+        "more": {
+          "text": "Дополнительная информация"
+        },
+        "submitBtn": {
+          "text": "Сохранить"
+        }
+      },
+      "securityTitle": {
+        "text": "Данные безопасности"
+      },
+      "detailsTitle": {
+        "text": "Личные данные"
+      }
+    }
+  }
+}

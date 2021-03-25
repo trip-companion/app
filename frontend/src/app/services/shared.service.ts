@@ -48,7 +48,8 @@ export class SharedService {
     this.globalEventSubject.next({message, type});
   }
 
-  public getCorrectImg(apiSrc: string): string {
+  public getCorrectImg(apiSrc: string, imgType?: string): string {
+    if(imgType === 'header-avatar' && (!apiSrc || apiSrc === '')) {return '/assets/images/account/avatar_icon.png';}
     return this.host + apiSrc;
   }
 

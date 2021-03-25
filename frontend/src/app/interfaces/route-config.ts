@@ -7,4 +7,5 @@ export default interface IRouteConfig {
   availability: boolean;
   coreUrl?: string;
   childConfig?: IRouteConfig[];
+  linkWithAvatar?: boolean;
 }

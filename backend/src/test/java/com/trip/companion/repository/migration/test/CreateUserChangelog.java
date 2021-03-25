@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static com.trip.companion.domain.user.LanguageLevel.BEGINNER;
 import static com.trip.companion.domain.user.LanguageLevel.NATIVE;
 
-@ChangeLog(order = "006")
+@ChangeLog(order = "005")
 public class CreateUserChangelog {
     public static final String TEST_USER_EMAIL = "testUser@gmail.com";
     public static final String TEST_USER_PASSWORD = "12345678";

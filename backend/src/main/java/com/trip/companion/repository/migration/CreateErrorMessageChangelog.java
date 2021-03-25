@@ -13,7 +13,7 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "002")
+@ChangeLog(order = "001")
 public class CreateErrorMessageChangelog {
 
     private static final List<Document> DOCUMENTS = new ArrayList<>();

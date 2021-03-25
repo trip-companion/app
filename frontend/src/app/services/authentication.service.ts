@@ -6,8 +6,11 @@ import { isPlatformBrowser } from '@angular/common';
 
 import { environment } from '@environments/environment';
 import { LocationService } from '@app/services/location.service';
-import { map } from 'rxjs/internal/operators/map';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import IUserModel from '@app/interfaces/store.models/user.model';
+import { UserLoadAction } from '@app/store/actions/user.action';
+import { Store } from '@ngrx/store';
+import { AppState } from '@app/store/app.state';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -20,6 +23,7 @@ export class AuthenticationService {
     @Inject(PLATFORM_ID) private platformId: any,
     private router: Router,
     private http: HttpClient,
+    private store: Store<AppState>,
     public locationService: LocationService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -31,8 +35,12 @@ export class AuthenticationService {
     return this.tokenSubject.value;
   }
 
-  public set setTokenValue(token) {
-    this.tokenSubject.next(token);
+  public set setTokenValue(token: string) {
+    if(this.validatorISO8859_1(token)) {
+      this.tokenSubject.next(token);
+    } else {
+      this.logout();
+    }
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -40,6 +48,7 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.apiUrl}public/auth`, { email, password })
       .pipe(map(res => {
         this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
+        this.checkIsUserLoggedIn();
         return res;
       }));
   }
@@ -89,6 +98,13 @@ export class AuthenticationService {
     }
   }
 
+  public checkIsUserLoggedIn(): void {
+    this.http.get<IUserModel>(`${this.apiUrl}users/current`, {})
+      .subscribe(response => {
+        if(response) {this.store.dispatch(new UserLoadAction(response));}
+      });
+  }
+
   private setLocalStorage(access: string, refresh: string, dateExp: string): void {
     if (this.isBrowser) {
       localStorage.setItem('accessToken', access);
@@ -96,5 +112,9 @@ export class AuthenticationService {
       localStorage.setItem('refreshTokenExpDate', dateExp);
     }
     this.tokenSubject.next(access);
+  }
+
+  private validatorISO8859_1(token: string): boolean {
+    return !/[^\u0000-\u00ff]/g.test(token);
   }
 }

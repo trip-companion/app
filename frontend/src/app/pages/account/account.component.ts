@@ -5,7 +5,6 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { UpdateUserAction, UpdateUserLocalAction } from '@app/store/actions/user.action';
-import { LoadGlobalEventAction } from '@app/store/actions/globalEvent.action';
 import { GLOBAL_ERROR_MESSAGE } from '@app/DATA/errors-message';
 import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
 
@@ -129,7 +128,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.subsPageData = this.activeRoute.data.subscribe(data => {
       if(data.pageContent.page) {
         this.accountStaticData = data.pageContent.page;
-        this.store.dispatch(new LoadGlobalEventAction());
         this.store.dispatch(new LoadAccountUserDataAction());
 
         this.setOptionListFromArr(STATUS_LIST,
@@ -234,7 +232,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.userSkillsKnowladgeList.forEach(skillObj => {
       userForSend[skillObj.category] = skillObj.list.map(obj => obj.id);
     });
-    this.store.dispatch(new LoadGlobalEventAction());
     this.store.dispatch(new UpdateUserAction(userForSend));
   };
 

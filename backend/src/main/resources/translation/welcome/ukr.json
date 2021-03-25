@@ -1,0 +1,29 @@
+{
+  "mappings": {
+    "main": {
+      "searchArea": {
+        "destination": {
+          "text": "Пункт призначення",
+          "placeholder": {
+            "text": "Виберіть пункт призначення"
+          }
+        },
+        "dateRange": {
+          "text": "Дати",
+          "placeholder": {
+            "text": "Виберіть дати відправлення та прибуття"
+          }
+        },
+        "peopleCount": {
+          "text": "Кількість людей"
+        },
+        "submitButton": {
+          "text": "Пошук"
+        },
+        "createButton": {
+          "text": "Створити нову подорож"
+        }
+      }
+    }
+  }
+}

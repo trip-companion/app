@@ -61,6 +61,7 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     },
     availability: false,
     mainMenu: false,
+    linkWithAvatar: true
   },
 ];
 

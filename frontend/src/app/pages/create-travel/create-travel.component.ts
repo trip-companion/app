@@ -8,6 +8,8 @@ import { LocationService } from '@app/services/location.service';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 
 import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-travel',
@@ -132,6 +134,7 @@ export class CreateTravelComponent implements OnInit {
       id: 'ssadsa1211'
     },
   ];
+  public pageDataContent: IPageDataModel = null;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public categoriesForm = new FormControl();
   public createTravelForm = new FormGroup({
@@ -141,11 +144,12 @@ export class CreateTravelComponent implements OnInit {
     destinationInput: new FormControl('', Validators.required),
     descriptionInput: new FormControl('', Validators.required),
   });
+  private subsPageData: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-  private authenticationService: AuthenticationService,
-  public locationService: LocationService,
-
+    private authenticationService: AuthenticationService,
+    private activeRoute: ActivatedRoute,
+    public locationService: LocationService,
   ) {
     if (this.authenticationService.tokenValue) {
       this.userAuth = true;
@@ -153,6 +157,10 @@ export class CreateTravelComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+
+    this.subsPageData = this.activeRoute.data.subscribe(data => {
+      this.pageDataContent = data.pageContent.page;
+    });
 
     this.categoriesForm.valueChanges.subscribe(value => {
       console.log(value);

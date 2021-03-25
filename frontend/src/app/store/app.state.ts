@@ -21,6 +21,8 @@ export const reducers: ActionReducerMap<AppState, any> = {
 
 export const getPageDataState = createFeatureSelector<PageData.State>('pageData');
 export const getAccountAboutDataState = createFeatureSelector<AcountUserData.State>('accountAboutData');
+export const getUserData = createFeatureSelector<User.State>('userInfo');
 // page state data
 export const getPageData = createSelector(getPageDataState, PageData.getPageDataContent);
 export const getAccountAboutData = createSelector(getAccountAboutDataState, AcountUserData.getAccountUserAboutData);
+export const getUserAvatar = createSelector(getUserData, User.userAvatar);
