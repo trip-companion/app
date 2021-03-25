@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static com.trip.companion.domain.user.LanguageLevel.BEGINNER;
 import static com.trip.companion.domain.user.LanguageLevel.NATIVE;
 
-@ChangeLog(order = "006")
+@ChangeLog(order = "005")
 public class CreateUserChangelog {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

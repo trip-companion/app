@@ -1,4 +1,4 @@
-import IRouteConfig from '@app/interfaces/route-config';
+import { IRouteConfig } from '@app/interfaces/route-config';
 import ILocalizationText from '@app/interfaces/localization-text';
 
 export const ROUTER_CONFIG: IRouteConfig[] = [
@@ -59,8 +59,30 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
       ua: `Кабінет`,
       en: `Account`
     },
+    coreUrl: '/account/',
     availability: false,
     mainMenu: false,
+    linkWithAvatar: true,
+    childConfig:  [
+      {
+        url: 'account/trip-list/',
+        name: {
+          ru: `Мои объявления`,
+          ua: `Мої оголошення`,
+          en: `My posts`
+        },
+        pagination: true
+      },
+      {
+        url: 'account/trip-feedback/',
+        name: {
+          ru: `Мои объявления`,
+          ua: `Мої оголошення`,
+          en: `My posts`
+        },
+        pagination: false
+      },
+    ]
   },
 ];
 

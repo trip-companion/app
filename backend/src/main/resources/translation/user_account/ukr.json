@@ -1,0 +1,133 @@
+{
+  "mappings": {
+    "header": {
+      "buttons": {
+        "buttonChat": {
+          "text": "Чат"
+        },
+        "buttonMyPosts": {
+          "text": "Мої оголошення"
+        },
+        "buttonFeedback": {
+          "text": "Зворотній зв'язок"
+        }
+      }
+    },
+    "personalInfo": {
+      "email": {
+        "emailInput": {
+          "text": "Email"
+        },
+        "button": {
+          "text": "Змінити email"
+        }
+      },
+      "password": {
+        "passwordInput": {
+          "text": "Пароль"
+        },
+        "repeatPasswordInput": {
+          "text": "Повторіть пароль"
+        },
+        "button": {
+          "text": "Змінити пароль"
+        }
+      },
+      "detailsInfo": {
+        "nameInput": {
+          "text": "Ім'я"
+        },
+        "lastNameInput": {
+          "text": "Прізвище"
+        },
+        "status": {
+          "text": "Виберіть Ваш статус",
+          "AT_HOME": {
+            "text": "Дома"
+          },
+          "LOOKING_FOR_TRAVEL": {
+            "text": "Шукаю подорож"
+          },
+          "TRAVELLING": {
+            "text": "Подорожую"
+          }
+        },
+        "yearsOld": {
+          "text": "років"
+        },
+        "gender": {
+          "text": "Стать",
+          "MALE": {
+            "text": "Чоловік"
+          },
+          "FEMALE": {
+            "text": "Жінка"
+          }
+        },
+        "description": {
+          "text": "Опис",
+          "placeholder": {
+            "text": "Про Вас"
+          }
+        },
+        "languages": {
+          "text": "Мови",
+          "input": {
+            "text": "Мови"
+          },
+          "BEGINNER": {
+            "text": "Початківець"
+          },
+          "INTERMEDIATE": {
+            "text": "Середній"
+          },
+          "ADVANCED": {
+            "text": "Продвинутий"
+          },
+          "NATIVE": {
+            "text": "Рідний"
+          }
+        },
+        "interests": {
+          "text": "Мої інтереси",
+          "placeholder": {
+            "text": "Новий інтерес..."
+          }
+        },
+        "skills": {
+          "text": "Мої навики",
+          "input": {
+            "text": "Виберіть навики"
+          },
+          "description": {
+            "text": "Більше деталей про Ваші навики",
+            "placeholder": {
+              "text": "Більше інформації"
+            }
+          },
+          "canTeach": {
+            "text": "Можу навчити"
+          },
+          "known": {
+            "text": "Маю деякі знання"
+          },
+          "interestedIn": {
+            "text": "Хочу вивчити"
+          }
+        },
+        "more": {
+          "text": "Додаткова інформація"
+        },
+        "submitBtn": {
+          "text": "Зберегти"
+        }
+      },
+      "securityTitle": {
+        "text": "Дані безпеки"
+      },
+      "detailsTitle": {
+        "text": "Персональні дані"
+      }
+    }
+  }
+}

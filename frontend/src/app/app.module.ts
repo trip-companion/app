@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Inject, PLATFORM_ID, APP_ID, isDevMode } from '@angular/core';
-import { isPlatformBrowser , DOCUMENT } from '@angular/common';
-
+import { isPlatformBrowser , DOCUMENT, Location} from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -82,6 +81,7 @@ export class AppModule {
               @Inject(APP_ID) private appId: string,
               public ss: StateService,
               private dds: DeviceDetectorService,
+              private angularLocation: Location,
               private authService: AuthenticationService,) {
     const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
     console.log(`Running ${platform} with appId=${appId}`);
@@ -92,6 +92,9 @@ export class AppModule {
     if (isPlatformBrowser(platformId)) {
       this.detectDevice();
       this.authService.setTokenValue = localStorage.getItem('accessToken');
+      if(this.authService.tokenValue && !this.angularLocation.path().includes('/account')) {
+        this.authService.checkValidTokenWhenInitApp();
+      }
       if (!isDevMode()) {
         // Include Lazy Style to <head> only
         this.lazyStyles.forEach((href: string) => this.loadStyle(href, false));
@@ -128,5 +131,4 @@ export class AppModule {
       console.groupEnd();
     }
   }
-
 }

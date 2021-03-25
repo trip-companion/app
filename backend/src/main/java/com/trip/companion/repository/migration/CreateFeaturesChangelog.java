@@ -12,7 +12,7 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "005")
+@ChangeLog(order = "004")
 public class CreateFeaturesChangelog {
 
     private static final List<Document> FEATURES = new ArrayList<>();

@@ -13,13 +13,13 @@ import static com.trip.companion.domain.Language.ENG;
 import static com.trip.companion.domain.Language.RUS;
 import static com.trip.companion.domain.Language.UKR;
 
-@ChangeLog(order = "002")
+@ChangeLog(order = "001")
 public class CreateErrorMessageChangelog {
 
     private static final List<Document> DOCUMENTS = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "createErrorMessages", author = "skosinskyi")
-    public void initWelcomePageItems(MongoDatabase db) {
+    public void initErrorMessages(MongoDatabase db) {
         DOCUMENTS.add(createErrorMessageDoc(ENG, ErrorCode.USER_ALREADY_REGISTERED,
                 "User with such email already registered"));
         DOCUMENTS.add(createErrorMessageDoc(UKR, ErrorCode.USER_ALREADY_REGISTERED,

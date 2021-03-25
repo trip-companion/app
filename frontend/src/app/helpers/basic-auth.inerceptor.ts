@@ -1,33 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 
 import { environment } from '@environments/environment';
 import { AuthenticationService } from '@app/services/authentication.service';
+import { switchMap } from 'rxjs/operators';
+
 
 @Injectable()
 export class BasicAuthInterceptor implements HttpInterceptor {
-  constructor(private authSrv: AuthenticationService) { }
+  public token: string;
+  public isApiUrl: boolean;
+  public isPublicUri: boolean;
+  public apiUrl: string = environment.apiUrl;
+  constructor(private authSrv: AuthenticationService,) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authSrv.tokenValue;
-    const isLoggedIn = token;
-    const isApiUrl = request.url.startsWith(environment.apiUrl);
-    const isPublicUri = request.url.includes('/api/public/');
-    //for check token before send req
-    if(request.method !== 'GET' && !isPublicUri) {
-      if(!this.authSrv.checkAccessExpHelper(token)) {
-        this.authSrv.refreshToken();
-      }
+    this.isApiUrl = request.url.startsWith(environment.apiUrl);
+    this.isPublicUri = request.url.includes('/api/public/');
+    this.token = this.authSrv.tokenValue;
+
+    if(!this.isPublicUri && this.authSrv.checkAccessExpHelper(this.token) && this.token) {
+      return this.authSrv.refreshToken().pipe(
+        switchMap((status: boolean) => {
+          if(status) {
+            this.token = this.authSrv.tokenValue;
+            return next.handle(this.addToken(request));
+          } else {
+            this.authSrv.logout();
+            return EMPTY;
+          }
+        })
+      );
     };
-    if (isLoggedIn && isApiUrl && !isPublicUri) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+
+    if (this.token && this.isApiUrl && !this.isPublicUri) {
+      request = this.addToken(request);
     };
 
     return next.handle(request);
   }
+
+  private addToken(request: HttpRequest<any>): HttpRequest<any> {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
+  };
 }

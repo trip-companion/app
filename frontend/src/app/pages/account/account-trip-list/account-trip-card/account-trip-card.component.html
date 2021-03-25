@@ -1,0 +1,77 @@
+ 
+<!-- <account-trip-card -->
+
+  <mat-card class="card"
+    [ngClass]="{'card-disabled': false}"
+  >
+
+    <mat-card-header>
+      <img
+        mat-card-avatar 
+        mat-card-sm-image
+        class="example-header-image" 
+        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      >
+      <mat-card-title>
+        Mountains Mountains ({{'age'}})
+        <div class="date">
+          <mat-icon class="icon"> 
+            date_range
+          </mat-icon>
+          <span class="destination-text">
+            Date: {{'10.09.2020-10.05.2021'}}
+          </span>
+        </div>
+        <div class="destination">
+          <mat-icon class="icon"> 
+            local_airport
+          </mat-icon>
+          <span class="destination-text">
+            Destination: {{'Kiev'}}
+          </span>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="content-tags">
+        <mat-icon class="icon">
+          tag
+        </mat-icon>
+        <div class="content-tags_list">
+          <span class="tag">sport</span>
+          <span class="tag">Wine tasting</span>
+          <span class="tag">Excursions</span>
+          <span class="tag">Language practice</span>
+          <span class="tag">sport</span>
+          <span class="tag">Wine tasting</span>
+          <span class="tag">Excursions</span>
+          <span class="tag">Language practice</span>
+          <span class="tag">Language practice</span>
+          <span class="tag">sport</span>
+          <span class="tag">Wine tasting</span>
+          <span class="tag">Excursions</span>
+          <span class="tag">Language practice</span>
+        </div>
+      </div>
+      <span class="content-text">
+       {{fakeContent | tripCardSizingDescription:200:maxDiscriptionCard}}
+      </span>
+      <button
+        mat-button
+        color="primary"
+        *ngIf="!maxDiscriptionCard"
+        (click)="showMoreText()"
+        class="showmore-btn">
+        show more...
+      </button>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button>DISSABLED</button>
+      <button mat-button>SHARE</button>
+      <button mat-button>Edit</button>
+    </mat-card-actions>
+  </mat-card>
+
+<!-- </account-trip-card> -->   

@@ -29,7 +29,6 @@ export class AuthGuard implements CanActivate {
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
     const accessToken = this.authSrv.tokenValue;
     const tokenExp = this.authSrv.checkAccessExpHelper(accessToken);
-
     if (accessToken && !tokenExp) {
       return true;
     } else if(this.isBrowser) {

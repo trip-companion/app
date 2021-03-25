@@ -1,0 +1,82 @@
+{
+  "mappings": {
+    "noAuth": {
+      "title": {
+        "text": "Congratulations! You need to be logged in for this step."
+      },
+      "description": {
+        "text": " To create new trips you need to register if you are not already registered.\n            With the personal account of the user you will be able to fill in personal information that will be seen by users interested in traveling in your direction. This way you will be able to understand whether your interests and views coincide. You can also chat with other users, track statistics and leave feedback on your travels and companions."
+      },
+      "buttons": {
+        "logIn": {
+          "text": " Log in"
+        },
+        "singUp": {
+          "text": " Register"
+        }
+      }
+    },
+    "okAuth": {
+      "title": {
+        "text": " Fill out the form according to the recommendations in the tips"
+      },
+      "category": {
+        "helper": {
+          "text": " Find and add the most relevant keywords for your trip. So that other users can understand the purpose of your trip"
+        },
+        "input": {
+          "text": " Travel categories",
+          "placeholder": {
+            "text": " Add a new category ..."
+          }
+        }
+      },
+      "description": {
+        "helper": {
+          "text": " Describe your trip in as much detail as possible: where you are from, where to get to, why you want to get to this place, what you plan to do, etc. If you plan to go through other content - write about it as well."
+        },
+        "input": {
+          "text": " Travel details",
+          "placeholder": {
+            "text": " Describe your journey."
+          }
+        }
+      },
+      "destination": {
+        "helper": {
+          "text": " Specify the country, city, or region where you want to go."
+        },
+        "input": {
+          "text": " Destination"
+        }
+      },
+      "datepicker": {
+        "helper": {
+          "text": " Approximate period of your trip."
+        },
+        "inputs": {
+          "start": {
+            "text": " Start date"
+          },
+          "end": {
+            "text": " Completion date"
+          }
+        }
+      },
+      "count": {
+        "helper": {
+          "text": " Specify the maximum number of people for your trip. If you are already traveling with a seat, you need to specify the number of free seats."
+        },
+        "input": {
+          "text": " Number of people"
+        }
+      },
+      "info": {
+        "text": " Detailed information about you from your personal account will be automatically added to this post."
+      },
+      "button": {
+        "text": " Create a journey"
+      }
+    }
+  }
+}

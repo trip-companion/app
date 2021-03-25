@@ -14,14 +14,14 @@ const initialState: State = {
 export const accountUserAboutReducer = (state = initialState, action: Actions.AccountUserAboutDataActions): State => {
 
   switch (action.type) {
-    case Actions.ACCOUNT_MORE_DATA_ACTION.LOAD_DATA:
+    case Actions.ACCOUNT_MORE_DATA_ACTION.LOAD_MORE_USER_DATA:
       return {
         ...state,
         data: null,
         loading: true
       };
 
-    case Actions.ACCOUNT_MORE_DATA_ACTION.SET_DATA:
+    case Actions.ACCOUNT_MORE_DATA_ACTION.SET_MORE_USER_DATA:
       return {
         ...state,
         data: action.payload,

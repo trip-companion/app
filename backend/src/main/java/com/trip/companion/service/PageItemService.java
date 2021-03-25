@@ -1,24 +1,23 @@
 package com.trip.companion.service;
 
 import com.trip.companion.domain.Language;
-import com.trip.companion.domain.page.Page;
-import com.trip.companion.domain.page.PageItem;
-import com.trip.companion.repository.PageItemRepository;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.trip.companion.error.exception.NoDataFoundException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 @Service
 public class PageItemService {
 
-    private final PageItemRepository repository;
-
-    @Autowired
-    public PageItemService(PageItemRepository repository) {
-        this.repository = repository;
-    }
-
-    public List<PageItem> findAllByPageAndLanguage(Page page, Language language) {
-        return repository.findAllByPageAndLanguage(page, language);
+    public String findAllByPageAndLanguage(String page, Language language) {
+        try {
+            File file = ResourceUtils.getFile(String.format("classpath:translation/%s/%s.json",
+                    page.toLowerCase(), language.name().toLowerCase()));
+            return Files.readString(file.toPath());
+        } catch (IOException e) {
+            throw new NoDataFoundException("Failed to read data from file");
+        }
     }
 }

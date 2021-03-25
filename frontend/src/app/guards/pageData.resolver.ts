@@ -22,6 +22,7 @@ export class PageDataResolver implements Resolve<any> {
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const lang = route.data.lang;
     const pageName = route.data.page;
+
     this.store.dispatch(new LoadGlobalEventAction());
     this.store.dispatch(new LoadPageDataAction(pageName));
     return this.store.pipe(
