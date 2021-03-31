@@ -5,14 +5,13 @@ import { CreateTravelRoutingModule } from './create-travel-routing.module';
 import { CreateTravelComponent } from './create-travel.component';
 
 import { ReactiveFormsModule , FormsModule } from '@angular/forms';
-
-
 import { MaterialModule } from '@app/modules/material.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+import { EffectsModule } from '@ngrx/effects';
+import { PageDataEffects } from '@app/store/effects/pageData.effects';
 
 @NgModule({
   imports: [
@@ -22,9 +21,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     FormsModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatIconModule,
     MaterialModule,
-    MatDatepickerModule,
+    EffectsModule.forFeature([PageDataEffects]),
     MatMomentDateModule,
   ],
   providers: [],

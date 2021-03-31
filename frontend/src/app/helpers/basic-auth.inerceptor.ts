@@ -14,12 +14,13 @@ export class BasicAuthInterceptor implements HttpInterceptor {
     const isLoggedIn = token;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     const isPublicUri = request.url.includes('/api/public/');
-    //for check token before send req
+
     if(request.method !== 'GET' && !isPublicUri) {
       if(!this.authSrv.checkAccessExpHelper(token)) {
         this.authSrv.refreshToken();
       }
     };
+
     if (isLoggedIn && isApiUrl && !isPublicUri) {
       request = request.clone({
         setHeaders: {

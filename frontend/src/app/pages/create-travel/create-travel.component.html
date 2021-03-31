@@ -3,17 +3,17 @@
   <section class="auth" *ngIf="userAuth;else notAuthView">
     <div class="container">
 
-      <h3 class="auth-title">{{createTravelStaticData.mappings.okAuth.title.text}}</h3>
+      <h3 class="auth-title">{{pageDataContent.mappings.okAuth.title.text}}</h3>
       <div class="auth-category">
         <span class="auth-category_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.category.helper.text}}
+          {{pageDataContent.mappings.okAuth.category.helper.text}}
         </span>
         <mat-form-field appearance="outline">
           <mat-label class="auth-category_label">
-            {{createTravelStaticData.mappings.okAuth.category.input.text}}
+            {{pageDataContent.mappings.okAuth.category.input.text}}
           </mat-label>
           <mat-chip-list #chipListOfCategory>
             <mat-chip
@@ -26,7 +26,7 @@
               <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
             </mat-chip>
             <input
-              placeholder="{{createTravelStaticData.mappings.okAuth.category.input.placeholder.text}}"
+              placeholder="{{pageDataContent.mappings.okAuth.category.input.placeholder.text}}"
               [formControl]="categoriesForm"
               #categoryInput
               [matAutocomplete]="autoCategory"
@@ -48,20 +48,20 @@
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.description.helper.text}}
+          {{pageDataContent.mappings.okAuth.description.helper.text}}
         </span>
         <mat-form-field 
           appearance="outline"
           [formGroup]="createTravelForm"
         >
-          <mat-label>{{createTravelStaticData.mappings.okAuth.description.input.text}}</mat-label>
+          <mat-label>{{pageDataContent.mappings.okAuth.description.input.text}}</mat-label>
           <textarea
             cdkTextareaAutosize
             cdkAutosizeMinRows="5"
             cdkAutosizeMaxRows="10" 
             matInput
             formControlName="descriptionInput"
-            placeholder="{{createTravelStaticData.mappings.okAuth.description.input.placeholder.text}}">{{'Text'}}</textarea>
+            placeholder="{{pageDataContent.mappings.okAuth.description.input.placeholder.text}}">{{'Text'}}</textarea>
         </mat-form-field>
       </div>
 
@@ -70,14 +70,14 @@
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.destination.helper.text}}
+          {{pageDataContent.mappings.okAuth.destination.helper.text}}
         </span>
         <mat-form-field
           appearance="outline"
           class="auth-destination_name"
           [formGroup]="createTravelForm"
         >
-          <mat-label>{{createTravelStaticData.mappings.okAuth.destination.input.text}}</mat-label>
+          <mat-label>{{pageDataContent.mappings.okAuth.destination.input.text}}</mat-label>
           <input
             type="text"
             required
@@ -92,7 +92,7 @@
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.datepicker.helper.text}}
+          {{pageDataContent.mappings.okAuth.datepicker.helper.text}}
         </span>
 
         <mat-form-field appearance="fill" [formGroup]="createTravelForm">
@@ -102,13 +102,13 @@
             <input 
               matStartDate
               formControlName="startTravelDateInput"
-              placeholder="{{createTravelStaticData.mappings.okAuth.datepicker.inputs.start.text}}"
+              placeholder="{{pageDataContent.mappings.okAuth.datepicker.inputs.start.text}}"
               readonly
             >
             <input
               matEndDate
               formControlName="endTravelDateInput"
-              placeholder="{{createTravelStaticData.mappings.okAuth.datepicker.inputs.end.text}}"
+              placeholder="{{pageDataContent.mappings.okAuth.datepicker.inputs.end.text}}"
               readonly
             >
           </mat-date-range-input>
@@ -122,7 +122,7 @@
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.count.helper.text}}
+          {{pageDataContent.mappings.okAuth.count.helper.text}}
         </span>
         <button
           mat-button 
@@ -132,7 +132,7 @@
           [disabled]="shouldDisableDecrement(createTravelForm.value.peoplesCountInput)"
         >-</button>
         <mat-form-field appearance="outline" class="auth-count_number" [formGroup]="createTravelForm">
-          <mat-label>{{createTravelStaticData.mappings.okAuth.count.input.text}}</mat-label>
+          <mat-label>{{pageDataContent.mappings.okAuth.count.input.text}}</mat-label>
           <input
             type="number"
             value="1"
@@ -157,7 +157,7 @@
           <mat-icon class="help-icon"> 
             notification_important
           </mat-icon>
-          {{createTravelStaticData.mappings.okAuth.info.text}}
+          {{pageDataContent.mappings.okAuth.info.text}}
         </span>
       </div>
 
@@ -166,7 +166,7 @@
         color="primary"
         (click)="createNewTravel()"
         class="auth_submit">
-        {{createTravelStaticData.mappings.okAuth.button.text}}
+        {{pageDataContent.mappings.okAuth.button.text}}
       </button>
 
     </div>
@@ -176,10 +176,10 @@
     
     <section class="notauth">
       <div class="container">
-        <h3 class="notauth-title">{{createTravelStaticData.mappings.noAuth.title.text}}</h3>
+        <h3 class="notauth-title">{{pageDataContent.mappings.noAuth.title.text}}</h3>
         <div class="notauth-discription">
           <span class="text">
-            {{createTravelStaticData.mappings.noAuth.description.text}}
+            {{pageDataContent.mappings.noAuth.description.text}}
           </span>
           <span class="text">
             З особистим кабінетом користувача ви зможете заповнити особисту інформацію яку будуть бачити користувачі зацікавлені подорожами по вашому напрямку.
@@ -193,7 +193,7 @@
             <button
               mat-raised-button
               color="accent">
-              {{createTravelStaticData.mappings.noAuth.buttons.logIn.text}}
+              {{pageDataContent.mappings.noAuth.buttons.logIn.text}}
             </button>
         </a>
 
@@ -202,7 +202,7 @@
           <button
             mat-raised-button
             color="accent">
-            {{createTravelStaticData.mappings.noAuth.buttons.singUp.text}}
+            {{pageDataContent.mappings.noAuth.buttons.singUp.text}}
           </button>
         </a>
         </div>

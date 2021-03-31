@@ -28,7 +28,7 @@ const PAGES_ROUTES: Routes = [
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule)
   },
   { path: 'create-travel',
-    resolve: {pageResolved: PageResolver}, data: {page: `CREATE_TRAVEL`},
+    resolve: {pageResolved: PageResolver, pageContent: PageDataResolver}, data: {page: `CREATE_TRIP`},
     loadChildren: () => import('./pages/create-travel/create-travel.module').then(m => m.CreateTravelModule)
   },
   { path: '',

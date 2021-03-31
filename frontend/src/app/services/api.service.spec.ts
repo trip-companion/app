@@ -5,6 +5,8 @@ import { AuthenticationService } from './authentication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocationService } from '@app/services/location.service';
 import { SharedService } from '@app/services/shared.service';
+import { Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 describe('ApiService', () => {
   let apiSrv: ApiService;
@@ -15,7 +17,7 @@ describe('ApiService', () => {
     email: 'test@test.net',
     firstName: 'TestFirstName',
     lastName: 'TestLastName',
-    password: 'qwerQ23!555'
+    password: 'test555!!!'
   };
 
   const fakeUser = {
@@ -81,12 +83,14 @@ describe('ApiService', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({})
       ],
       providers: [
         ApiService,
         AuthenticationService,
         LocationService,
-        SharedService
+        SharedService,
+        Store,
       ],
     });
 

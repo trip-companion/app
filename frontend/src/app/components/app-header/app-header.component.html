@@ -48,8 +48,17 @@
 								CorrectLinkHref 
 								class="link"
 								[routerLinkActive]="'is-active'"
-								[routerLinkActiveOptions]="{exact: true}">
+								[routerLinkActiveOptions]="{exact: true}"
+								[ngClass]="{'with-avatar': routConfig.linkWithAvatar}"
+								>
 								{{routConfig.name[modelLang]}}
+								<div class="link-avatar" *ngIf="routConfig.linkWithAvatar">
+									<img 
+									class="avatar"
+									src="{{sharedService.getCorrectImg(userAvatar$ | async, 'header-avatar')}}" 
+									alt="avatar"
+									>
+								</div>
 							</a>
 						</li>
 					</ng-container>
