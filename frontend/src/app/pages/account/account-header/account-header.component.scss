@@ -1,0 +1,131 @@
+@import '../../../../styles/typography';
+
+account-header {
+    position: relative;
+    height: 520px;
+    box-shadow: $boxShadow-container;
+    border-radius: 10px;
+
+   .user-profile-images {
+       position: relative;
+       height: 420px;
+       .user-header_img {
+           height: 420px;
+           width: 100%;
+       }
+       .user-face_img {
+            height: 140px;
+            width: 140px;
+            position: relative;
+            top: -70px;
+            left: 30px;
+            box-shadow: $boxShadow-card;
+            border-radius: 5px;
+            z-index: 11;
+            overflow: hidden;
+            background: white;
+            .avatar {
+                height: 140px;
+                width: 140px;
+            }
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 140px;
+                width: 140px;
+                content: '';
+                opacity: 0;
+                background-image: url("/assets/images/account/avatar-hover.png"), linear-gradient(to bottom, rgba(72,76,97,0) 0%, rgba(72,76,97,0.8) 0%);
+                background-size: cover;
+                transform: translate3d(0,50%,0);
+                transition: all 0.5s;
+            }
+            #uploadFile {
+                top: 0px;
+                left: 0px;
+                width: 100%;    
+                z-index: 9;
+                opacity: 0;
+                height: 100%;
+                cursor: pointer;
+                position: absolute;
+            };
+       }
+
+       .user-face_img:hover {
+            cursor: pointer;
+            &::before {
+                opacity: 1;
+                transform: translate3d(0,0,0);
+            }
+        }
+   };
+   .user-profile-text {
+        height: 0px;
+        position: relative;
+        top: -230px;
+        margin-left: 250px;
+        .title {
+            color: $color-white;
+            @include card_title;
+        }
+        .discription {
+            color: $color-white;
+            @include card_subtitle;
+        }
+   }
+
+   .card-content {
+       display: flex;
+       position: relative;
+       height: 100px;
+       padding-left: 200px;
+       align-items: center;
+       &_buttons  {
+           width: auto;
+           display: flex;
+           button {
+               margin: 0px 10px;
+           }
+       }
+   };
+
+   @media screen and (max-width: 1199px) {
+        .card-content {
+            &_buttons {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }  
+   };
+
+   @media screen and (max-width: 620px) {
+        height: 450px;
+        .user-profile-images {
+            height: 320px;
+            .user-header_img {
+                height: 300px;
+            }
+        }
+        .user-profile-images {
+            .user-face_img {
+                left: 10px;
+            }
+        }
+        .user-profile-text {
+            margin-left: 158px;
+        }
+        .card-content {
+            padding-left: 165px;
+            &_buttons {
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                button  {
+                    margin: 5px 0px;
+                }
+            }
+        }
+   };
+}

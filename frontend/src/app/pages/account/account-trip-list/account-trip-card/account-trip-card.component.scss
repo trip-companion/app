@@ -1,0 +1,125 @@
+@import './../../../../../styles/typography';
+
+account-trip-card {
+   mat-card {
+      &.card-disabled {
+         position: relative!important;
+         &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            background: $color-white06;
+         }
+      }
+      mat-card-header {
+         .mat-card-header-text {
+            width: 100%;
+         }
+         .destination, .date {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 5px;
+            mat-icon {
+               border-radius: 50%;
+               padding: 15px;
+               align-self: center;
+               display: flex;
+               background: $colog-tag-greey;
+               align-items: center;
+               justify-content: center;
+            }
+            &-text {
+               margin-left: 10px;
+               @include default_text;
+            }
+         }
+      }
+      mat-card-content {
+         .content-tags {
+            margin: 10px 0px;
+            display: flex;
+            align-items: center;
+            mat-icon  {
+               border-radius: 50%;
+               padding: 15px;
+               margin-right: 10px;
+               align-self: center;
+               display: flex;
+               background: $colog-tag-greey;
+               align-items: center;
+               justify-content: center;
+            }
+            &_list {
+               display: flex;
+               flex-wrap: wrap;
+               .tag {
+                  @include default_text;
+                  margin: 2px 5px;
+                  align-self: center;
+                  background: $colog-tag-greey;
+                  border-radius: 16px;
+                  padding-top: 7px;
+                  padding-bottom: 7px;
+                  padding-right: 12px;
+                  padding-left: 12px;
+               }
+            }
+         }
+         .content-text {
+            @include default_text;
+         }
+         .showmore-btn  {
+            padding: 0px;
+            height: 0px;
+         }
+      }
+   }
+
+   @media screen and (max-width: 1199px) {
+      mat-card  {
+         padding: 10px;
+         mat-card-header {
+            .mat-card-header-text {
+               margin: 0px 8px;
+            }
+            .destination, .date {
+               &-text {
+                  margin-left: 4px;
+               }
+            }
+         }
+
+         mat-card-content {
+            .content-tags {
+               &_list {
+                  .tag {
+                     margin: 2px 3px;
+                     border-radius: 14px;
+                     padding-top: 5px;
+                     padding-bottom: 5px;
+                     padding-right: 8px;
+                     padding-left: 8px;
+                  }
+               }
+            }
+         }
+      }
+   };
+
+   @media screen and (max-width: 767px)  {
+
+   }
+
+   @media screen and (max-width: 420px) {
+      mat-card  {
+         mat-card-header {
+            flex-direction: column!important;
+         }
+      }
+   };
+}

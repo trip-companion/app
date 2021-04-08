@@ -10,7 +10,7 @@ import { StateService } from '../../services/state.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 
 import { ROUTER_CONFIG, ACCOUNT_LINK_LIST, LOGOUT_NAME } from '@app/DATA/router.config';
-import IRouteConfig from '@app/interfaces/route-config';
+import { IRouteConfig } from '@app/interfaces/route-config';
 import { Store } from '@ngrx/store';
 import { AppState, getUserAvatar } from '@app/store/app.state';
 

@@ -6,7 +6,7 @@ import { ACCOUNT_MORE_DATA_ACTION,
 } from '@app/store/actions/accountUserAboutData.action';
 import { ApiService } from '@app/services/api.services';
 import { catchError, switchMap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, throwError } from 'rxjs';
 import { LoadGlobalEventFailAction, LoadGlobalEventSuccessAction, LoadGlobalEventAction } from '../actions/globalEvent.action';
 import { SharedService } from '@app/services/shared.service';
 import { UserLoadAction } from '../actions/user.action';
@@ -37,7 +37,9 @@ export class AccountUserDataEffects {
         new UserLoadAction(data.user),
         new LoadGlobalEventSuccessAction(),
       ]),
-      catchError(error => of(new LoadGlobalEventFailAction(error)))
+      catchError(error => {
+        new LoadGlobalEventFailAction(error);
+        return throwError(error);})
     );
 
   constructor(private actions$: Actions,

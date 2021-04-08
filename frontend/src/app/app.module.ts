@@ -93,7 +93,7 @@ export class AppModule {
       this.detectDevice();
       this.authService.setTokenValue = localStorage.getItem('accessToken');
       if(this.authService.tokenValue && !this.angularLocation.path().includes('/account')) {
-        this.authService.checkIsUserLoggedIn();
+        this.authService.checkValidTokenWhenInitApp();
       }
       if (!isDevMode()) {
         // Include Lazy Style to <head> only
