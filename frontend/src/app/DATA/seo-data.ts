@@ -30,7 +30,7 @@ export const SEO_DATA: ISeoData[] = [
     },
 	  },
 	  {
-    page: 'CREATE_TRAVEL',
+    page: 'CREATE_TRIP',
     title: {
 		  ru: 'Создайте свое путешествие самостоятельно | Trip companion',
 		  ua: 'Створіть свою подорож самостійно | Trip companion',

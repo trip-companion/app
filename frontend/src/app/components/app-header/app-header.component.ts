@@ -2,15 +2,18 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation,
          Inject, ChangeDetectorRef, AfterViewInit, OnDestroy, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { Router, Data, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 // services
-import { SharedService } from '../../services/shared.service';
+import { SharedService } from '@app/services/shared.service';
 import { LocationService } from '../../services/location.service';
 import { StateService } from '../../services/state.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 
 import { ROUTER_CONFIG, ACCOUNT_LINK_LIST, LOGOUT_NAME } from '@app/DATA/router.config';
-import IRouteConfig from '@app/interfaces/route-config';
+import { IRouteConfig } from '@app/interfaces/route-config';
+import { Store } from '@ngrx/store';
+import { AppState, getUserAvatar } from '@app/store/app.state';
+
 
 @Component({
   selector: 'app-header',
@@ -30,6 +33,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public modelLang: string;
   public userActive: boolean;
   public logoutName: string;
+  public userAvatar$: Observable<string | null>;
 
   public isMatSelectOpen = false;
   private isViewInited = false;
@@ -39,6 +43,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(@Inject(DOCUMENT) private document: Document,
     private router: Router,
+    private store: Store<AppState>,
     private authSvc: AuthenticationService,
     public locationService: LocationService,
     private stateService: StateService,
@@ -51,6 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnInit(): void {
     this.modelLang = this.sharedService.language;
+    this.userAvatar$ = this.store.select(getUserAvatar);
     this.subsLoginStatus = this.authSvc.token.subscribe((token: string) => {
       this.userActive = token ? true : false;
       this.cdRef.detectChanges();

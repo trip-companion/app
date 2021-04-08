@@ -6,13 +6,9 @@ import { WelcomeComponent } from './welcome.component';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 
 // material
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from '@app/modules/material.module';
 
 import { EffectsModule } from '@ngrx/effects';
 import { PageDataEffects } from '@app/store/effects/pageData.effects';
@@ -21,15 +17,11 @@ import { PageDataEffects } from '@app/store/effects/pageData.effects';
   imports: [
     CommonModule,
     WelcomeRoutingModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
     FormsModule,
+    MaterialModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     MatMomentDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
     EffectsModule.forFeature([PageDataEffects])
   ],
   providers: [],

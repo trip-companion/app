@@ -1,34 +1,20 @@
 <!-- <app-account> -->
-  <section class="card">
-    <div class="user-profile-images">
-      <img [src]="cardHeader" class="user-header_img" alt="User Timeline Image">
-      <div class="user-face_img" *ngIf="user">
-        <img [src]="cardUser" class="avatar" alt="User Profile Image">
-        <input type="file"
-          #fileInput
-          id="uploadFile"
-          (change)="uploadAvatar($event)"
-          name="uploadFile"
-          multiple="multiple"
-          accept="image/*" 
-        />
-      </div>
-    </div>
-    <div class="user-profile-text">
-      <h4 class="title" *ngIf="user">{{user.firstName + ' ' + user.lastName}}</h4>
-      <span class="discription"></span>
-    </div>
-    <div class="card-content">
-      <div class="card-content_buttons">
-        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonChat.text}}</button>
-        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonFeedback.text}}</button>
-        <button mat-raised-button color="accent">{{accountStaticData.mappings.header.buttons.buttonMyPosts.text}}</button>
-      </div>
-    </div>
-  </section>
+  <account-header
+    [user]="user" 
+    [cardUser]="cardUser" 
+    [content]="accountStaticData"
+    [globalEventError]="globalEventError"
+    [globalEventSuccess]="globalEventSuccess"
+    (changeAccountPage)="pageName = $event"
+  >
+  </account-header>
 
-  <section class="main">
+  <account-trip-list 
+    *ngIf="pageName === 'USER_ACCOUNT_LIST'"
+  >
+  </account-trip-list>
 
+  <section class="main" *ngIf="pageName === 'USER_ACCOUNT'">
     <div class="main-profile">
       <h3 class="main-profile_title">{{accountStaticData.mappings.personalInfo.securityTitle.text}}</h3>
 				<p class="main-profile_params">
