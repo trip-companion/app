@@ -150,7 +150,6 @@ dist/
         'faq/',
         'login/',
         'sign-up/',
-        'create-travel/',
     ];
 #   need set all available language rout in front.
     availableLanguages = [

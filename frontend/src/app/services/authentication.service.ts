@@ -75,7 +75,6 @@ export class AuthenticationService {
 
   public refreshToken(): Observable<boolean> {
     const refreshToken = localStorage.getItem('refreshToken');
-
     return this.http.post<any>(`${this.apiUrl}public/auth/refresh`, { jwtRefreshToken: refreshToken })
       .pipe(map(res => {
         this.setLocalStorage(res.jwtAccessToken, res.jwtRefreshToken, res.jwtRefreshTokenExpireDate);
@@ -96,6 +95,25 @@ export class AuthenticationService {
       const expiry = Number(localStorage.getItem('refreshTokenExpDate'));
       return ((expiry === null || !expiry) || timeNow >= expiry);
     }
+  }
+
+  public checkValidTokenWhenInitApp(): void {
+    const accessToken = this.tokenValue;
+    const tokenExp = this.checkAccessExpHelper(accessToken);
+
+    if (accessToken && !tokenExp) {
+      this.checkIsUserLoggedIn();
+    } else if(this.isBrowser) {
+      if (!this.checkRefreshExpHelper()) {
+        this.refreshToken().subscribe(status => {
+          if(status) {
+            this.checkIsUserLoggedIn();
+          } else {
+            this.romeveLocalStore();
+          }
+        });
+      }
+    };
   }
 
   public checkIsUserLoggedIn(): void {

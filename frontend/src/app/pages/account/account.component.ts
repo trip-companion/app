@@ -4,7 +4,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
-import { UpdateUserAction, UpdateUserLocalAction } from '@app/store/actions/user.action';
+import { UpdateUserAction } from '@app/store/actions/user.action';
 import { GLOBAL_ERROR_MESSAGE } from '@app/DATA/errors-message';
 import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
 
@@ -18,8 +18,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Event } from '@angular/router';
 
 import { SharedService } from '@app/services/shared.service';
+import { LocationService } from '@app/services/location.service';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { ApiService } from '@app/services/api.services';
 import { LoadAccountUserDataAction } from '@app/store/actions/accountUserAboutData.action';
 //data
 import { ENUM_USER_SKILL, STATUS_LIST, LANGUAGE_LVL_LIST, GENDER_LIST} from '@app/DATA/account-data';
@@ -42,6 +42,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public userAbout: IAcountUserData = null;
   public accountStaticData: IPageDataModel = null;
   public userStatuses: string[] = [];
+  public pageName: string;
 
   public lvlOfKnowledgeLanguage: string[] = [];
   public userLanguageKnowledge: Array<{isoCode: string; level: string}> = [];
@@ -70,8 +71,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   public dateOfBirth: number;
 
   public separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  public cardHeader = '/assets/images/account/account_card_head.jpg';
   public cardUser = '/assets/images/account/avatar-hover.png';
   public passwordForm: FormGroup;
   public mainForm: FormGroup;
@@ -95,7 +94,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     public sharedService: SharedService,
     private store: Store<AppState>,
-    private apiSvc: ApiService) {
+    public locationService: LocationService,) {
 
     this.mainForm = this.fb.group({
       firstNameInput: new FormControl('', Validators.required),
@@ -248,43 +247,6 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.cardUser = this.sharedService.getCorrectImg(this.user.avatarSrc);
     };
   }
-
-  public uploadAvatar(event: InputEvent) {
-    const imgFile = event.target as HTMLInputElement;
-    if (imgFile.files && imgFile.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        const image = new Image();
-        image.src = e.target.result;
-
-        image.onload = (rs: any) => {
-          const height = rs.path[0].naturalHeight;
-          const width = rs.path[0].naturalWidth;
-
-          if (height > 750 || width > 750) {
-            this.sharedService.setGlobalEventData(this.globalEventError[9], 'error-window');
-            this.fileInput.nativeElement.value = '';
-            return false;
-          };
-          this.apiSvc.postUserAvatar(imgFile.files[0])
-            .subscribe((updatedUser: IUserModel) => {
-              this.store.dispatch(new UpdateUserLocalAction(updatedUser));
-              this.changeUserAvatar();
-              this.sharedService.setGlobalEventData(this.globalEventSuccess[0], 'success-window');
-            }, error => console.log(error));
-        };
-        image.onerror = () => {
-          this.sharedService.setGlobalEventData(this.globalEventError[10], 'error-window');
-          this.fileInput.nativeElement.value = '';
-          return false;
-        };
-      };
-      reader.readAsDataURL(imgFile.files[0]);
-    } else {
-      this.sharedService.setGlobalEventData(this.globalEventError[11], 'error-window');
-    };
-  };
 
   public changeFeatures(id: string, status: boolean): void {
     if(status) {

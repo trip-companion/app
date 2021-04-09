@@ -18,6 +18,18 @@ export class ResolverService {
   }
 
   /**
+   * Get Categoty mode
+   *
+   * @param {string} categoryUrl
+   * @returns {string} `INDEX` | `CATEGORY` | `SUB_CATEGORY`
+   * @memberof ResolverService
+   */
+  public getCategoryMode(categoryUrl: string): string {
+    const CS: string[] = categoryUrl.replace(/^\/|\/$/g, '').split(`/`);
+    return CS.length === 1 ? `INDEX` : CS.length === 2 ? `CATEGORY` : `SUB_CATEGORY`;
+  }
+
+  /**
    * Get Categoty(after lang) url
    *
    * @param {string[]} segments ["lang?", "category", "sub_categoty"]
