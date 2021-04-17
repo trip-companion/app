@@ -1,18 +1,18 @@
 import { Component, Inject, Input, ViewEncapsulation, ChangeDetectionStrategy,
-         ChangeDetectorRef, PLATFORM_ID, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+         ChangeDetectorRef, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { StateService } from '@app/services/state.service';
+import { Observable } from 'rxjs';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import { IUserTrip } from '@app/interfaces/store/userTripList';
 
 import { LocationService } from '@app/services/location.service';
-import { ApiService } from '@app/services/api.services';
 import { SharedService } from '@app/services/shared.service';
 
-import { AppState } from '@app/store/app.state';
+import { AppState , getTripList } from '@app/store/app.state';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Data } from '@angular/router';
+import IUserModel from '@app/interfaces/store/user';
+
 
 @Component({
   selector: 'account-trip-list',
@@ -22,13 +22,8 @@ import { ActivatedRoute, Data } from '@angular/router';
   encapsulation : ViewEncapsulation.None
 })
 export class AccountTripListComponent implements OnInit, OnDestroy {
-  // @ViewChild('fileInput') fileInput: ElementRef;
-  // @Input('content') contentData: IPageDataModel;
-  // @Input('user') userData: IUserModel;
-  // @Input('cardUser') cardUser: string;
-  // @Input('globalEventSuccess') globalEventSuccess: string[];
-  // @Input('globalEventError') globalEventError: string[];
-
+    @Input() public user: IUserModel;
+    public tripList$: Observable<IUserTrip[]> = this.store.select(getTripList);
     private isBrowser: boolean;
 
     constructor(@Inject(PLATFORM_ID) private platformId: any,
@@ -36,8 +31,6 @@ export class AccountTripListComponent implements OnInit, OnDestroy {
         public locationService: LocationService,
         public sharedService: SharedService,
         private store: Store<AppState>,
-        private activeRoute: ActivatedRoute,
-        private apiSvc: ApiService,
         public stateService: StateService,) {
       this.isBrowser = isPlatformBrowser(platformId);
     };
@@ -45,7 +38,6 @@ export class AccountTripListComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
 
     }
-
 
     public ngOnDestroy(): void {
 

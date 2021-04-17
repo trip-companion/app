@@ -4,8 +4,8 @@ import { Component, Inject, Input, ViewEncapsulation, ChangeDetectionStrategy,
 import { isPlatformBrowser } from '@angular/common';
 import { StateService } from '@app/services/state.service';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import IUserModel from '@app/interfaces/store/user';
+import IPageDataModel from '@app/interfaces/store/pageData';
 
 import { LocationService } from '@app/services/location.service';
 import { ApiService } from '@app/services/api.services';
@@ -28,7 +28,6 @@ export class AccountHeaderComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild('fileInput') public fileInput: ElementRef;
     @Input() public content: IPageDataModel;
     @Input() public user: IUserModel;
-    @Input() public cardUser: string;
     @Input() public globalEventSuccess: string[];
     @Input() public globalEventError: string[];
     @Output() changeAccountPage = new EventEmitter<string>();

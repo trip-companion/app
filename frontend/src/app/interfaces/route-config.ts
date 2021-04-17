@@ -10,8 +10,14 @@ export interface IRouteConfig {
   url: string;
   name: ILocalizationText;
   mainMenu: boolean;
-  availability: boolean;
+  availability?: boolean;
   coreUrl?: string;
   childConfig?: IRouterChildConfig[];
   linkWithAvatar?: boolean;
+}
+
+export interface IRouteWithId {
+  url: string;
+  name: ILocalizationText;
+  hasMainRout: boolean;
 }

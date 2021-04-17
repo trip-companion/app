@@ -44,6 +44,6 @@ export const globalEventReducer = (state = initialState, action: GlobalEventActi
       };
 
     default:
-      return {...state};
+      return state;
   }
 };

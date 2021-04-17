@@ -7,10 +7,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { environment } from '@environments/environment';
 import { LocationService } from '@app/services/location.service';
 import { catchError, map } from 'rxjs/operators';
-import IUserModel from '@app/interfaces/store.models/user.model';
+import IUserModel from '@app/interfaces/store/user';
 import { UserLoadAction } from '@app/store/actions/user.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
+import { UserModel } from '@app/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -67,7 +68,7 @@ export class AuthenticationService {
   }
 
   public logout(): void {
-    const localLang = localStorage.getItem('lang');
+    const localLang = this.isBrowser?localStorage.getItem('lang'):'';
     const langRout = localLang === 'en' ? '/' : localLang;
     this.romeveLocalStore();
     this.router.navigate([langRout + '/']);
@@ -119,7 +120,7 @@ export class AuthenticationService {
   public checkIsUserLoggedIn(): void {
     this.http.get<IUserModel>(`${this.apiUrl}users/current`, {})
       .subscribe(response => {
-        if(response) {this.store.dispatch(new UserLoadAction(response));}
+        if(response) {this.store.dispatch(new UserLoadAction(new UserModel(response)));}
       });
   }
 

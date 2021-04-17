@@ -4,15 +4,15 @@
 	<div class="user-profile-images">
 		<img [src]="cardHeader" class="user-header_img" alt="User Timeline Image">
 		<div class="user-face_img" *ngIf="user">
-		<img [src]="cardUser" class="avatar" alt="User Profile Image">
-		<input type="file"
-			#fileInput
-			id="uploadFile"
-			(change)="uploadAvatar($event)"
-			name="uploadFile"
-			multiple="multiple"
-			accept="image/*" 
-		/>
+			<img src="{{user.avatarSrc}}" class="avatar" alt="User Profile Image">
+			<input type="file"
+				#fileInput
+				id="uploadFile"
+				(change)="uploadAvatar($event)"
+				name="uploadFile"
+				multiple="multiple"
+				accept="image/*" 
+			/>
 		</div>
 	</div>
 	<div class="user-profile-text">
@@ -21,34 +21,34 @@
 	</div>
 	<div class="card-content">
 		<div class="card-content_buttons">
-		<button mat-raised-button color="accent">{{content.mappings.header.buttons.buttonChat.text}}</button>
-		<a *ngIf="pageName != 'USER_ACCOUNT_FEEDBACK'"
-			[routerLink]="locationService.joinWithLangRoutePath('account/trip-feedback/')"
-			CorrectLinkHref
-			class="link"
-		>
-			<button mat-raised-button color="accent">
-			{{content.mappings.header.buttons.buttonFeedback.text}}
-			</button>
-		</a>
-		<a *ngIf="pageName != 'USER_ACCOUNT_LIST'"
-			[routerLink]="locationService.joinWithLangRoutePath('account/trip-list/')"
-			CorrectLinkHref
-			class="link"
-		>
-			<button mat-raised-button color="accent">
-				{{content.mappings.header.buttons.buttonMyPosts.text}}
-			</button>
-		</a>
-		<a *ngIf="pageName != 'USER_ACCOUNT'"
-			[routerLink]="locationService.joinWithLangRoutePath('account/')"
-			CorrectLinkHref
-			class="link"
-		>
-			<button mat-raised-button color="accent">
-			{{'Account'}}
-			</button>
-		</a>
+			<button mat-raised-button color="accent">{{content.mappings.header.buttons.buttonChat.text}}</button>
+			<a *ngIf="pageName != 'USER_ACCOUNT_FEEDBACK'"
+				[routerLink]="locationService.joinWithLangRoutePath('account/trip-feedback/')"
+				CorrectLinkHref
+				class="link"
+			>
+				<button mat-raised-button color="accent">
+				{{content.mappings.header.buttons.buttonFeedback.text}}
+				</button>
+			</a>
+			<a *ngIf="pageName != 'USER_ACCOUNT_LIST'"
+				[routerLink]="locationService.joinWithLangRoutePath('account/trip-list/')"
+				CorrectLinkHref
+				class="link"
+			>
+				<button mat-raised-button color="accent">
+					{{content.mappings.header.buttons.buttonMyPosts.text}}
+				</button>
+			</a>
+			<a *ngIf="pageName != 'USER_ACCOUNT'"
+				[routerLink]="locationService.joinWithLangRoutePath('account/')"
+				CorrectLinkHref
+				class="link"
+			>
+				<button mat-raised-button color="accent">
+				{{'Account'}}
+				</button>
+			</a>
 		</div>
 	</div>
 

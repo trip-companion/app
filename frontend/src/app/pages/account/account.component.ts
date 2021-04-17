@@ -1,17 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit , ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
 import { UpdateUserAction } from '@app/store/actions/user.action';
 import { GLOBAL_ERROR_MESSAGE } from '@app/DATA/errors-message';
 import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import { UserModel } from '@app/models/edit-user.model';
-import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import IUserModel from '@app/interfaces/store/user';
+import { IAcountUserData } from '@app/interfaces/store/accountUserData';
+import IPageDataModel from '@app/interfaces/store/pageData';
 
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -19,11 +17,12 @@ import { ActivatedRoute, Event } from '@angular/router';
 
 import { SharedService } from '@app/services/shared.service';
 import { LocationService } from '@app/services/location.service';
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LoadAccountUserDataAction } from '@app/store/actions/accountUserAboutData.action';
 //data
 import { ENUM_USER_SKILL, STATUS_LIST, LANGUAGE_LVL_LIST, GENDER_LIST} from '@app/DATA/account-data';
 import { IUserSkillsKnowladgeList } from '@app/interfaces/account-page';
+import { UserEditModel } from '@app/models/edit-user.model';
 
 @Component({
   selector: 'app-account',
@@ -35,8 +34,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   @ViewChild('interestInput') interestInput: ElementRef<HTMLInputElement>;
   @ViewChild('skillInput') skillInput: ElementRef<HTMLInputElement>;
   @ViewChild('languageInput') languageInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  @ViewChild('skillsAuto') matAutocompleteSkills: MatAutocomplete;
 
   public user: IUserModel = null;
   public userAbout: IAcountUserData = null;
@@ -70,8 +67,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   public minSearchDate: Date = new Date(this.startDate.setFullYear(new Date().getFullYear() -16));
   public dateOfBirth: number;
 
-  public separatorKeysCodes: number[] = [ENTER, COMMA];
-  public cardUser = '/assets/images/account/avatar-hover.png';
   public passwordForm: FormGroup;
   public mainForm: FormGroup;
   public interestsForm = new FormControl();
@@ -81,6 +76,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public globalEventError: string[];
   public globalEventSuccess: string[];
   public passwordErrorStr: string;
+  public userForSend: UserEditModel;
 
   private subsAccountUserStore: Subscription = new Subscription();
   private subsInterestInput: Subscription = new Subscription();
@@ -124,6 +120,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
     this.subsPageData = this.activeRoute.data.subscribe(data => {
       if(data.pageContent.page) {
         this.accountStaticData = data.pageContent.page;
@@ -161,7 +158,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.subsAccountUserStore = combineLatest([
       this.store.pipe(select('userInfo', 'user')),
       this.store.pipe(select('accountAboutData', 'data')),
-    ]).subscribe((store)=> {
+    ]).subscribe((store) => {
       if(store[0] && store[1]) {
         this.user = store[0];
         this.userAbout = store[1];
@@ -170,28 +167,28 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
 
     this.subsInterestInput = this.interestsForm.valueChanges.subscribe(value => {
-      if(value && this.availableInterestsForUser.length > 0) {
+      this.setAvailableInterestsForUser();
+      if(value) {
         this.availableInterestsForUser = this.filterInterests(value);
-      } else {
-        this.setAvailableInterestsForUser();
+        if(this.availableInterestsForUser.length < 1) {this.setAvailableInterestsForUser();}
       }
     });
 
     this.subsSkillsInput = this.skillsForm.valueChanges.subscribe(value => {
-      if(value && this.availableSkillsForUser.length > 0) {
+      this.setAvailableSkillsForUser();
+      if(value) {
         this.availableSkillsForUser = this.filterSkills(value);
-      } else {
-        this.setAvailableSkillsForUser();
+        if(this.availableSkillsForUser.length < 1) {this.setAvailableSkillsForUser();}
       }
 
       this.skillsForm.setErrors(this.checkAvailableSkillsForUser(value)? (null): {'invalid skill': true});
     });
 
     this.subsLanguagesInput = this.languageForm.valueChanges.subscribe(value => {
-      if(value && this.availableLanguagesForUser.length>0) {
+      this.setAvailableLanguagesForUser();
+      if(value) {
         this.availableLanguagesForUser = this.filterLanguages(value);
-      } else {
-        this.setAvailableLanguagesForUser();
+        if(this.availableLanguagesForUser.length < 1) {this.setAvailableLanguagesForUser();}
       }
 
       this.languageForm.setErrors(this.checkAvailableLangList(value)? (null): {'invalid lang': true});
@@ -214,24 +211,29 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public onSubmitMainData(event: Event): void {
-    const userForSend = new UserModel();
-    userForSend.firstName = this.mainForm.controls.firstNameInput.value;
-    userForSend.lastName = this.mainForm.controls.lastNameInput.value;
-    userForSend.birthDate = this.mainForm.controls.dateOfBirthInput.value.format('YYYY-MM-DD');
-    userForSend.about = this.mainForm.controls.descriptionTextarea.value;
-    userForSend.status = this.returnNameObjectByValue(
-      this.mainForm.controls.userStatusRadio.value,
-      this.accountStaticData.mappings.personalInfo.detailsInfo.status);
-    userForSend.gender = this.returnNameObjectByValue(
-      this.mainForm.controls.userGenderRadio.value,
-      this.accountStaticData.mappings.personalInfo.detailsInfo.gender);
-    userForSend.features = this.currentUserFeatures;
-    userForSend.interests = this.userInterestsChoices;
-    userForSend.languages = this.userLanguageKnowledge;
+    const userForSendConstructor: IUserModel = {
+      firstName: this.mainForm.controls.firstNameInput.value,
+      lastName: this.mainForm.controls.lastNameInput.value,
+      birthDate: this.mainForm.controls.dateOfBirthInput.value.format('YYYY-MM-DD'),
+      about: this.mainForm.controls.descriptionTextarea.value,
+      status: this.returnNameObjectByValue(
+        this.mainForm.controls.userStatusRadio.value,
+        this.accountStaticData.mappings.personalInfo.detailsInfo.status),
+      gender: this.returnNameObjectByValue(
+        this.mainForm.controls.userGenderRadio.value,
+        this.accountStaticData.mappings.personalInfo.detailsInfo.gender),
+      features: this.currentUserFeatures,
+      interests: this.userInterestsChoices,
+      languages: this.userLanguageKnowledge,
+      knownSkills: [],
+      interestedInSkills: [],
+      canTeachSkills: [],
+    };
     this.userSkillsKnowladgeList.forEach(skillObj => {
-      userForSend[skillObj.category] = skillObj.list.map(obj => obj.id);
+      userForSendConstructor[skillObj.category] = skillObj.list.map(obj => obj.id);
     });
-    this.store.dispatch(new UpdateUserAction(userForSend));
+    this.userForSend = new UserEditModel(userForSendConstructor);
+    this.store.dispatch(new UpdateUserAction(this.userForSend));
   };
 
   public onSubmitChangePassword(event: Event): void {
@@ -240,12 +242,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public onSubmitEditEmail(event: Event): void {
 
-  }
-
-  public changeUserAvatar(): void {
-    if(this.user.avatarSrc && this.user.avatarSrc.length > 1) {
-      this.cardUser = this.sharedService.getCorrectImg(this.user.avatarSrc);
-    };
   }
 
   public changeFeatures(id: string, status: boolean): void {
@@ -374,13 +370,12 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  private filterInterests(value: string): any {
+  private filterInterests(value: string): {id: string; displayName: string}[] {
     const filterValue = value.toLowerCase();
     return this.availableInterestsForUser.filter(interest => interest.displayName.toLowerCase().indexOf(filterValue) === 0);
   }
 
   private initMainUserData(lang: string) {
-    this.changeUserAvatar();
 
     this.mainForm.controls.firstNameInput.setValue(this.user.firstName);
     this.mainForm.controls.lastNameInput.setValue(this.user.lastName);

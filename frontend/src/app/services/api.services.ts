@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
+import IUserModel from '@app/interfaces/store/user';
+import { IAcountUserData } from '@app/interfaces/store/accountUserData';
 import { Observable } from 'rxjs';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import IPageDataModel from '@app/interfaces/store/pageData';
 
 @Injectable({
   providedIn: 'root',

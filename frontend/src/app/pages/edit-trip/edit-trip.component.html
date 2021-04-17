@@ -1,18 +1,18 @@
-<!-- <app-create-travel> -->
+<!-- <app-edit-trip -->
   
-  <section class="auth" *ngIf="userAuth;else notAuthView">
+  <section class="main">
     <div class="container">
 
-      <h3 class="auth-title">{{pageDataContent.mappings.okAuth.title.text}}</h3>
-      <div class="auth-category">
-        <span class="auth-category_helper">
+      <h3 class="main-title">{{pageDataContent.mappings.okAuth.title.text}}</h3>
+      <div class="main-category">
+        <span class="main-category_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
           {{pageDataContent.mappings.okAuth.category.helper.text}}
         </span>
         <mat-form-field appearance="outline">
-          <mat-label class="auth-category_label">
+          <mat-label class="main-category_label">
             {{pageDataContent.mappings.okAuth.category.input.text}}
           </mat-label>
           <mat-chip-list #chipListOfCategory aria-label="Category selection">
@@ -42,8 +42,8 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div class="auth-description">
-        <span class="auth-description_helper">
+      <div class="main-description">
+        <span class="main-description_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
@@ -64,8 +64,8 @@
         </mat-form-field>
       </div>
 
-      <div class="auth-destination">
-        <span class="auth-destination_helper">
+      <div class="main-destination">
+        <span class="main-destination_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
@@ -73,7 +73,7 @@
         </span>
         <mat-form-field
           appearance="outline"
-          class="auth-destination_name"
+          class="main-destination_name"
           [formGroup]="createTravelForm"
         >
           <mat-label>{{pageDataContent.mappings.okAuth.destination.input.text}}</mat-label>
@@ -86,8 +86,8 @@
         </mat-form-field>
       </div>
 
-      <div class="auth-datepicker">
-        <span class="auth-datepicker_helper">
+      <div class="main-datepicker">
+        <span class="main-datepicker_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
@@ -116,8 +116,8 @@
         </mat-form-field>
       </div>
 
-      <div class="auth-count">
-        <span class="auth-destination_helper">
+      <div class="main-count">
+        <span class="main-destination_helper">
           <mat-icon class="help-icon"> 
             help_outline
           </mat-icon>
@@ -126,11 +126,11 @@
         <button
           mat-button 
           mat-icon-button 
-          class="auth-count_minus"
+          class="main-count_minus"
           (click)="incrementValueOfPeoples(-1)"
           [disabled]="shouldDisableDecrement(createTravelForm.value.peoplesCountInput)"
         >-</button>
-        <mat-form-field appearance="outline" class="auth-count_number" [formGroup]="createTravelForm">
+        <mat-form-field appearance="outline" class="main-count_number" [formGroup]="createTravelForm">
           <mat-label>{{pageDataContent.mappings.okAuth.count.input.text}}</mat-label>
           <input
             type="number"
@@ -145,14 +145,14 @@
         <button
           mat-button 
           mat-icon-button 
-          class="auth-count_plus"
+          class="main-count_plus"
           (click)="incrementValueOfPeoples(1)"
           [disabled]="shouldDisableIncrement(createTravelForm.value.peoplesCountInput)"
         >+</button>
       </div>
       
-      <div class="auth-info">
-        <span class="auth-destination_helper">
+      <div class="main-info">
+        <span class="main-destination_helper">
           <mat-icon class="help-icon"> 
             notification_important
           </mat-icon>
@@ -164,51 +164,11 @@
         [disabled]="createTravelForm.status === 'INVALID'"
         color="primary"
         (click)="createNewTravel()"
-        class="auth_submit">
-        {{pageDataContent.mappings.okAuth.button.text}}
+        class="main_submit">
+        {{'Edit btn'}}
       </button>
 
     </div>
   </section>
-
-  <ng-template #notAuthView>
-    
-    <section class="notauth">
-      <div class="container">
-        <h3 class="notauth-title">{{pageDataContent.mappings.noAuth.title.text}}</h3>
-        <div class="notauth-discription">
-          <span class="text">
-            {{pageDataContent.mappings.noAuth.description.text}}
-          </span>
-          <span class="text">
-            З особистим кабінетом користувача ви зможете заповнити особисту інформацію яку будуть бачити користувачі зацікавлені подорожами по вашому напрямку.
-            Таким чином ви зможете зрозуміти чи співпадають ваші інтереси та погляди.
-            А також Ви зможете спілкуватись з іншими користувачами через чат, відслідковувати статистику і залишати відгуки про ваші подорожі та супутників.
-          </span>
-        </div>
-        <div class="notauth-links">
-          <a class="notauth-links_item"
-            [routerLink]="locationService.joinWithLangRoutePath('/login/')">
-            <button
-              mat-raised-button
-              color="accent">
-              {{pageDataContent.mappings.noAuth.buttons.logIn.text}}
-            </button>
-        </a>
-
-        <a class="notauth-links_item"
-          [routerLink]="locationService.joinWithLangRoutePath('/sign-up/')">
-          <button
-            mat-raised-button
-            color="accent">
-            {{pageDataContent.mappings.noAuth.buttons.singUp.text}}
-          </button>
-        </a>
-        </div>
-      </div>
-    </section>
-  </ng-template>
-
-  <!-- <section class="footer"></section> -->
   
-<!-- </app-create-travel> -->
+<!-- </app-edit-trip> -->

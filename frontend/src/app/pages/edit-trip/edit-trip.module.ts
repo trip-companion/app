@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { CreateTravelRoutingModule } from './create-travel-routing.module';
-import { CreateTravelComponent } from './create-travel.component';
+import { EditTripComponent } from './edit-trip.component';
 
 import { ReactiveFormsModule , FormsModule } from '@angular/forms';
 import { MaterialModule } from '@app/modules/material.module';
@@ -15,11 +13,13 @@ import { uiSomeNameByIdModule } from '@app/modules/userSomeNameById.module';
 import { EffectsModule } from '@ngrx/effects';
 import { PageDataEffects } from '@app/store/effects/pageData.effects';
 import { AccountTripListEffects } from '@app/store/effects/accountTripList.effects';
+import { EditTripComponentRoutingModule } from './edit-trip-routing.module';
+import { EditTripDetailResolver } from './edit-trip.detail.resolver';
 
 @NgModule({
   imports: [
     CommonModule,
-    CreateTravelRoutingModule,
+    EditTripComponentRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatChipsModule,
@@ -29,10 +29,14 @@ import { AccountTripListEffects } from '@app/store/effects/accountTripList.effec
     MatMomentDateModule,
     uiSomeNameByIdModule
   ],
-  providers: [],
   declarations: [
-    CreateTravelComponent,
+    EditTripComponent,
   ],
-  exports: [CreateTravelComponent]
+  exports: [
+    EditTripComponent,
+  ],
+  providers: [
+    EditTripDetailResolver,
+  ]
 })
-export class CreateTravelModule { }
+export class EditTripModule {}

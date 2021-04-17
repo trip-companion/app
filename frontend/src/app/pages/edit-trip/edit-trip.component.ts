@@ -2,10 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthenticationService } from '@app/services/authentication.service';
 import { LocationService } from '@app/services/location.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { IUserTrip } from '@app/interfaces/store/userTripList';
 import IPageDataModel from '@app/interfaces/store/pageData';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -14,19 +13,20 @@ import { AppState } from '@app/store/app.state';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-create-travel',
-  templateUrl: './create-travel.component.html',
-  styleUrls: ['./create-travel.component.scss']
+  selector: 'app-edit-trip',
+  templateUrl: './edit-trip.component.html',
+  styleUrls: ['./edit-trip.component.scss']
 })
-export class CreateTravelComponent implements OnInit, OnDestroy {
+export class EditTripComponent implements OnInit, OnDestroy {
   @ViewChild('categoryInput') categoryInput: ElementRef<HTMLInputElement>;
 
   public peopleMin = 1;
   public peopleMax = 50;
-  public userAuth = false;
   public minSearchDate: Date = new Date();
   public homePath = this.locationService.extractBasePATH();
   public pageDataContent: IPageDataModel = null;
+  public trip: IUserTrip;
+
   public categoriesForm = new FormControl();
   public createTravelForm = new FormGroup({
     peoplesCountInput: new FormControl(1, Validators.required),
@@ -38,42 +38,36 @@ export class CreateTravelComponent implements OnInit, OnDestroy {
   public availableUserCategoriesForUser: {id: string; displayName: string}[] = [];
   public availableUserCategories: {id: string; displayName: string}[] = [
     {
-      id: '1',
-      displayName: 'sport'
+      id: '123-123',
+      displayName: 'ggg'
     },
     {
-      id: '2',
-      displayName: 'Language practice'
+      id: '321-321',
+      displayName: 'zzzz'
     },
     {
-      id: '3',
-      displayName: 'Excursions'
+      id: '333-333',
+      displayName: 'ssss'
     },
-    {
-      id: '4',
-      displayName: 'Wine tasting'
-    },
+
   ];
   public userCategoriesChoices: string[] = [];
   private subsPageData: Subscription = new Subscription();
   private subsCategoriesInput: Subscription = new Subscription();
 
   constructor(@Inject(DOCUMENT) private document: Document,
-    private authenticationService: AuthenticationService,
     private activeRoute: ActivatedRoute,
     public locationService: LocationService,
     private store: Store<AppState>,
-  ) {
-    if (this.authenticationService.tokenValue) {
-      this.userAuth = true;
-    }
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.availableUserCategoriesForUser = this.availableUserCategories;
     // this.store.dispatch(new AddUserTripAction({userId: '123-44-512313212'}));
     this.subsPageData = this.activeRoute.data.subscribe(data => {
       this.pageDataContent = data.pageContent.page;
+      this.trip = data.editTrip;
+      console.log(data);
     });
 
     this.subsCategoriesInput = this.categoriesForm.valueChanges.subscribe(value => {
@@ -109,11 +103,6 @@ export class CreateTravelComponent implements OnInit, OnDestroy {
   public createNewTravel(): void {
     console.log(this.createTravelForm.controls);
 
-    // const newUserTrip =  new UserTripModel({
-
-    // });
-
-    // this.store.dispatch(new AddUserTripAction())
   }
 
   public incrementValueOfPeoples(step: number = 1): void {

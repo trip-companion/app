@@ -23,6 +23,7 @@
       ],
       "rules": {
         "no-var": "error",
+        "no-underscore-dangle": "off",
         "no-multi-spaces": "error",
         "space-in-parens": "error",
         "no-multiple-empty-lines": "error",
