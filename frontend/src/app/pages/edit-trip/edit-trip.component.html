@@ -1,0 +1,174 @@
+<!-- <app-edit-trip -->
+  
+  <section class="main">
+    <div class="container">
+
+      <h3 class="main-title">{{pageDataContent.mappings.okAuth.title.text}}</h3>
+      <div class="main-category">
+        <span class="main-category_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.category.helper.text}}
+        </span>
+        <mat-form-field appearance="outline">
+          <mat-label class="main-category_label">
+            {{pageDataContent.mappings.okAuth.category.input.text}}
+          </mat-label>
+          <mat-chip-list #chipListOfCategory aria-label="Category selection">
+            <mat-chip
+              *ngFor="let category of userCategoriesChoices"
+              [selectable]="true"
+              [removable]="true"
+              color="accent"
+              (removed)="removeTripCategory(category)">
+              {{category | userSomeNameById: userTripSrv.availableUserCategories}}
+              <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="{{pageDataContent.mappings.okAuth.category.input.placeholder.text}}"
+              #categoryInput
+              [formControl]="categoriesForm"
+              [matAutocomplete]="autoCategory"
+              [matChipInputFor]="chipListOfCategory">
+          </mat-chip-list>
+          <mat-autocomplete #autoCategory="matAutocomplete"
+            (optionSelected)="selectedTripCategory($event)">
+            <mat-option 
+              *ngFor="let category of availableUserCategoriesForUser"
+              [value]="category.displayName">
+              {{category.displayName}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="main-description">
+        <span class="main-description_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.description.helper.text}}
+        </span>
+        <mat-form-field 
+          appearance="outline"
+          [formGroup]="editTravelForm"
+        >
+          <mat-label>{{pageDataContent.mappings.okAuth.description.input.text}}</mat-label>
+          <textarea
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="10" 
+            matInput
+            formControlName="descriptionInput"
+            placeholder="{{pageDataContent.mappings.okAuth.description.input.placeholder.text}}"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="main-destination">
+        <span class="main-destination_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.destination.helper.text}}
+        </span>
+        <mat-form-field
+          appearance="outline"
+          class="main-destination_name"
+          [formGroup]="editTravelForm"
+        >
+          <mat-label>{{pageDataContent.mappings.okAuth.destination.input.text}}</mat-label>
+          <input
+            type="text"
+            required
+            formControlName="destinationInput"
+            matInput
+            autocomplete="off" >
+        </mat-form-field>
+      </div>
+
+      <div class="main-datepicker">
+        <span class="main-datepicker_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.datepicker.helper.text}}
+        </span>
+
+        <mat-form-field appearance="fill" [formGroup]="editTravelForm">
+          <mat-date-range-input 
+            [rangePicker]="picker"
+            [min]="minSearchDate">
+            <input 
+              matStartDate
+              formControlName="startTravelDateInput"
+              placeholder="{{pageDataContent.mappings.okAuth.datepicker.inputs.start.text}}"
+              readonly
+            >
+            <input
+              matEndDate
+              formControlName="endTravelDateInput"
+              placeholder="{{pageDataContent.mappings.okAuth.datepicker.inputs.end.text}}"
+              readonly
+            >
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <div class="main-count">
+        <span class="main-destination_helper">
+          <mat-icon class="help-icon"> 
+            help_outline
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.count.helper.text}}
+        </span>
+        <button
+          mat-button 
+          mat-icon-button 
+          class="main-count_minus"
+          (click)="incrementValueOfPeoples(-1)"
+          [disabled]="shouldDisableDecrement(editTravelForm.value.peoplesCountInput)"
+        >-</button>
+        <mat-form-field appearance="outline" class="main-count_number" [formGroup]="editTravelForm">
+          <!-- <mat-label>{{pageDataContent.mappings.okAuth.count.input.text}}</mat-label> -->
+          <input
+            type="number"
+            value="1"
+            min="1"
+            max="50"
+            formControlName="peoplesCountInput"
+            readonly
+            matInput
+            autocomplete="off" >
+        </mat-form-field>
+        <button
+          mat-button 
+          mat-icon-button 
+          class="main-count_plus"
+          (click)="incrementValueOfPeoples(1)"
+          [disabled]="shouldDisableIncrement(editTravelForm.value.peoplesCountInput)"
+        >+</button>
+      </div>
+      
+      <div class="main-info">
+        <span class="main-destination_helper">
+          <mat-icon class="help-icon"> 
+            notification_important
+          </mat-icon>
+          {{pageDataContent.mappings.okAuth.info.text}}
+        </span>
+      </div>
+
+      <button mat-raised-button
+        [disabled]="editTravelForm.status === 'INVALID'"
+        color="primary"
+        (click)="editTrip()"
+        class="main_submit">
+        {{'Edit btn'}}
+      </button>
+
+    </div>
+  </section>
+  
+<!-- </app-edit-trip> -->

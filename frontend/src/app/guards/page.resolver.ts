@@ -7,17 +7,18 @@ import { SsrRedirectService } from '@app/services/SsrRedirect.service';
 import { SeoService } from '@app/services/seo.service';
 import { StateService } from '@app/services/state.service';
 // Interfaces
-import { IRouteConfig, IRouterChildConfig } from '@app/interfaces/route-config';
+import { IRouteConfig, IRouterChildConfig, IRouteWithId } from '@app/interfaces/route-config';
 // RxJS
 import { Observable, of } from 'rxjs';
 
-import { ROUTER_CONFIG } from '@app/DATA/router.config';
+import { ROUTER_CONFIG, ROUTS_WITH_ID } from '@app/DATA/router.config';
 
 @Injectable()
 export class PageResolver implements Resolve<string|null> {
   public CATEGORY_MODE: string;
   private ROUTERS: string[] = [];
   private ROUTERS_CATEGORY: string[] = [];
+  private ROUTERS_WITH_ID: string[] = [];
 
   constructor(private router: Router,
               private locationService: LocationService,
@@ -26,13 +27,16 @@ export class PageResolver implements Resolve<string|null> {
               private stateService: StateService,
               public seoService: SeoService,) {
     this.pushRoute(ROUTER_CONFIG);
+    this.pushRouteWithId(ROUTS_WITH_ID);
   }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string|null> {
+
+    const CHILDREN_ID = !!route.children[0]?.params.id;
     const URL_SEGMENTS: string[] = this.resolverService.getSegments(state.url);
     const CATEGORY_URL: string = this.resolverService.getCategoryUrl(URL_SEGMENTS, route.data.lang);
     const PAGE_NAME = `${route.data.page}${!!route.data.subpage ? `${route.data.subpage}` : ``}`;
-    const X = this.isRedirectRoute(CATEGORY_URL, true);
+    const X = this.isRedirectRoute(CATEGORY_URL, true, CHILDREN_ID);
     const REDIRECT_URL: string | null = !!X ? this.locationService.joinWithLangRoutePath(X) : null;
 
     if (this.stateService.isBrowser) {
@@ -60,29 +64,35 @@ export class PageResolver implements Resolve<string|null> {
     return of(CATEGORY_URL);
   }
 
-  private isRedirectRoute(url: string, isMain: boolean): null | string {
+  private isRedirectRoute(url: string, isMain: boolean, hasChildrenId?: boolean): null | string {
 
     this.CATEGORY_MODE = this.resolverService.getCategoryMode(url);
     if (!!this.ROUTERS.find((r: string) => r === url)) {
       return isMain ? null : this.ROUTERS.find((r: string) => r === url);
     }
 
-    const X: string[] = url.replace(/^\/|\/$/g, ``).split(`/`);
+    const X: string[] = url.replace(/^\/|\/$/g, '').split(`/`);
     const X2: string = this.locationService.normalizePATH(X.slice(0, X.length - 1).join(`/`));
 
     switch (this.CATEGORY_MODE) {
       case 'CATEGORY':
         const categoryLink: string = this.ROUTERS_CATEGORY.find((link: string) => url === link);
-        if(isMain) {
-          return categoryLink ? null : this.isRedirectRoute(X2, false);
-        } else {
-          return categoryLink ? categoryLink : this.isRedirectRoute(X2, false);
-        }
+        //for /edit-trip/:id/ and /view-trip/:id/ - next check in detail.resolver
+        if(hasChildrenId && this.checkRoutsWithId(X2)) {return isMain?null:url;}
+
+        return isMain
+          ?categoryLink
+            ?null
+            :this.isRedirectRoute(X2, false)
+          :categoryLink
+            ?categoryLink
+            :this.isRedirectRoute(X2, false);
+
       case 'SUB_CATEGORY':
-        console.log('in sub category: ', X, X2, isMain);
-        //if pagination: account/trip-list/page-[1-99]
-        if(/trip-list+\/page-[1-9][0-9]?\//.test(url) && X.length === 3) {
-          //func for calculate article in pagination
+        //if pagination: account/trip-list/page-[2-99], next resolve in trip-list.resolver
+        if(/trip-list+\/page-[1-9][0-9]?\//.test(url)
+          && X.length === 3 
+          && url != '/account/trip-list/page-1/') {
           return isMain?null:url;
         }
         //if dont found go the is redirect with - /***/ and true status
@@ -90,14 +100,23 @@ export class PageResolver implements Resolve<string|null> {
       default:
         break;
     };
-
-    return this.isRedirectRoute(X2, false);
-  }
+    return this.isRedirectRoute(X2, false, hasChildrenId);
+  };
 
   private redirect301(url: string): void {
     this.ssrRedirectService.redirectWithStatus(301, 'Moved Permanently', url);
     this.router.navigate([url]);
-  }
+  };
+
+  private checkRoutsWithId(parentUrl: string): undefined | string {
+    return this.ROUTERS_WITH_ID.find((r: string) => r === parentUrl);
+  };
+
+  private pushRouteWithId(config: IRouteWithId[]): void {
+    config.forEach((c: IRouteWithId) => {
+      this.ROUTERS_WITH_ID.push(this.locationService.normalizePATH(c.url));
+    });
+  };
 
   private pushRoute(config: IRouteConfig[]): void {
     config.forEach((c: IRouteConfig) => {
@@ -109,5 +128,5 @@ export class PageResolver implements Resolve<string|null> {
         this.ROUTERS.push(this.locationService.normalizePATH(c.url));
       };
     });
-  }
+  };
 }

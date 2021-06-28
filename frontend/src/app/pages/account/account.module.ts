@@ -23,7 +23,7 @@ import { PageDataEffects } from '@app/store/effects/pageData.effects';
 import { UserYearsOldPipe } from '@app/pipe/user-years-old';
 import { UserLanguageLvlPipe } from '@app/pipe/language-lvl-ui';
 import { UserLanguagesNameByIsoPipe } from '@app/pipe/language-displayname-ui';
-import { UserInterestsNameByIdPipe } from '@app/pipe/interests-display-ui';
+import { uiSomeNameByIdModule } from '@app/modules/userSomeNameById.module';
 import { UserCheckFeaturesPipe } from '@app/pipe/account-check-features';
 //child component
 import { AccountHeaderModule } from './account-header/account-header.module';
@@ -47,6 +47,7 @@ import { AccountTripListModule } from './account-trip-list/account-trip-list.mod
     EffectsModule.forFeature([UserEffects, AccountUserDataEffects, PageDataEffects]),
     AccountHeaderModule,
     AccountTripListModule,
+    uiSomeNameByIdModule
   ],
   providers: [],
   declarations: [
@@ -54,7 +55,6 @@ import { AccountTripListModule } from './account-trip-list/account-trip-list.mod
     UserYearsOldPipe,
     UserLanguageLvlPipe,
     UserLanguagesNameByIsoPipe,
-    UserInterestsNameByIdPipe,
     UserCheckFeaturesPipe
   ],
   exports: [AccountComponent],

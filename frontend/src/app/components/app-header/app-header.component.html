@@ -50,13 +50,13 @@
 								[routerLinkActive]="'is-active'"
 								[routerLinkActiveOptions]="{exact: true}"
 								[ngClass]="{'with-avatar': routConfig.linkWithAvatar}"
-								>
+							>
 								{{routConfig.name[modelLang]}}
 								<div class="link-avatar" *ngIf="routConfig.linkWithAvatar">
 									<img 
-									class="avatar"
-									src="{{sharedService.getCorrectImg(userAvatar$ | async, 'header-avatar')}}" 
-									alt="avatar"
+										class="avatar"
+										src="{{userAvatar$ | async}}" 
+										alt="avatar"
 									>
 								</div>
 							</a>

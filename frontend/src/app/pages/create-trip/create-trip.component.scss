@@ -73,6 +73,10 @@
             ::ng-deep {
                 .mat-date-range-input-container {
                     justify-content: space-between;
+                    .mat-date-range-input-start-wrapper {
+                        overflow: visible;
+                        position: static;
+                    }
                 }
                 .mat-form-field-flex {
                     background: transparent!important;

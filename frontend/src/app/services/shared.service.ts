@@ -4,8 +4,6 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-
-import { environment } from '@environments/environment';
 import { ValidationErrors } from '@angular/forms';
 
 const MATHING_CONTETNT_LANG: {[key: string]: string} = {
@@ -22,7 +20,6 @@ export class SharedService {
   public globalEventSubject = new Subject<{message: string; type: string}>();
   public $globalEventSubject = this.globalEventSubject.asObservable();
   private isBrowser: boolean;
-  private host: string = environment.host;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any,
     public router: Router) {
@@ -46,11 +43,6 @@ export class SharedService {
 
   public setGlobalEventData(message: string, type: string): void {
     this.globalEventSubject.next({message, type});
-  }
-
-  public getCorrectImg(apiSrc: string, imgType?: string): string {
-    if(imgType === 'header-avatar' && (!apiSrc || apiSrc === '')) {return '/assets/images/account/avatar_icon.png';}
-    return this.host + apiSrc;
   }
 
   public getPasswordErrorMessage(err: ValidationErrors | null, arrOfErr: string[]): string {

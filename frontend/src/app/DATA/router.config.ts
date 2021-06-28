@@ -1,4 +1,4 @@
-import { IRouteConfig } from '@app/interfaces/route-config';
+import { IRouteConfig, IRouteWithId } from '@app/interfaces/route-config';
 import ILocalizationText from '@app/interfaces/localization-text';
 
 export const ROUTER_CONFIG: IRouteConfig[] = [
@@ -9,7 +9,6 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
       ua: `Головна`,
       en: `Home`
     },
-    availability: false,
     mainMenu: true,
   },
   {
@@ -19,19 +18,18 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
       ua: `FAQ`,
       en: `FAQ`
     },
-    availability: false,
     mainMenu: true,
   },
   {
-    url: 'create-travel/',
+    url: 'create-trip/',
     name: {
       ru: `Создать путешествие`,
       ua: `Створити подорож`,
-      en: `Create travel`
+      en: `Create trip`
     },
-    availability: false,
     mainMenu: false,
   },
+  ///auth block start
   {
     url: 'login/',
     name: {
@@ -83,6 +81,28 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
         pagination: false
       },
     ]
+  },
+  ///auth block end
+];
+
+export const ROUTS_WITH_ID: IRouteWithId[] = [
+  {
+    url: 'edit-trip/',
+    name: {
+      ru: `Отредактировать путешествие`,
+      ua: `Відредагувати подорож`,
+      en: `Edit trip`
+    },
+    hasMainRout: false,
+  },
+  {
+    url: 'view-trip/',
+    name: {
+      ru: `Детали путетествия`,
+      ua: `Деталі подорожі`,
+      en: `Detail of trip`
+    },
+    hasMainRout: false,
   },
 ];
 

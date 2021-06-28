@@ -5,15 +5,19 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
 import { Url } from 'url';
+const bodyParser = require('body-parser');
 const URL = require('url');
 
-import { AppServerModule } from './src/main.server';
+import { AppServerModule } from '../src/main.server';
 import { existsSync } from 'fs';
 
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { ValueProvider } from '@angular/core';
-
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+require("dotenv").config();
+import { connectMongooseDB } from './db';
+//routes for API  START
+import placeSearch from './routes/placeSearch';
+//routes for API  END
 
 function normalizeUrl(url: string): string {
   const replacedUrl: string = `${url}/`.replace(/\/{2,}/g, '/').replace(/:\//, '://');
@@ -39,6 +43,10 @@ function checkProtocol(protocol: string, host: string): string {
 export function app(): express.Express {
   const server = express().disable('x-powered-by');
   server.use(cors());
+  connectMongooseDB();
+  // node api START
+  server.use("/plaseSearch", bodyParser.json(), placeSearch);
+  // node api END
 
   const distFolder = join(process.cwd(), 'dist/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
@@ -114,10 +122,10 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env.PORT || 4000;
-
+  const port = process.env.PORT_SERVER || 4000;
   // Start up the Node server
   const server = app();
+
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
@@ -128,6 +136,6 @@ const mainModule = __non_webpack_require__.main;
 const moduleFilename = mainModule && mainModule.filename || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
-}
+};
 
-export * from './src/main.server';
+export * from '../src/main.server';

@@ -59,14 +59,12 @@ account-trip-card {
                flex-wrap: wrap;
                .tag {
                   @include default_text;
-                  margin: 2px 5px;
+                  margin: 2px 3px;
                   align-self: center;
                   background: $colog-tag-greey;
-                  border-radius: 16px;
-                  padding-top: 7px;
-                  padding-bottom: 7px;
-                  padding-right: 12px;
-                  padding-left: 12px;
+                  border-radius: 14px;
+                  padding-right: 8px;
+                  padding-left: 8px;
                }
             }
          }
@@ -77,6 +75,20 @@ account-trip-card {
             padding: 0px;
             height: 0px;
          }
+      }
+
+      mat-card-actions {
+         button {
+            position: relative;
+            .link {
+               position: absolute;
+               top: 0px;
+               bottom: 0px;
+               left: 0px;
+               right: 0px;
+            }
+         }
+
       }
    }
 
@@ -98,12 +110,9 @@ account-trip-card {
             .content-tags {
                &_list {
                   .tag {
-                     margin: 2px 3px;
-                     border-radius: 14px;
-                     padding-top: 5px;
-                     padding-bottom: 5px;
-                     padding-right: 8px;
-                     padding-left: 8px;
+                     border-radius: 10px;
+                     padding-right: 6px;
+                     padding-left: 6px;
                   }
                }
             }

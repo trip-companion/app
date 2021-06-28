@@ -5,8 +5,8 @@ import { DOCUMENT } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 // services
 import { SharedService } from '@app/services/shared.service';
-import { LocationService } from '../../services/location.service';
-import { StateService } from '../../services/state.service';
+import { LocationService } from '@app/services/location.service';
+import { StateService } from '@app/services/state.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 
 import { ROUTER_CONFIG, ACCOUNT_LINK_LIST, LOGOUT_NAME } from '@app/DATA/router.config';
@@ -77,7 +77,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-
     this.isViewInited = true;
     this.stateService.toggleSidebar$.subscribe((condition) => {
       this.toggleSidebar(condition);

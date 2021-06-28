@@ -1,0 +1,179 @@
+@import '../../../styles/visual_mixin';
+@import '../../../styles/typography';
+
+:host {
+    display: flex;
+    // background-color: $color-white087;
+    background: $color-white;
+    width: 100%;
+    height: 100%;
+    // height: auto;
+    // flex-direction: column;
+    // align-content: center;
+    // justify-content: center;
+    overflow: auto;
+    position: relative;
+    .main {
+        margin-top: 70px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        margin-bottom: 20px;
+        justify-content: center;
+        position: relative;
+        &-title {
+            @include mat_h3;
+            color: $color-base4;
+            text-align: left;
+        }
+    }
+    .main {
+        .container {
+            padding-top: 40px;
+            padding-bottom: 20px;
+            @include container_box;      
+            box-shadow: $boxShadow-card;
+            background: $color-white;
+            display: flex;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+        &-category, &-description, &-destination, &-datepicker, &-info, &-count {
+            &_helper {
+                @include default_text;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                .help-icon  {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        &-category {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+        &-description {
+            width: 100%;
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+        &-destination {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        &-datepicker {
+            ::ng-deep {
+                .mat-date-range-input-container {
+                    justify-content: space-between;
+                    .mat-date-range-input-start-wrapper {
+                        overflow: visible;
+                        position: static;
+                    }
+                }
+                .mat-form-field-flex {
+                    background: transparent!important;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .mat-form-field-wrapper {
+                    .mat-form-field-underline {
+                        display: none;
+                    }
+                }
+                .mat-form-field-infix {
+                    margin: 0px;
+                    border: 0px;
+                    padding: 0px;
+                    width: 250px;
+                }
+
+                mat-form-field {
+                    .mat-form-field-suffix  {
+                        transition: 1s;
+                    }
+                    &:hover {
+                        input {
+                            cursor: default;
+                        }
+                        .mat-form-field-suffix {
+                            background: $color-new-blue;
+                            border-radius: 50%;
+                        } 
+                    }
+                }
+            }
+        }
+        &-count {
+
+            &_plus {
+                cursor: pointer;
+                display: inline-flex;
+                justify-content: center;
+                color: $color-white;
+                width: 30px;
+                background: #333951;
+                align-items: center;
+                height: 30px;
+                font-size: 30px;
+                border-radius: 50%;
+                background-clip: padding-box;
+                margin-left: 10px;
+            }
+            &_minus {
+                cursor: pointer;
+                display: inline-flex;
+                justify-content: center;
+                color: $color-white;
+                width: 30px;
+                background: #333951;
+                align-items: center;
+                height: 30px;
+                font-size: 30px;
+                border-radius: 50%;
+                background-clip: padding-box;
+                margin-right:  10px;
+            }
+            &_minus:hover , &_plus:hover{
+                background-color: $color-light-blue;
+            }
+            &_minus, &_plus {
+                &.mat-button-disabled  {
+                    background: $color-white-greey;
+                    color: $color-white03;
+                    &:hover {
+                        background-color: $color-white-greey;
+                    }
+                }
+            }
+            &_number {
+                width: 100px;
+                ::ng-deep{
+                    .mat-form-field-infix{
+                        input {
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+        &-info {
+            display: flex;
+            // align-content: center;
+        }
+        &_submit {
+            width: 180px;
+            margin: 20px 0px;
+            align-self: center;
+        }
+
+    }
+}

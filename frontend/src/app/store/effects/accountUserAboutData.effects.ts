@@ -8,10 +8,10 @@ import { ApiService } from '@app/services/api.services';
 import { catchError, switchMap } from 'rxjs/operators';
 import { forkJoin, throwError } from 'rxjs';
 import { LoadGlobalEventFailAction, LoadGlobalEventSuccessAction, LoadGlobalEventAction } from '../actions/globalEvent.action';
-import { SharedService } from '@app/services/shared.service';
 import { UserLoadAction } from '../actions/user.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
+import { UserModel } from '@app/models/user.model';
 
 @Injectable()
 export class AccountUserDataEffects {
@@ -34,7 +34,7 @@ export class AccountUserDataEffects {
           skills: data.skills,
           languages: data.languages
         }),
-        new UserLoadAction(data.user),
+        new UserLoadAction(new UserModel(data.user)),
         new LoadGlobalEventSuccessAction(),
       ]),
       catchError(error => {
@@ -44,6 +44,5 @@ export class AccountUserDataEffects {
 
   constructor(private actions$: Actions,
     private api: ApiService,
-    private store: Store<AppState>,
-    public sharedService: SharedService) {}
+    private store: Store<AppState>) {}
 }

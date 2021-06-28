@@ -400,6 +400,9 @@
                     justify-content: center;
                     padding-left: 60px;
                     margin: 20px 0px;
+                    .mat-form-field-infix {
+                        padding: 0.6rem;
+                    }
                     &::before {
                         content: '';
                         display: block;
@@ -426,7 +429,8 @@
                         width: 100%;
                     }
                     input {
-                        height: 30px;
+                        height: 40px;
+                        margin: 8px 0px 0px 0px;
                     }
 
                     ::ng-deep {

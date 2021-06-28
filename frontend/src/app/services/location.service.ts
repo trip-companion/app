@@ -28,7 +28,6 @@ export class LocationService {
   public joinWithLangRoutePath(url: string): string {
     return this.normalizePATH(`${this.getLangPATH()}${url}`);
   }
-  // ////////////////////////////////////////////////////////////////////////////
 
   /**
    * Lang PATH

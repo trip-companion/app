@@ -5,6 +5,7 @@ import { SharedService } from '@app/services/shared.service';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocationService } from '@app/services/location.service';
+import { ApiService } from '@app/services/api.services';
 
 @Component({
   selector: 'app-welcome',
@@ -15,6 +16,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   public peopleMin = 1;
   public peopleMax = 50;
   public color = 'default';
+	public delayTimerForSerachDestination;
   public screenWidthDesc = this.document.documentElement.clientWidth > 767;
   public pageDataContent: Data;
   public minSearchDate: Date = new Date();
@@ -29,6 +31,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   constructor(@Inject(DOCUMENT) private document: Document,
     public sharedService: SharedService,
     private activeRoute: ActivatedRoute,
+    private apiSvc: ApiService,
     public locationService: LocationService,) {}
 
   get getDestinationInput(): any { return this.searchForm.get('destinationValue'); }
@@ -37,6 +40,21 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.subsPageData = this.activeRoute.data.subscribe(data => {
       this.pageDataContent = data.pageContent.page.mappings.main;
+    });
+
+    this.searchForm.controls.destinationValue.valueChanges.subscribe(value => {
+		  clearTimeout(this.delayTimerForSerachDestination);
+      this.delayTimerForSerachDestination = setTimeout(() => {
+        this.apiSvc.postFindPlace(value)
+          .subscribe(res => {
+            console.log(res);
+					  const newArr = res.features.filter(item => {
+              // console.log(item.properties);
+              if(item.properties.city) {return item;}
+            });
+		  			console.log(newArr);
+          });
+      }, 1000);
     });
   }
 
@@ -73,5 +91,4 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   public shouldDisableIncrement(inputValue: number): boolean {
     return inputValue >= this.peopleMax;
   }
-
 }

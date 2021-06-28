@@ -86,7 +86,7 @@ export const GLOBAL_ERROR_MESSAGE: IGlobalEventMessage[] = [
     ]
   },
   {
-    url: 'create-travel/',
+    url: 'create-trip/',
     en: [
       'Incorrect format of email',
     ],

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import IUserModel from '@app/interfaces/store.models/user.model';
+import IUserModel from '@app/interfaces/store/user';
 
 export enum USER_ACTION {
     UPDATE_USER_ACTION = 'UPDATE_USER_ACTION',

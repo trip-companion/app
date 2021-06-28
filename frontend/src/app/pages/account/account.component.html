@@ -1,7 +1,6 @@
 <!-- <app-account> -->
   <account-header
     [user]="user" 
-    [cardUser]="cardUser" 
     [content]="accountStaticData"
     [globalEventError]="globalEventError"
     [globalEventSuccess]="globalEventSuccess"
@@ -10,7 +9,8 @@
   </account-header>
 
   <account-trip-list 
-    *ngIf="pageName === 'USER_ACCOUNT_LIST'"
+    *ngIf="pageName === 'USER_ACCOUNT_LIST' && user"
+    [user]="user"
   >
   </account-trip-list>
 
@@ -239,7 +239,7 @@
                 [removable]="true"
                 color="accent"
                 (removed)="removeInterest(interest)">
-                {{interest | userInterestsNameById:availableInterests}}
+                {{interest | userSomeNameById:availableInterests}}
                 <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
               </mat-chip>
               <input
@@ -247,11 +247,14 @@
                 #interestInput
                 [formControl]="interestsForm"
                 [matAutocomplete]="auto"
-                [matChipInputFor]="chipListOfInterests"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                [matChipInputFor]="chipListOfInterests">
             </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedInterest($event)">
-              <mat-option *ngFor="let interest of availableInterestsForUser" [value]="interest.displayName">
+            <mat-autocomplete #auto="matAutocomplete"
+              (optionSelected)="selectedInterest($event)"
+            >
+              <mat-option 
+                *ngFor="let interest of availableInterestsForUser"
+                [value]="interest.displayName">
                 {{interest.displayName}}
               </mat-option>
             </mat-autocomplete>

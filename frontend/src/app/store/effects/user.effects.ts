@@ -3,12 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { USER_ACTION, GetUserAction, UserLoadAction, UpdateUserAction } from '@app/store/actions/user.action';
 import { ApiService } from '@app/services/api.services';
 import { catchError, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 import { LoadGlobalEventFailAction, LoadGlobalEventSuccessAction, LoadGlobalEventAction } from '../actions/globalEvent.action';
 import { SharedService } from '@app/services/shared.service';
 import { GLOBAL_SUCCESS_MESSAGE } from '@app/DATA/success-message';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/app.state';
+import { UserModel } from '@app/models/user.model';
 
 @Injectable()
 export class UserEffects {
@@ -20,9 +21,12 @@ export class UserEffects {
         return this.api.getCurrentUser()
           .pipe(switchMap(user => [
             new LoadGlobalEventSuccessAction(),
-            new UserLoadAction(user)
+            new UserLoadAction(new UserModel(user))
           ]),
-          catchError(error => of(new LoadGlobalEventFailAction(error)))
+          catchError(error => {
+            new LoadGlobalEventFailAction(error);
+            return throwError(error);
+          })
           );
       })
     );
@@ -33,14 +37,18 @@ export class UserEffects {
           this.store.dispatch(new LoadGlobalEventAction());
           return this.api.putUserCurrent({...actions.user})
             .pipe(switchMap(user => {
+              console.log('after  update user', user);
               this.sharedService.setGlobalEventData(GLOBAL_SUCCESS_MESSAGE.find(obj =>
                 'account/' === obj.url)[this.sharedService.language][1], 'success-window');
               return [
                 new LoadGlobalEventSuccessAction(),
-                new UserLoadAction(user),
+                new UserLoadAction(new UserModel(user)),
               ];
             }),
-            catchError(error => of(new LoadGlobalEventFailAction(error)))
+            catchError(error => {
+              new LoadGlobalEventFailAction(error);
+              return throwError(error);
+            })
             );
         })
       );

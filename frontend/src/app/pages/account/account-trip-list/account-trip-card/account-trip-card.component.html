@@ -2,7 +2,7 @@
 <!-- <account-trip-card -->
 
   <mat-card class="card"
-    [ngClass]="{'card-disabled': false}"
+    [ngClass]="{'card-disabled': !tripData.status}"
   >
 
     <mat-card-header>
@@ -10,16 +10,16 @@
         mat-card-avatar 
         mat-card-sm-image
         class="example-header-image" 
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        [src]="user.avatarSrc"
       >
       <mat-card-title>
-        Mountains Mountains ({{'age'}})
+        {{user.firstName}} {{user.lastName}} ({{user.birthDate}})
         <div class="date">
           <mat-icon class="icon"> 
             date_range
           </mat-icon>
           <span class="destination-text">
-            Date: {{'10.09.2020-10.05.2021'}}
+            Date: {{tripData.startTrip}} - {{tripData.endTrip}}
           </span>
         </div>
         <div class="destination">
@@ -27,7 +27,7 @@
             local_airport
           </mat-icon>
           <span class="destination-text">
-            Destination: {{'Kiev'}}
+            Destination: {{tripData.destination}}
           </span>
         </div>
       </mat-card-title>
@@ -39,23 +39,13 @@
           tag
         </mat-icon>
         <div class="content-tags_list">
-          <span class="tag">sport</span>
-          <span class="tag">Wine tasting</span>
-          <span class="tag">Excursions</span>
-          <span class="tag">Language practice</span>
-          <span class="tag">sport</span>
-          <span class="tag">Wine tasting</span>
-          <span class="tag">Excursions</span>
-          <span class="tag">Language practice</span>
-          <span class="tag">Language practice</span>
-          <span class="tag">sport</span>
-          <span class="tag">Wine tasting</span>
-          <span class="tag">Excursions</span>
-          <span class="tag">Language practice</span>
+          <span class="tag" *ngFor="let tag of tripData.travelCategiries">
+			{{tag | userSomeNameById:availableUserCategories }}
+		  </span>
         </div>
       </div>
       <span class="content-text">
-       {{fakeContent | tripCardSizingDescription:200:maxDiscriptionCard}}
+       {{tripData.travelDescription | tripCardSizingDescription:200:maxDiscriptionCard}}
       </span>
       <button
         mat-button
@@ -68,9 +58,16 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-button>DISSABLED</button>
+      <button mat-button (click)="changeStatusTrip()">DISSABLED</button>
       <button mat-button>SHARE</button>
-      <button mat-button>Edit</button>
+      <button mat-button>Edit
+        <a 
+          [routerLink]="locationService.joinWithLangRoutePath('edit-trip/' + tripData.id )"
+          CorrectLinkHref
+          class="link"
+        >
+        </a>
+      </button>
     </mat-card-actions>
   </mat-card>
 

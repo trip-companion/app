@@ -1,5 +1,5 @@
 import * as Actions from '../actions/accountUserAboutData.action';
-import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
+import { IAcountUserData } from '@app/interfaces/store/accountUserData';
 
 export interface State {
   data: IAcountUserData;
@@ -29,7 +29,7 @@ export const accountUserAboutReducer = (state = initialState, action: Actions.Ac
       };
 
     default:
-      return {...state};
+      return state;
   }
 };
 

@@ -13,7 +13,8 @@ import { catchError, first, tap, } from 'rxjs/operators';
 export class PageDataResolver implements Resolve<any> {
   private isBrowser = true;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any,private router: Router,
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
+              private router: Router,
               private store: Store<AppState>,
               public sharedService: SharedService,) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -21,7 +22,7 @@ export class PageDataResolver implements Resolve<any> {
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const lang = route.data.lang;
-    const pageName = route.data.page;
+    const pageName = `${route.data.page}${!!route.data.subpage ? `${route.data.subpage}` : ``}`;
 
     this.store.dispatch(new LoadGlobalEventAction());
     this.store.dispatch(new LoadPageDataAction(pageName));

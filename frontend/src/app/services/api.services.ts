@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import { IAcountUserData } from '@app/interfaces/store.models/accountUserData.model';
+import IUserModel from '@app/interfaces/store/user';
+import { IAcountUserData } from '@app/interfaces/store/accountUserData';
 import { Observable } from 'rxjs';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import IPageDataModel from '@app/interfaces/store/pageData';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,10 @@ export class ApiService {
     const formData: any = new FormData();
     formData.append('file', imgFile);
     return this.http.post<IUserModel>(`${this.apiUrl}users/current/avatar`, formData);
+  }
+
+  public postFindPlace(value: string): Observable<any> {
+    return this.http.post<any>(`http://localhost:4000/plaseSearch`, {value});
   }
   //put
   public putUserCurrent(user: IUserModel): Observable<IUserModel> {

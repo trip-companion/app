@@ -27,9 +27,15 @@ const PAGES_ROUTES: Routes = [
     resolve: {pageResolved: PageResolver}, data: { page: `SING_UP`},
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule)
   },
-  { path: 'create-travel',
+  { path: 'create-trip',
     resolve: {pageResolved: PageResolver, pageContent: PageDataResolver}, data: {page: `CREATE_TRIP`},
-    loadChildren: () => import('./pages/create-travel/create-travel.module').then(m => m.CreateTravelModule)
+    loadChildren: () => import('./pages/create-trip/create-trip.module').then(m => m.CreateTravelModule)
+  },
+  { path: 'edit-trip/:id',
+    canActivate: [AuthGuard], resolve: {pageResolved: PageResolver, pageContent: PageDataResolver},
+    // data: {page: `EDIT_TRIP`},
+    data: {page: `CREATE_TRIP`},
+    loadChildren: () => import('./pages/edit-trip/edit-trip.module').then(m => m.EditTripModule)
   },
   { path: '',
     resolve: {pageResolved: PageResolver, pageContent: PageDataResolver},

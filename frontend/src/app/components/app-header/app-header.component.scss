@@ -185,12 +185,16 @@ app-header {
                                 height: 40px;
                                 display: flex;
                                 align-self: center;
-                                border-radius: 50%;
                                 right: 3px;
                                 background: $color-white;
                                 position: absolute;
                                 .avatar {
-                                    position: relative;
+                                    // position: relative;
+                                    flex-shrink: 0;
+                                    display: flex;
+                                    object-fit: cover;
+                                    height: 100%;
+                                    width: 100%;
                                     border-radius: 50%;
                                 }
                             }
@@ -398,6 +402,18 @@ app-header {
                         // @media screen and (max-height: 360px) and (max-width: 600px) {
                         //     min-height: 180px;
                         // }
+                        .auth-block {
+                            &_list {
+                                .link {
+                                    &.with-avatar  {
+                                        padding: 10px 20px;
+                                    }
+                                    &-avatar {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
                     }
                     .link-block, .auth-block, .lang-box {
                         opacity: 0;

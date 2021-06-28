@@ -1,4 +1,4 @@
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import IPageDataModel from '@app/interfaces/store/pageData';
 import * as Actions from '../actions/pageData.action';
 
 export interface State {
@@ -29,7 +29,7 @@ export const pageDataReducer = (state = initialState, action: Actions.PageDataAc
       };
 
     default:
-      return {...state};
+      return state;
   }
 };
 

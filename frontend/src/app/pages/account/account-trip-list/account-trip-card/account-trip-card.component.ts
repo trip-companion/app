@@ -1,18 +1,18 @@
 import { Component, Inject, Input, ViewEncapsulation, ChangeDetectionStrategy,
-         ChangeDetectorRef, PLATFORM_ID, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+         ChangeDetectorRef, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { StateService } from '@app/services/state.service';
 
-import IUserModel from '@app/interfaces/store.models/user.model';
-import IPageDataModel from '@app/interfaces/store.models/pageData.model';
+import { IUserTrip } from '@app/interfaces/store/userTripList';
+import IUserModel from '@app/interfaces/store/user';
 
 import { LocationService } from '@app/services/location.service';
-import { ApiService } from '@app/services/api.services';
 import { SharedService } from '@app/services/shared.service';
 
 import { AppState } from '@app/store/app.state';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ChangeStatusTripAction } from '@app/store/actions/accountTripList.action';
+import { TRIP_CATEGORY } from '@app/DATA/HARD/trip-category.hard';
 
 @Component({
   selector: 'account-trip-card',
@@ -22,16 +22,9 @@ import { ActivatedRoute, Data } from '@angular/router';
   encapsulation : ViewEncapsulation.None
 })
 export class AccountTripCardComponent implements OnInit, OnDestroy {
-    // @ViewChild('fileInput') fileInput: ElementRef;
-    // @Input('content') contentData: IPageDataModel;
-    // @Input('user') userData: IUserModel;
-    // @Input('cardUser') cardUser: string;
-    // @Input('globalEventSuccess') globalEventSuccess: string[];
-    // @Input('globalEventError') globalEventError: string[];
-    public fakeContent = `The Himalayas is a mountain range in Asia. The Himalayas is a mountain range in Asia.
-    The Himalayas is a mountain range in Asia.
-    The Himalayas is a mountain range in Asia. The Himalayas is a mountain range in Asia.
-    The Himalayas is a mountain range in Asia.`;
+    @Input() public tripData: IUserTrip;
+    @Input() public user: IUserModel;
+    public availableUserCategories: {id: string; displayName: string}[] = TRIP_CATEGORY;
     public maxDiscriptionCard = true;
     private isBrowser: boolean;
 
@@ -40,16 +33,13 @@ export class AccountTripCardComponent implements OnInit, OnDestroy {
         public locationService: LocationService,
         public sharedService: SharedService,
         private store: Store<AppState>,
-        private activeRoute: ActivatedRoute,
-        private apiSvc: ApiService,
         public stateService: StateService,) {
       this.isBrowser = isPlatformBrowser(platformId);
     };
 
     public ngOnInit(): void {
-      if(this.fakeContent.length > 200) {this.maxDiscriptionCard = false;}
+      if(this.tripData.travelDescription.length > 200) {this.maxDiscriptionCard = false;}
     }
-
 
     public ngOnDestroy(): void {
 
@@ -58,6 +48,10 @@ export class AccountTripCardComponent implements OnInit, OnDestroy {
 
     public showMoreText(): void {
       this.maxDiscriptionCard = !this.maxDiscriptionCard;
-    }
+    };
+
+    public changeStatusTrip(): void {
+      this.store.dispatch(new ChangeStatusTripAction({status: !this.tripData.status, id: this.tripData.id}));
+    };
 
 };

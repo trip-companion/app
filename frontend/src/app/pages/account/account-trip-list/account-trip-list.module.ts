@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AccountTripListComponent } from './account-trip-list.component';
 
 import { AccountTripCardModule } from './account-trip-card/account-trip-card.module';
-
+import { TripListResolver } from './trip-list.resolver';
 
 @NgModule({
   imports: [
@@ -18,5 +18,8 @@ import { AccountTripCardModule } from './account-trip-card/account-trip-card.mod
   exports: [
     AccountTripListComponent,
   ],
+  providers:  [
+    TripListResolver
+  ]
 })
 export class AccountTripListModule { }
